@@ -1,0 +1,648 @@
+---
+import { Image } from 'astro:assets';
+import { copy, type Lang } from '../i18n/copy';
+import contactPhoto from '../assets/domi-tower-inauguration.webp';
+
+interface Props {
+	lang: Lang;
+}
+
+const { lang } = Astro.props;
+const c = copy[lang];
+const p = c.pages;
+const f = c.footer;
+
+const CONTACT_ENDPOINT = 'https://form-email-sender-omega.vercel.app/costaballena';
+---
+
+<main class="contact-page">
+	<section class="contact-hero" aria-labelledby="contact-heading">
+		<div class="contact-hero-bg" aria-hidden="true">
+			<span class="contact-orb contact-orb--a"></span>
+			<span class="contact-orb contact-orb--b"></span>
+			<span class="contact-orb contact-orb--c"></span>
+			<span class="contact-grid" aria-hidden="true"></span>
+		</div>
+		<div class="container contact-layout">
+			<div class="contact-copy reveal">
+				<p class="kicker contact-kicker">{p.contactKicker}</p>
+				<h1 id="contact-heading" class="contact-title">{p.contactTitle}</h1>
+				<div class="contact-rule" aria-hidden="true"></div>
+				<p class="contact-lead">{p.contactBody}</p>
+
+				<div class="contact-form-card">
+					<form
+						id="contact-form"
+						class="contact-form"
+						name="contact"
+						novalidate
+						data-endpoint={CONTACT_ENDPOINT}
+						data-sending={p.contactFormSending}
+						data-success={p.contactFormSuccess}
+						data-error={p.contactFormError}
+						data-invalid-email={p.contactFormInvalidEmail}
+						data-fill-all={p.contactFormFillAll}
+					>
+						<div class="contact-field">
+							<label class="contact-label" for="contact-name">{p.contactFormNameLabel}</label>
+							<input
+								class="contact-input"
+								id="contact-name"
+								name="name"
+								type="text"
+								autocomplete="name"
+								required
+								maxlength="200"
+							/>
+						</div>
+						<div class="contact-field">
+							<label class="contact-label" for="contact-email">{p.contactFormEmailLabel}</label>
+							<input
+								class="contact-input"
+								id="contact-email"
+								name="email"
+								type="email"
+								autocomplete="email"
+								inputmode="email"
+								required
+								maxlength="320"
+							/>
+						</div>
+						<div class="contact-field">
+							<label class="contact-label" for="contact-message">{p.contactFormMessageLabel}</label>
+							<textarea
+								class="contact-input contact-textarea"
+								id="contact-message"
+								name="message"
+								rows="5"
+								required
+								maxlength="8000"
+							></textarea>
+						</div>
+
+						<div id="contact-status" class="contact-status" role="status" aria-live="polite"></div>
+
+						<button type="submit" class="btn btn-primary contact-submit" id="contact-submit">
+							{p.contactFormSubmit}
+						</button>
+					</form>
+				</div>
+			</div>
+
+			<div class="contact-visual reveal reveal-d1">
+				<figure class="contact-figure">
+					<div class="contact-frame-wrap">
+						<div class="contact-frame">
+						<Image
+							src={contactPhoto}
+							alt={p.contactImageAlt}
+							class="contact-img"
+							width={720}
+							height={960}
+							loading="eager"
+							decoding="async"
+							sizes="(min-width: 960px) 42vw, 100vw"
+						/>
+						</div>
+					</div>
+					<figcaption class="contact-caption">
+						<span class="contact-caption-dot" aria-hidden="true"></span>
+						{p.contactImageCaption}
+					</figcaption>
+				</figure>
+
+				<aside class="contact-aside" aria-labelledby="contact-aside-title">
+					<h2 id="contact-aside-title" class="contact-aside-title">{p.contactAsideTitle}</h2>
+					<p class="contact-aside-sub">{p.contactAsideSubtitle}</p>
+					<ul class="contact-aside-list">
+						<li>
+							<span class="contact-aside-label">{f.emailLabel}</span>
+							<a class="contact-aside-link" href={`mailto:${f.email}`}>{f.email}</a>
+						</li>
+						<li>
+							<span class="contact-aside-label">{f.whatsappLabel}</span>
+							<a class="contact-aside-link" href={f.whatsappHref} target="_blank" rel="noopener noreferrer">
+								{f.whatsapp}
+							</a>
+						</li>
+						<li>
+							<span class="contact-aside-label">{f.phoneLabel}</span>
+							<a class="contact-aside-link" href={`tel:${f.phone.replace(/\s/g, '')}`}>{f.phone}</a>
+						</li>
+					</ul>
+				</aside>
+			</div>
+		</div>
+	</section>
+</main>
+
+<script>
+	const form = document.getElementById('contact-form') as HTMLFormElement | null;
+	const statusEl = document.getElementById('contact-status');
+	const submitBtn = document.getElementById('contact-submit') as HTMLButtonElement | null;
+
+	function emailValid(v: string) {
+		return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
+	}
+
+	form?.addEventListener('submit', async (e) => {
+		e.preventDefault();
+		if (!form || !statusEl || !submitBtn) return;
+
+		const endpoint = form.dataset.endpoint;
+		const msgSending = form.dataset.sending ?? '…';
+		const msgSuccess = form.dataset.success ?? '';
+		const msgError = form.dataset.error ?? '';
+		const msgInvalid = form.dataset.invalidEmail ?? '';
+		const msgFillAll = form.dataset.fillAll ?? '';
+
+		const nameInput = form.querySelector<HTMLInputElement>('[name="name"]');
+		const emailInput = form.querySelector<HTMLInputElement>('[name="email"]');
+		const messageInput = form.querySelector<HTMLTextAreaElement>('[name="message"]');
+
+		const name = nameInput?.value.trim() ?? '';
+		const email = emailInput?.value.trim() ?? '';
+		const message = messageInput?.value.trim() ?? '';
+
+		statusEl.textContent = '';
+		statusEl.classList.remove('contact-status--ok', 'contact-status--err');
+
+		if (!name || !email || !message) {
+			statusEl.textContent = msgFillAll || msgError;
+			statusEl.classList.add('contact-status--err');
+			return;
+		}
+		if (!emailValid(email)) {
+			statusEl.textContent = msgInvalid;
+			statusEl.classList.add('contact-status--err');
+			return;
+		}
+
+		if (!endpoint) {
+			statusEl.textContent = msgError;
+			statusEl.classList.add('contact-status--err');
+			return;
+		}
+
+		const originalLabel = submitBtn.textContent;
+		submitBtn.disabled = true;
+		submitBtn.textContent = msgSending;
+
+		try {
+			const res = await fetch(endpoint, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+				body: JSON.stringify({ name, email, message }),
+				mode: 'cors',
+			});
+
+			if (res.ok) {
+				statusEl.textContent = msgSuccess;
+				statusEl.classList.add('contact-status--ok');
+				form.reset();
+			} else {
+				statusEl.textContent = msgError;
+				statusEl.classList.add('contact-status--err');
+			}
+		} catch {
+			statusEl.textContent = msgError;
+			statusEl.classList.add('contact-status--err');
+		} finally {
+			submitBtn.disabled = false;
+			submitBtn.textContent = originalLabel ?? '';
+		}
+	});
+</script>
+
+<style>
+	.contact-page {
+		overflow-x: hidden;
+	}
+
+	.contact-hero {
+		position: relative;
+		padding: clamp(28px, 5vw, 48px) 0 clamp(48px, 8vw, 72px);
+		min-height: min(88vh, 920px);
+	}
+
+	.contact-hero-bg {
+		position: absolute;
+		inset: 0;
+		overflow: hidden;
+		background:
+			radial-gradient(ellipse 85% 60% at 12% 8%, rgba(42, 118, 181, 0.22), transparent 55%),
+			radial-gradient(ellipse 70% 50% at 92% 18%, rgba(237, 67, 76, 0.09), transparent 50%),
+			radial-gradient(ellipse 55% 40% at 78% 88%, rgba(0, 32, 91, 0.08), transparent 48%),
+			linear-gradient(165deg, #e8f0fa 0%, #f6f9ff 28%, #ffffff 58%, #f3f7fd 100%);
+		pointer-events: none;
+	}
+
+	.contact-grid {
+		position: absolute;
+		inset: -40%;
+		opacity: 0.45;
+		background-image:
+			linear-gradient(rgba(0, 32, 91, 0.04) 1px, transparent 1px),
+			linear-gradient(90deg, rgba(0, 32, 91, 0.04) 1px, transparent 1px);
+		background-size: 48px 48px;
+		mask-image: radial-gradient(ellipse 55% 50% at 50% 40%, black 0%, transparent 72%);
+		-webkit-mask-image: radial-gradient(ellipse 55% 50% at 50% 40%, black 0%, transparent 72%);
+	}
+
+	.contact-orb {
+		position: absolute;
+		border-radius: 50%;
+		filter: blur(64px);
+		opacity: 0.85;
+		pointer-events: none;
+	}
+
+	.contact-orb--a {
+		width: min(420px, 55vw);
+		height: min(420px, 55vw);
+		top: -8%;
+		left: -12%;
+		background: radial-gradient(circle at 30% 30%, rgba(74, 158, 220, 0.55), rgba(42, 118, 181, 0.15) 55%, transparent 70%);
+	}
+
+	.contact-orb--b {
+		width: min(380px, 48vw);
+		height: min(380px, 48vw);
+		top: 35%;
+		right: -14%;
+		background: radial-gradient(circle at 60% 40%, rgba(0, 32, 91, 0.2), rgba(42, 118, 181, 0.12) 50%, transparent 68%);
+	}
+
+	.contact-orb--c {
+		width: min(280px, 36vw);
+		height: min(280px, 36vw);
+		bottom: 5%;
+		left: 22%;
+		background: radial-gradient(circle at 50% 50%, rgba(237, 67, 76, 0.18), transparent 65%);
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.contact-orb {
+			filter: blur(48px);
+			opacity: 0.5;
+		}
+	}
+
+	.contact-layout {
+		position: relative;
+		z-index: 1;
+		display: grid;
+		gap: clamp(32px, 5vw, 56px);
+		align-items: start;
+	}
+
+	@media (min-width: 960px) {
+		.contact-layout {
+			grid-template-columns: minmax(0, 1fr) minmax(320px, 0.88fr);
+			gap: 48px 56px;
+			align-items: center;
+		}
+	}
+
+	.contact-kicker {
+		margin-bottom: 10px;
+	}
+
+	.contact-title {
+		margin: 0 0 12px;
+		font-size: clamp(2rem, 4.5vw, 2.65rem);
+		font-weight: 800;
+		letter-spacing: -0.03em;
+		line-height: 1.12;
+		color: var(--color-base);
+		text-shadow: 0 1px 0 rgba(255, 255, 255, 0.9);
+	}
+
+	.contact-rule {
+		width: 52px;
+		height: 4px;
+		margin-bottom: 18px;
+		border-radius: 4px;
+		background: linear-gradient(90deg, var(--color-accent), var(--color-primary));
+	}
+
+	.contact-lead {
+		margin: 0 0 26px;
+		font-size: 16px;
+		line-height: 1.65;
+		color: var(--color-muted);
+		font-weight: 500;
+		max-width: 52ch;
+	}
+
+	.contact-form-card {
+		position: relative;
+		background: linear-gradient(155deg, #ffffff 0%, #f0f6fd 48%, #ffffff 100%);
+		border: 1px solid rgba(255, 255, 255, 0.85);
+		border-radius: 22px;
+		padding: clamp(22px, 4vw, 32px);
+		box-shadow:
+			0 4px 6px rgba(0, 32, 91, 0.04),
+			0 12px 28px rgba(0, 32, 91, 0.08),
+			0 28px 64px rgba(42, 118, 181, 0.12),
+			0 0 0 1px rgba(0, 32, 91, 0.06) inset,
+			0 1px 0 rgba(255, 255, 255, 0.95) inset;
+	}
+
+	.contact-form-card::before {
+		content: '';
+		position: absolute;
+		inset: 0;
+		border-radius: inherit;
+		padding: 1px;
+		background: linear-gradient(
+			135deg,
+			rgba(42, 118, 181, 0.35) 0%,
+			rgba(255, 255, 255, 0.4) 35%,
+			rgba(237, 67, 76, 0.2) 100%
+		);
+		-webkit-mask:
+			linear-gradient(#fff 0 0) content-box,
+			linear-gradient(#fff 0 0);
+		mask:
+			linear-gradient(#fff 0 0) content-box,
+			linear-gradient(#fff 0 0);
+		-webkit-mask-composite: xor;
+		mask-composite: exclude;
+		pointer-events: none;
+		opacity: 0.65;
+	}
+
+	.contact-form {
+		position: relative;
+		z-index: 1;
+		display: flex;
+		flex-direction: column;
+		gap: 18px;
+	}
+
+	.contact-field {
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+	}
+
+	.contact-label {
+		font-size: 13px;
+		font-weight: 700;
+		letter-spacing: 0.02em;
+		color: var(--color-base);
+	}
+
+	.contact-input {
+		width: 100%;
+		padding: 13px 15px;
+		font-size: 15px;
+		font-family: inherit;
+		line-height: 1.45;
+		color: var(--color-text);
+		background: linear-gradient(180deg, #fbfcfe 0%, #ffffff 100%);
+		border: 1px solid rgba(0, 32, 91, 0.12);
+		border-radius: 13px;
+		box-shadow:
+			0 1px 2px rgba(0, 32, 91, 0.05),
+			0 4px 12px rgba(0, 32, 91, 0.04),
+			0 0 0 1px rgba(255, 255, 255, 0.8) inset;
+		transition:
+			border-color 0.2s ease,
+			box-shadow 0.2s ease,
+			transform 0.2s ease;
+	}
+
+	.contact-input:hover {
+		border-color: rgba(42, 118, 181, 0.32);
+		box-shadow:
+			0 2px 4px rgba(0, 32, 91, 0.06),
+			0 8px 20px rgba(42, 118, 181, 0.07),
+			0 0 0 1px rgba(255, 255, 255, 0.9) inset;
+	}
+
+	.contact-input:focus {
+		outline: none;
+		border-color: var(--color-primary);
+		box-shadow:
+			0 0 0 3px rgba(42, 118, 181, 0.22),
+			0 6px 20px rgba(42, 118, 181, 0.12),
+			0 0 0 1px rgba(255, 255, 255, 0.95) inset;
+		transform: translateY(-1px);
+	}
+
+	.contact-textarea {
+		resize: vertical;
+		min-height: 120px;
+	}
+
+	.contact-status {
+		min-height: 1.25em;
+		font-size: 14px;
+		line-height: 1.5;
+		font-weight: 600;
+	}
+
+	.contact-status--ok {
+		color: #0d6b3e;
+	}
+
+	.contact-status--err {
+		color: var(--color-accent-600);
+	}
+
+	.contact-submit {
+		align-self: flex-start;
+		margin-top: 6px;
+		min-width: 188px;
+		background: linear-gradient(165deg, var(--color-primary-400) 0%, var(--color-primary) 45%, var(--color-primary-600) 100%);
+		border: 1px solid rgba(255, 255, 255, 0.22);
+		box-shadow:
+			0 4px 14px rgba(42, 118, 181, 0.35),
+			0 12px 28px rgba(0, 32, 91, 0.12),
+			0 1px 0 rgba(255, 255, 255, 0.25) inset;
+	}
+
+	.contact-submit:hover:not(:disabled) {
+		box-shadow:
+			0 6px 20px rgba(42, 118, 181, 0.42),
+			0 16px 36px rgba(0, 32, 91, 0.14),
+			0 1px 0 rgba(255, 255, 255, 0.3) inset;
+	}
+
+	.contact-submit:disabled {
+		opacity: 0.75;
+		cursor: not-allowed;
+	}
+
+	.contact-visual {
+		display: flex;
+		flex-direction: column;
+		gap: 22px;
+	}
+
+	.contact-figure {
+		margin: 0;
+	}
+
+	.contact-frame-wrap {
+		position: relative;
+		padding: 6px;
+	}
+
+	.contact-frame-wrap::before {
+		content: '';
+		position: absolute;
+		inset: 0;
+		border-radius: 26px;
+		background: linear-gradient(145deg, rgba(42, 118, 181, 0.35) 0%, rgba(0, 32, 91, 0.12) 50%, rgba(237, 67, 76, 0.15) 100%);
+		transform: rotate(-2.5deg) scale(1.02);
+		box-shadow: 0 20px 50px rgba(42, 118, 181, 0.2);
+		z-index: 0;
+	}
+
+	.contact-frame-wrap::after {
+		content: '';
+		position: absolute;
+		inset: 10px 12px auto auto;
+		width: 48%;
+		height: 38%;
+		border-radius: 50%;
+		background: radial-gradient(circle, rgba(255, 255, 255, 0.45) 0%, transparent 70%);
+		pointer-events: none;
+		z-index: 2;
+		opacity: 0.7;
+	}
+
+	.contact-frame {
+		position: relative;
+		z-index: 1;
+		border-radius: 20px;
+		overflow: hidden;
+		box-shadow:
+			0 2px 4px rgba(0, 32, 91, 0.06),
+			0 12px 32px rgba(0, 32, 91, 0.12),
+			0 32px 72px rgba(0, 32, 91, 0.18);
+		border: 1px solid rgba(255, 255, 255, 0.65);
+		outline: 1px solid rgba(0, 32, 91, 0.06);
+		outline-offset: -1px;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.contact-frame-wrap::before {
+			transform: none;
+		}
+
+		.contact-input:focus {
+			transform: none;
+		}
+	}
+
+	.contact-img {
+		width: 100%;
+		height: auto;
+		aspect-ratio: 3 / 4;
+		object-fit: cover;
+		display: block;
+	}
+
+	.contact-caption {
+		display: inline-flex;
+		align-items: center;
+		gap: 10px;
+		margin-top: 16px;
+		padding: 8px 14px 8px 10px;
+		font-size: 13px;
+		font-weight: 600;
+		color: var(--color-base);
+		background: rgba(255, 255, 255, 0.72);
+		backdrop-filter: blur(10px);
+		-webkit-backdrop-filter: blur(10px);
+		border-radius: 999px;
+		border: 1px solid rgba(0, 32, 91, 0.08);
+		box-shadow: 0 4px 16px rgba(0, 32, 91, 0.07);
+	}
+
+	.contact-caption-dot {
+		width: 8px;
+		height: 8px;
+		border-radius: 50%;
+		background: #22c55e;
+		box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.25);
+		flex-shrink: 0;
+	}
+
+	.contact-aside {
+		position: relative;
+		padding: 22px 22px 24px;
+		border-radius: 18px;
+		background: linear-gradient(160deg, rgba(255, 255, 255, 0.75) 0%, rgba(232, 242, 252, 0.92) 100%);
+		backdrop-filter: blur(12px);
+		-webkit-backdrop-filter: blur(12px);
+		border: 1px solid rgba(255, 255, 255, 0.9);
+		box-shadow:
+			0 4px 12px rgba(0, 32, 91, 0.05),
+			0 16px 40px rgba(42, 118, 181, 0.1),
+			0 0 0 1px rgba(42, 118, 181, 0.08) inset;
+	}
+
+	.contact-aside::before {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 20px;
+		right: 20px;
+		height: 3px;
+		border-radius: 0 0 4px 4px;
+		background: linear-gradient(90deg, transparent, var(--color-primary), transparent);
+		opacity: 0.45;
+		pointer-events: none;
+	}
+
+	.contact-aside-title {
+		margin: 0 0 6px;
+		font-size: 15px;
+		font-weight: 800;
+		color: var(--color-base);
+		letter-spacing: -0.02em;
+	}
+
+	.contact-aside-sub {
+		margin: 0 0 14px;
+		font-size: 13px;
+		line-height: 1.5;
+		color: var(--color-muted);
+	}
+
+	.contact-aside-list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+	}
+
+	.contact-aside-label {
+		display: block;
+		font-size: 10px;
+		font-weight: 800;
+		letter-spacing: 0.12em;
+		color: var(--color-primary);
+		margin-bottom: 2px;
+	}
+
+	.contact-aside-link {
+		font-size: 14px;
+		font-weight: 600;
+		color: var(--color-base);
+		text-decoration: underline;
+		text-underline-offset: 3px;
+		word-break: break-word;
+	}
+
+	.contact-aside-link:hover {
+		color: var(--color-primary);
+	}
+</style>

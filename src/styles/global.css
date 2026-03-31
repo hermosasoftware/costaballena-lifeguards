@@ -154,9 +154,31 @@ img {
 	position: sticky;
 	top: 0;
 	z-index: 20;
-	background: rgba(255, 255, 255, 0.92);
-	backdrop-filter: blur(10px);
-	border-bottom: 1px solid rgba(0, 32, 91, 0.12);
+	background: linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(252, 253, 255, 0.94) 100%);
+	backdrop-filter: blur(12px);
+	-webkit-backdrop-filter: blur(12px);
+	border-bottom: 1px solid rgba(0, 32, 91, 0.1);
+	box-shadow:
+		0 1px 0 rgba(255, 255, 255, 0.9) inset,
+		0 4px 24px rgba(0, 32, 91, 0.06);
+}
+
+.site-header::after {
+	content: '';
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	height: 2px;
+	background: linear-gradient(
+		90deg,
+		var(--color-accent) 0%,
+		var(--color-primary) 42%,
+		rgba(42, 118, 181, 0.2) 72%,
+		transparent 100%
+	);
+	opacity: 0.4;
+	pointer-events: none;
 }
 
 .header-inner {
@@ -164,18 +186,34 @@ img {
 	align-items: center;
 	justify-content: space-between;
 	gap: 16px;
-	padding: 12px 0;
+	/* No usar padding: … 0 … aquí: comparte nodo con .container y anula su padding horizontal */
+	padding-top: 14px;
+	padding-bottom: 14px;
+	padding-left: max(22px, env(safe-area-inset-left, 0px));
+	padding-right: max(22px, env(safe-area-inset-right, 0px));
 }
 
 .brand {
 	display: inline-flex;
 	align-items: center;
 	gap: 12px;
+	flex-shrink: 0;
+	min-width: 0;
+	padding: 4px 2px 4px 0;
+	border-radius: 10px;
+	transition: background 0.18s ease;
+}
+
+.brand:hover {
+	background: rgba(0, 32, 91, 0.04);
 }
 
 .brand img {
 	height: 46px;
 	width: auto;
+	max-height: 46px;
+	object-fit: contain;
+	object-position: left center;
 }
 
 .nav {

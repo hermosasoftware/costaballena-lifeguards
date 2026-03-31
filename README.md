@@ -1,41 +1,37 @@
-# Guardavidas Costa Ballena · Sitio web
+# Guardavidas Costa Ballena · Website
 
-Sitio web estático para **Guardavidas Costa Ballena** (Asociación de Guardavidas de la Zona Sur de Costa Rica), desarrollado por **encargo de un equipo privado** y construido con [Astro](https://astro.build/).
+Static website for **Guardavidas Costa Ballena** (Southern Zone Lifeguards Association, Costa Rica), commissioned by a **private team** and built with [Astro](https://astro.build/).
 
-Incluye páginas inicio, donaciones, apoyo comunitario (sponsors), contacto y formulario de apoyo, con contenido en **inglés** y **español**.
+It includes home, donations, community support (sponsors), contact, and support form pages, with content in **English** and **Spanish**.
 
-## Requisitos
+## Requirements
 
-- **Node.js** ≥ 22.12 (ver `package.json` → `engines`)
+- **Node.js** ≥ 22.12 (see `package.json` → `engines`)
 
-## Instalación y uso
+## Setup and commands
 
 ```bash
 npm install
 ```
 
-| Comando        | Descripción                                      |
-| -------------- | ------------------------------------------------ |
-| `npm run dev`  | Servidor de desarrollo (por defecto `localhost:4321`) |
-| `npm run build` | Genera el sitio en `dist/`                      |
-| `npm run preview` | Previsualiza la build de producción localmente |
+| Command           | Description                                              |
+| ----------------- | -------------------------------------------------------- |
+| `npm run dev`     | Development server (default `localhost:4321`)            |
+| `npm run build`   | Production build output in `dist/`                       |
+| `npm run preview` | Preview the production build locally                     |
 
-## Estructura (resumen)
+## Project layout (overview)
 
 ```
 src/
-  assets/       # Imágenes y recursos importados por Vite
-  components/   # Componentes Astro (HomePage, DonatePage, etc.)
-  i18n/         # Textos y rutas por idioma
-  layouts/      # Plantilla de página (header/footer)
-  pages/        # Rutas del sitio (incl. /es/…)
-public/         # Archivos servidos tal cual (favicon, etc.)
+  assets/       # Images and assets imported by Vite
+  components/   # Astro components (HomePage, DonatePage, etc.)
+  i18n/         # Copy and routes per language
+  layouts/      # Page shell (header/footer)
+  pages/        # Site routes (including /es/…)
+public/         # Static files served as-is (favicon, etc.)
 ```
 
-## Derechos y uso del código
+## Rights and use of the code
 
-Este repositorio es **desarrollo privado** para la asociación. La propiedad intelectual, el uso del código y la publicación del sitio se rigen por el **acuerdo entre la empresa desarrolladora y Guardavidas Costa Ballena**, no por una licencia de software abierto.
-
----
-
-**English:** Private commission: static marketing and donation site for Costa Ballena lifeguards (Southern Zone, Costa Rica), Astro-based, bilingual (EN/ES). IP and distribution are governed by the contract between the client association and the development company—not an open-source license.
+This repository is **private development** for the association. Intellectual property, use of the code, and publication of the site are governed by the **agreement between the development company and Guardavidas Costa Ballena**, not by an open-source software license.

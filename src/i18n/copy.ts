@@ -184,6 +184,20 @@ export const copy: Record<
 		pages: {
 			contactTitle: string;
 			contactBody: string;
+			contactKicker: string;
+			contactFormNameLabel: string;
+			contactFormEmailLabel: string;
+			contactFormMessageLabel: string;
+			contactFormSubmit: string;
+			contactFormSending: string;
+			contactFormSuccess: string;
+			contactFormError: string;
+			contactFormInvalidEmail: string;
+			contactFormFillAll: string;
+			contactAsideTitle: string;
+			contactAsideSubtitle: string;
+			contactImageAlt: string;
+			contactImageCaption: string;
 			communityTitle: string;
 			communityBody: string;
 			communityKicker: string;
@@ -221,6 +235,9 @@ export const copy: Record<
 			facebookHref: string;
 			instagramHref: string;
 			copyright: string;
+			poweredBy: string;
+			hermosaSoftwareHref: string;
+			hermosaSoftwareLogoAlt: string;
 		};
 	}
 > = {
@@ -484,7 +501,22 @@ export const copy: Record<
 		},
 		pages: {
 			contactTitle: 'Contact',
-			contactBody: 'Reach out to support or volunteer. Email and phone are available in the footer.',
+			contactBody:
+				'Send a message for volunteering, sponsorship, media, or general questions. We read every note and respond as soon as we can.',
+			contactKicker: 'Get in touch',
+			contactFormNameLabel: 'Name',
+			contactFormEmailLabel: 'Email',
+			contactFormMessageLabel: 'Message',
+			contactFormSubmit: 'Send message',
+			contactFormSending: 'Sending…',
+			contactFormSuccess: 'Thank you — your message was sent. We’ll get back to you shortly.',
+			contactFormError: 'Something went wrong. Please try again or email us directly.',
+			contactFormInvalidEmail: 'Please enter a valid email address.',
+			contactFormFillAll: 'Please fill in all fields.',
+			contactAsideTitle: 'Prefer another channel?',
+			contactAsideSubtitle: 'You can also reach us directly:',
+			contactImageAlt: 'Lifeguard tower on duty — Costa Ballena',
+			contactImageCaption: 'On duty — Costa Ballena',
 			communityTitle: 'Community support',
 			communityBody:
 				'Local restaurants and businesses donate meals and support so our lifeguards stay fueled and on duty. Thank you to every partner featured here.',
@@ -528,9 +560,12 @@ export const copy: Record<
 			phoneLabel: 'PHONE',
 			email: 'lifeguardscostaballena@gmail.com',
 			phone: '+506 8371 7882',
-			facebookHref: '#',
-			instagramHref: '#',
+			facebookHref: 'https://www.facebook.com/GuardavidasCostaBallena',
+			instagramHref: 'https://www.instagram.com/guardavidascostaballena',
 			copyright: '© 2026. All rights reserved.',
+			poweredBy: 'Powered by',
+			hermosaSoftwareHref: 'https://www.hermosasoftware.io/',
+			hermosaSoftwareLogoAlt: 'Hermosa Software',
 		},
 	},
 	es: {
@@ -794,7 +829,21 @@ export const copy: Record<
 		pages: {
 			contactTitle: 'Contacto',
 			contactBody:
-				'Comunícate para apoyar o ser voluntario. Los datos están disponibles en el pie de página.',
+				'Envíanos un mensaje por voluntariado, patrocinio, prensa o consultas generales. Leemos cada nota y respondemos lo antes posible.',
+			contactKicker: 'Escríbenos',
+			contactFormNameLabel: 'Nombre',
+			contactFormEmailLabel: 'Correo',
+			contactFormMessageLabel: 'Mensaje',
+			contactFormSubmit: 'Enviar mensaje',
+			contactFormSending: 'Enviando…',
+			contactFormSuccess: 'Gracias — tu mensaje fue enviado. Te responderemos pronto.',
+			contactFormError: 'Algo salió mal. Intenta de nuevo o escríbenos por correo.',
+			contactFormInvalidEmail: 'Introduce un correo electrónico válido.',
+			contactFormFillAll: 'Completa todos los campos.',
+			contactAsideTitle: '¿Prefieres otro canal?',
+			contactAsideSubtitle: 'También puedes contactarnos directamente:',
+			contactImageAlt: 'Torre de guardavidas en servicio — Costa Ballena',
+			contactImageCaption: 'En servicio — Costa Ballena',
 			communityTitle: 'Apoyo comunitario',
 			communityBody:
 				'Restaurantes y negocios locales donan comidas y apoyo para que nuestros guardavidas sigan alimentados y en servicio. Gracias a cada aliado que aparece aquí.',
@@ -838,9 +887,12 @@ export const copy: Record<
 			phoneLabel: 'TELÉFONO',
 			email: 'lifeguardscostaballena@gmail.com',
 			phone: '+506 8371 7882',
-			facebookHref: '#',
-			instagramHref: '#',
+			facebookHref: 'https://www.facebook.com/GuardavidasCostaBallena',
+			instagramHref: 'https://www.instagram.com/guardavidascostaballena',
 			copyright: '© 2026. Todos los derechos reservados.',
+			poweredBy: 'Desarrollado por',
+			hermosaSoftwareHref: 'https://www.hermosasoftware.io/',
+			hermosaSoftwareLogoAlt: 'Hermosa Software',
 		},
 	},
 };

@@ -2,6 +2,7 @@
 import { copy, type Lang } from '../i18n/copy';
 import { getRoutes } from '../i18n/routes';
 import logo from '../assets/logo-guardavidas.avif';
+import hermosaLogo from '../assets/hermosa-software-logo.png';
 
 interface Props {
 	lang: Lang;
@@ -117,8 +118,29 @@ const r = getRoutes(lang);
 	<!-- ── Bottom bar ─────────────────────────────────────────────── -->
 	<div class="footer-bottom">
 		<div class="container footer-bottom-inner">
-			<p>{c.footer.copyright}</p>
-		<p class="footer-built">{c.footer.builtWith}</p>
+			<p class="footer-copyright">{c.footer.copyright}</p>
+			<div class="footer-bottom-meta">
+				<p class="footer-built">{c.footer.builtWith}</p>
+				<div class="footer-powered">
+					<span class="footer-powered-label">{c.footer.poweredBy}</span>
+					<a
+						class="footer-powered-link"
+						href={c.footer.hermosaSoftwareHref}
+						target="_blank"
+						rel="noopener noreferrer"
+					>
+						<img
+							src={hermosaLogo.src}
+							alt={c.footer.hermosaSoftwareLogoAlt}
+							width="140"
+							height="36"
+							loading="lazy"
+							decoding="async"
+							class="footer-powered-logo"
+						/>
+					</a>
+				</div>
+			</div>
 		</div>
 	</div>
 
@@ -356,18 +378,60 @@ const r = getRoutes(lang);
 		justify-content: space-between;
 		align-items: center;
 		flex-wrap: wrap;
-		gap: 8px;
+		gap: 16px;
 		padding-top: 18px;
 		padding-bottom: 22px;
 	}
 
+	.footer-copyright,
 	.footer-bottom p {
 		font-size: 12px;
 		color: rgba(255, 255, 255, 0.32);
 		margin: 0;
 	}
 
+	.footer-bottom-meta {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: flex-end;
+		gap: 16px 24px;
+	}
+
 	.footer-built {
 		font-style: italic;
+	}
+
+	.footer-powered {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+	}
+
+	.footer-powered-label {
+		font-size: 11px;
+		font-weight: 600;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		color: rgba(255, 255, 255, 0.38);
+		white-space: nowrap;
+	}
+
+	.footer-powered-link {
+		display: inline-flex;
+		align-items: center;
+		line-height: 0;
+		opacity: 0.88;
+		transition: opacity 0.2s ease;
+	}
+
+	.footer-powered-link:hover {
+		opacity: 1;
+	}
+
+	.footer-powered-logo {
+		width: min(132px, 38vw);
+		height: auto;
+		display: block;
 	}
 </style>
