@@ -1,6 +1,6 @@
 # Guardavidas Costa Ballena · Sitio web
 
-Sitio web estático para **Guardavidas Costa Ballena** (Asociación de Guardavidas de la Zona Sur de Costa Rica), construido con [Astro](https://astro.build/).
+Sitio web estático para **Guardavidas Costa Ballena** (Asociación de Guardavidas de la Zona Sur de Costa Rica), desarrollado por **encargo de un equipo privado** y construido con [Astro](https://astro.build/).
 
 Incluye páginas inicio, donaciones, apoyo comunitario (sponsors), contacto y formulario de apoyo, con contenido en **inglés** y **español**.
 
@@ -32,10 +32,10 @@ src/
 public/         # Archivos servidos tal cual (favicon, etc.)
 ```
 
-## Licencia
+## Derechos y uso del código
 
-MIT — ver [LICENSE](./LICENSE).
+Este repositorio es **desarrollo privado** para la asociación. La propiedad intelectual, el uso del código y la publicación del sitio se rigen por el **acuerdo entre la empresa desarrolladora y Guardavidas Costa Ballena**, no por una licencia de software abierto.
 
 ---
 
-**English:** Static marketing and donation site for Costa Ballena lifeguards (Southern Zone, Costa Rica), Astro-based, bilingual (EN/ES).
+**English:** Private commission: static marketing and donation site for Costa Ballena lifeguards (Southern Zone, Costa Rica), Astro-based, bilingual (EN/ES). IP and distribution are governed by the contract between the client association and the development company—not an open-source license.
