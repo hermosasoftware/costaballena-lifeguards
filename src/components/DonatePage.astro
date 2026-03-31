@@ -1,0 +1,1873 @@
+---
+import { copy, type Lang } from '../i18n/copy';
+import { getRoutes } from '../i18n/routes';
+import TiersSection from './TiersSection.astro';
+import eventImg from '../assets/domi-tower-inauguration-48.webp';
+import iconUsers from '../assets/users.svg?url';
+import iconStore from '../assets/store.svg?url';
+import iconHeart from '../assets/heart.svg?url';
+import iconHandHeart from '../assets/hand-heart.svg?url';
+import iconUserCheck from '../assets/user-check.svg?url';
+
+interface Props {
+	lang: Lang;
+}
+
+const { lang } = Astro.props;
+const c = copy[lang];
+const d = c.donate;
+const routes = getRoutes(lang);
+const contactHref = routes.contact;
+
+/** Order matches introFundedList: community, businesses, donors, supporters, volunteers */
+const supporterIconSrc = [iconUsers, iconStore, iconHeart, iconHandHeart, iconUserCheck] as const;
+
+---
+
+<main>
+
+	<!-- ─── INTRO HERO ────────────────────────────────────────── -->
+	<section class="donate-intro-hero section" aria-labelledby="donate-page-title">
+		<div class="donate-intro-hero-accent" aria-hidden="true"></div>
+		<div class="container donate-intro-hero-inner">
+			<div class="donate-intro-copy">
+				<div class="donate-intro-kicker-row">
+					<span class="kicker">{c.siteName}</span>
+				</div>
+				<h1 id="donate-page-title" class="donate-intro-title">{d.pageTitle}</h1>
+				<p class="donate-intro-lead">{d.introLead}</p>
+
+				<div class="donate-intro-funding">
+					<p class="donate-intro-body">{d.introBody}</p>
+				</div>
+
+				<ul class="donate-intro-supporters" aria-label={d.introSupportersTitle}>
+					{d.introFundedList.map((item, i) => (
+						<li class="donate-intro-supporter-card">
+							<span class="donate-intro-supporter-icon" aria-hidden="true">
+								<img
+									class="donate-intro-supporter-img"
+									src={supporterIconSrc[i]}
+									alt=""
+									width="24"
+									height="24"
+									loading="lazy"
+									decoding="async"
+								/>
+							</span>
+							<span class="donate-intro-supporter-text">{item}</span>
+						</li>
+					))}
+				</ul>
+
+				<blockquote class="donate-intro-quote">
+					<p>{d.introClosing}</p>
+				</blockquote>
+
+				<div class="donate-intro-ctas">
+					<a class="btn btn-accent donate-intro-cta-main" href="#donate-methods">{d.introCtaPrimary}</a>
+					<a class="btn btn-outline donate-intro-cta-sub" href="#tiers-section">{d.introCtaSecondary}</a>
+				</div>
+				<p class="donate-intro-hint">{d.introMethodHint}</p>
+			</div>
+
+			<figure class="donate-intro-visual">
+				<div class="donate-intro-frame">
+					<img
+						src={eventImg.src}
+						alt={d.introImageAlt}
+						class="donate-intro-img"
+						loading="lazy"
+						decoding="async"
+						width="560"
+						height="700"
+					/>
+					<div class="donate-intro-img-shine" aria-hidden="true"></div>
+				</div>
+				<figcaption class="donate-intro-caption">
+					<span class="donate-intro-caption-dot" aria-hidden="true"></span>
+					{d.introImageCaption}
+				</figcaption>
+			</figure>
+		</div>
+	</section>
+
+	<!-- ─── TIERS ─────────────────────────────────────────────── -->
+	<TiersSection lang={lang} ctaHref={d.methodUsLink} />
+
+	<!-- ─── MEMBERSHIP + HOW TO DONATE (banda clara unificada, sin zebra) ─── -->
+	<div class="donate-light-band">
+		<div class="donate-band-decor" aria-hidden="true">
+			<div class="donate-band-decor__mesh"></div>
+			<div class="donate-band-decor__top">
+				<svg
+					class="donate-band-decor__svg donate-band-decor__svg--top"
+					viewBox="0 0 1440 120"
+					preserveAspectRatio="none"
+					xmlns="http://www.w3.org/2000/svg"
+					focusable="false"
+				>
+					<path
+						fill="rgba(42, 118, 181, 0.1)"
+						d="M0 120V55 Q360 8 720 48 T1440 38V120H0z"
+					/>
+				</svg>
+			</div>
+			<div class="donate-band-decor__bottom">
+				<svg
+					class="donate-band-decor__svg donate-band-decor__svg--b2"
+					viewBox="0 0 1440 220"
+					preserveAspectRatio="none"
+					xmlns="http://www.w3.org/2000/svg"
+					focusable="false"
+				>
+					<path
+						fill="rgba(0, 32, 91, 0.08)"
+						d="M0 155 Q240 95 480 125 T960 105 T1440 135V220H0z"
+					/>
+				</svg>
+				<svg
+					class="donate-band-decor__svg donate-band-decor__svg--b1"
+					viewBox="0 0 1440 200"
+					preserveAspectRatio="none"
+					xmlns="http://www.w3.org/2000/svg"
+					focusable="false"
+				>
+					<path
+						fill="rgba(42, 118, 181, 0.12)"
+						d="M0 110 Q320 45 640 85 T1280 65 T1440 90V200H0z"
+					/>
+				</svg>
+			</div>
+			<div class="donate-band-decor__noise"></div>
+		</div>
+		<section class="section membership-section" aria-labelledby="membership-heading">
+			<div class="container">
+				<div class="membership-ambient" aria-hidden="true"></div>
+				<div class="membership-wrap">
+					<header class="membership-hero reveal">
+						<p class="kicker membership-kicker-centered">{d.membershipKicker}</p>
+						<h2 id="membership-heading" class="h2 membership-title-xl">{d.membershipTitle}</h2>
+						<div class="membership-title-rule" aria-hidden="true"></div>
+					</header>
+
+					<div class="membership-grid-top">
+						<article class="membership-tier-card reveal reveal-d1">
+							<div class="membership-tier-shine" aria-hidden="true"></div>
+							<div class="membership-tier-icon membership-tier-icon--annual" aria-hidden="true">
+								<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+									<rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+									<line x1="16" y1="2" x2="16" y2="6"/>
+									<line x1="8" y1="2" x2="8" y2="6"/>
+									<line x1="3" y1="10" x2="21" y2="10"/>
+								</svg>
+							</div>
+							<h3 class="membership-tier-name">{d.membershipAnnualTitle}</h3>
+							<p class="membership-tier-desc">{d.membershipLine1}</p>
+						</article>
+						<article class="membership-tier-card reveal reveal-d2">
+							<div class="membership-tier-shine" aria-hidden="true"></div>
+							<div class="membership-tier-icon membership-tier-icon--monthly" aria-hidden="true">
+								<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+									<circle cx="12" cy="12" r="10"/>
+									<polyline points="12 6 12 12 16 14"/>
+								</svg>
+							</div>
+							<h3 class="membership-tier-name">{d.membershipMonthlyTitle}</h3>
+							<p class="membership-tier-desc">{d.membershipLine2}</p>
+						</article>
+					</div>
+
+					<p class="membership-bridge reveal reveal-d3">
+						<span class="membership-bridge-line" aria-hidden="true"></span>
+						<em class="membership-bridge-text">{d.membershipLine3}</em>
+						<span class="membership-bridge-line" aria-hidden="true"></span>
+					</p>
+
+					<div class="membership-grid-bottom">
+						<article class="membership-spotlight membership-spotlight--tax reveal reveal-d1">
+							<div class="membership-spotlight-icon" aria-hidden="true">
+								<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round">
+									<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+									<polyline points="9 12 11 14 15 10"/>
+								</svg>
+							</div>
+							<div class="membership-spotlight-textwrap">
+								<h3 class="membership-spotlight-title">{d.membershipTaxCardTitle}</h3>
+								<p class="membership-spotlight-text">{d.membershipTaxNote}</p>
+							</div>
+						</article>
+						<article class="membership-spotlight membership-spotlight--angel reveal reveal-d2">
+							<div class="membership-spotlight-icon membership-spotlight-icon--angel" aria-hidden="true">
+								<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round">
+									<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+								</svg>
+							</div>
+							<div class="membership-spotlight-textwrap">
+								<h3 class="membership-spotlight-title">{d.membershipAngelCardTitle}</h3>
+								<p class="membership-spotlight-text">{d.membershipAngelNote}</p>
+							</div>
+						</article>
+					</div>
+
+					<div class="membership-every reveal reveal-scale">
+						<div class="membership-every-blob" aria-hidden="true"></div>
+						<div class="membership-every-inner">
+							<img
+								class="membership-every-heart"
+								src={iconHeart}
+								alt=""
+								width="40"
+								height="40"
+								loading="lazy"
+								decoding="async"
+							/>
+							<p class="membership-every-text">{d.membershipEvery}</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<div class="donate-band-divider" aria-hidden="true"></div>
+
+		<section class="section how-section" id="donate-methods" aria-labelledby="how-heading">
+			<div class="how-ambient" aria-hidden="true"></div>
+			<div class="container">
+				<header class="how-header reveal">
+					<p class="kicker how-kicker">{d.howKicker}</p>
+					<h2 id="how-heading" class="h2 how-title">{d.howTitle}</h2>
+					<div class="how-title-rule" aria-hidden="true"></div>
+					<p class="how-sub">{d.howSubtitle}</p>
+				</header>
+
+				<div class="methods-grid">
+					<!-- U.S. Tax-Deductible -->
+					<article class="method-card reveal reveal-d1">
+						<div class="method-card-shine" aria-hidden="true"></div>
+						<div class="method-card-top">
+							<div class="method-icon method-icon--us" aria-hidden="true">
+								<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+									<circle cx="12" cy="12" r="10"/>
+									<path d="M12 6v6l4 2"/>
+								</svg>
+							</div>
+							<h3 class="method-title">{d.methodUsTitle}</h3>
+						</div>
+						<p class="method-body">{d.methodUsBody}</p>
+						<div class="method-card-footer">
+							<a
+								class="btn btn-primary method-btn"
+								href={d.methodUsLink}
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								{d.methodUsBtn}
+								<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="method-btn-arrow">
+									<path d="M3 8h10M9 4l4 4-4 4"/>
+								</svg>
+							</a>
+						</div>
+					</article>
+
+					<!-- PayPal -->
+					<article class="method-card reveal reveal-d2">
+						<div class="method-card-shine" aria-hidden="true"></div>
+						<div class="method-card-top">
+							<div class="method-icon method-icon--paypal" aria-hidden="true">
+								<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+									<rect x="2" y="5" width="20" height="14" rx="3"/>
+									<path d="M2 10h20"/>
+								</svg>
+							</div>
+							<h3 class="method-title">{d.methodPaypalTitle}</h3>
+						</div>
+						<p class="method-body">{d.methodPaypalBody}</p>
+						<div class="method-card-footer">
+							<a
+								class="btn btn-primary method-btn"
+								href={d.methodPaypalLink}
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								{d.methodPaypalBtn}
+								<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="method-btn-arrow">
+									<path d="M3 8h10M9 4l4 4-4 4"/>
+								</svg>
+							</a>
+						</div>
+					</article>
+
+					<!-- Bank Transfer -->
+					<article class="method-card method-card--bank reveal reveal-d3">
+						<div class="method-card-shine" aria-hidden="true"></div>
+						<div class="method-card-top">
+							<div class="method-icon method-icon--bank" aria-hidden="true">
+								<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+									<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+									<polyline points="9 22 9 12 15 12 15 22"/>
+								</svg>
+							</div>
+							<h3 class="method-title">{d.methodBankTitle}</h3>
+						</div>
+						<div class="method-bank-meta">
+							<p class="bank-line bank-name">{d.methodBankAccountName}</p>
+							<p class="bank-line muted">{d.methodBankCedula}</p>
+						</div>
+
+						<div class="bank-accounts">
+							<div class="bank-account">
+								<div class="bank-account-label">{d.methodBankColones}</div>
+								<code class="bank-num">{d.methodBankColonesNum}</code>
+								<code class="bank-iban">{d.methodBankColonesIban}</code>
+							</div>
+							<div class="bank-account">
+								<div class="bank-account-label">{d.methodBankDollars}</div>
+								<code class="bank-num">{d.methodBankDollarsNum}</code>
+								<code class="bank-iban">{d.methodBankDollarsIban}</code>
+							</div>
+						</div>
+					</article>
+				</div>
+			</div>
+		</section>
+	</div>
+
+	<!-- ─── IMPORTANT ────────────────────────────────────────── -->
+	<section class="section important-section" aria-labelledby="important-heading">
+		<div class="important-ambient" aria-hidden="true"></div>
+		<div class="container important-container">
+			<div class="important-box reveal reveal-scale">
+				<div class="important-box-shine" aria-hidden="true"></div>
+				<div class="important-box-inner">
+					<header class="important-header">
+						<div class="important-icon" aria-hidden="true">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+								<circle cx="12" cy="12" r="10"/>
+								<line x1="12" y1="8" x2="12" y2="12"/>
+								<line x1="12" y1="16" x2="12.01" y2="16"/>
+							</svg>
+						</div>
+						<div class="important-heading-block">
+							<h2 id="important-heading" class="important-title">{d.importantTitle}</h2>
+							<div class="important-title-rule" aria-hidden="true"></div>
+						</div>
+					</header>
+
+					<p class="important-intro reveal reveal-d1">{d.importantIntro}</p>
+
+					<div class="important-form-note reveal reveal-d2">
+						<div class="important-form-note-icon" aria-hidden="true">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round">
+								<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+								<polyline points="14 2 14 8 20 8"/>
+								<line x1="16" y1="13" x2="8" y2="13"/>
+								<line x1="16" y1="17" x2="8" y2="17"/>
+							</svg>
+						</div>
+						<div class="important-form-note-copy">
+							<p>{d.importantFormNote}</p>
+						</div>
+						<a
+							class="btn btn-primary important-form-btn"
+							href={d.importantFormLink}
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							{d.importantFormBtn}
+							<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="important-form-btn-arrow" aria-hidden="true">
+								<path d="M3 8h10M9 4l4 4-4 4"/>
+							</svg>
+						</a>
+					</div>
+
+					<ol class="important-steps">
+						<li class="important-step reveal reveal-d1">
+							<span class="step-num">1</span>
+							<div class="important-step-body">
+								<p class="important-step-text">{d.importantStep1}</p>
+							</div>
+						</li>
+						<li class="important-step reveal reveal-d2">
+							<span class="step-num">2</span>
+							<div class="important-step-body">
+								<p class="important-step-text">{d.importantStep2}</p>
+								<div class="important-contact-grid">
+									<div class="important-contact-item">
+										<span class="important-contact-label">{d.importantContactEmailLabel}</span>
+										<a href={`mailto:${d.importantStep2Email}`}>{d.importantStep2Email}</a>
+									</div>
+									<div class="important-contact-item">
+										<span class="important-contact-label">{d.importantContactWhatsappLabel}</span>
+										<a href={`https://wa.me/${d.importantStep2Whatsapp.replace(/\s+/g, '')}`}>
+											{d.importantStep2Whatsapp}
+										</a>
+									</div>
+								</div>
+							</div>
+						</li>
+						<li class="important-step reveal reveal-d3">
+							<span class="step-num">3</span>
+							<div class="important-step-body">
+								<p class="important-step-text">{d.importantStep3}</p>
+							</div>
+						</li>
+						<li class="important-step reveal reveal-d4">
+							<span class="step-num">4</span>
+							<div class="important-step-body">
+								<p class="important-step-text">{d.importantStep4}</p>
+							</div>
+						</li>
+					</ol>
+				</div>
+			</div>
+		</div>
+	</section>
+
+</main>
+
+<style>
+	/* ── Intro hero — Mobile First ─────────────────────────── */
+	.donate-intro-hero {
+		position: relative;
+		background: linear-gradient(165deg, #f3f6fd 0%, #ffffff 42%, #fafbfd 100%);
+		overflow: hidden;
+	}
+
+	.donate-intro-hero-accent {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		height: 4px;
+		background: linear-gradient(90deg, var(--color-accent) 0%, var(--color-primary) 55%, rgba(0, 32, 91, 0.15) 100%);
+	}
+
+	.donate-intro-hero-inner {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 36px;
+		align-items: start;
+		padding-top: 8px;
+		padding-bottom: 8px;
+	}
+
+	@media (min-width: 960px) {
+		.donate-intro-hero-inner {
+			grid-template-columns: 1.05fr 0.95fr;
+			gap: 48px 56px;
+			align-items: center;
+		}
+	}
+
+	.donate-intro-copy {
+		max-width: 640px;
+	}
+
+	.donate-intro-kicker-row {
+		margin-bottom: 6px;
+	}
+
+	.donate-intro-title {
+		margin: 0 0 14px;
+		font-size: clamp(2rem, 4.5vw, 2.75rem);
+		font-weight: 900;
+		letter-spacing: -0.03em;
+		line-height: 1.12;
+		color: var(--color-base);
+	}
+
+	.donate-intro-lead {
+		margin: 0 0 22px;
+		font-size: clamp(1.05rem, 1.35vw, 1.2rem);
+		line-height: 1.58;
+		font-weight: 600;
+		color: var(--color-text);
+		max-width: 52ch;
+	}
+
+	/* Funding context — same narrative weight as the lead; not “muted fine print” */
+	.donate-intro-funding {
+		margin: 0 0 14px;
+		padding: 20px 22px 22px;
+		background: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(243, 248, 255, 0.88) 100%);
+		border: 1px solid rgba(0, 32, 91, 0.1);
+		border-left: 4px solid var(--color-primary);
+		border-radius: 16px;
+		box-shadow: 0 10px 32px rgba(0, 32, 91, 0.07);
+	}
+
+	.donate-intro-body {
+		margin: 0;
+		font-size: clamp(1.02rem, 1.25vw, 1.14rem);
+		line-height: 1.72;
+		font-weight: 700;
+		color: var(--color-base);
+		letter-spacing: -0.01em;
+		max-width: none;
+	}
+
+	/* Supporters: 3 + 2 grid (reference layout) */
+	.donate-intro-supporters {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 10px;
+	}
+
+	@media (min-width: 520px) {
+		.donate-intro-supporters {
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+		}
+	}
+
+	.donate-intro-supporter-card {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		padding: 12px 14px;
+		border-radius: 14px;
+		background: #fff;
+		border: 1px solid rgba(0, 32, 91, 0.08);
+		box-shadow: 0 4px 16px rgba(0, 32, 91, 0.05);
+		transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+	}
+
+	.donate-intro-supporter-card:hover {
+		border-color: rgba(42, 118, 181, 0.35);
+		box-shadow: 0 8px 24px rgba(0, 32, 91, 0.09);
+		transform: translateY(-1px);
+	}
+
+	.donate-intro-supporter-icon {
+		flex-shrink: 0;
+		width: 44px;
+		height: 44px;
+		border-radius: 50%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background: rgba(42, 118, 181, 0.16);
+		border: 1px solid rgba(42, 118, 181, 0.22);
+		transition: background 0.2s ease, border-color 0.2s ease;
+	}
+
+	.donate-intro-supporter-card:hover .donate-intro-supporter-icon {
+		background: rgba(42, 118, 181, 0.22);
+		border-color: rgba(42, 118, 181, 0.35);
+	}
+
+	/*
+		Line-art SVGs load as black strokes; remap to --color-primary (#2a76b5)
+		so icons match the rest of the UI (same idea as tinting a mono icon).
+	*/
+	.donate-intro-supporter-img {
+		display: block;
+		width: 22px;
+		height: 22px;
+		object-fit: contain;
+		filter: brightness(0) saturate(100%) invert(40%) sepia(58%) saturate(520%) hue-rotate(169deg) brightness(0.96) contrast(0.96);
+		transition: filter 0.2s ease, opacity 0.2s ease;
+	}
+
+	.donate-intro-supporter-card:hover .donate-intro-supporter-img {
+		filter: brightness(0) saturate(100%) invert(32%) sepia(72%) saturate(620%) hue-rotate(171deg) brightness(0.94) contrast(1.02);
+	}
+
+	.donate-intro-supporter-text {
+		font-size: 14px;
+		font-weight: 700;
+		line-height: 1.35;
+		color: var(--color-text);
+	}
+
+	.donate-intro-quote {
+		margin: 22px 0 0;
+		padding: 16px 18px 16px 20px;
+		border-left: 3px solid var(--color-accent);
+		background: rgba(237, 67, 76, 0.05);
+		border-radius: 0 14px 14px 0;
+	}
+
+	.donate-intro-quote p {
+		margin: 0;
+		font-size: 15px;
+		font-style: italic;
+		line-height: 1.65;
+		color: var(--color-muted);
+	}
+
+	.donate-intro-ctas {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 12px;
+		margin-top: 22px;
+	}
+
+	.donate-intro-cta-main {
+		padding: 14px 26px;
+		font-size: 15px;
+		font-weight: 800;
+		box-shadow: 0 6px 22px rgba(237, 67, 76, 0.35);
+	}
+
+	.donate-intro-cta-sub {
+		border-color: rgba(0, 32, 91, 0.28);
+		color: var(--color-base);
+		background: rgba(255, 255, 255, 0.85);
+		padding: 13px 22px;
+		font-weight: 700;
+	}
+
+	.donate-intro-cta-sub:hover {
+		background: rgba(0, 32, 91, 0.06);
+		border-color: var(--color-base);
+		color: var(--color-base);
+	}
+
+	.donate-intro-hint {
+		margin: 14px 0 0;
+		font-size: 12.5px;
+		color: rgba(0, 32, 91, 0.45);
+		max-width: 44ch;
+		line-height: 1.5;
+	}
+
+	/* Visual column */
+	.donate-intro-visual {
+		margin: 0;
+		position: relative;
+	}
+
+	.donate-intro-frame {
+		position: relative;
+		border-radius: 22px;
+		overflow: hidden;
+		box-shadow:
+			0 24px 48px rgba(0, 32, 91, 0.14),
+			0 0 0 1px rgba(255, 255, 255, 0.6) inset;
+		background: linear-gradient(135deg, rgba(42, 118, 181, 0.12) 0%, rgba(0, 32, 91, 0.06) 100%);
+		padding: 3px;
+	}
+
+	.donate-intro-img {
+		width: 100%;
+		aspect-ratio: 4 / 5;
+		object-fit: cover;
+		object-position: center top;
+		display: block;
+		border-radius: 19px;
+	}
+
+	.donate-intro-img-shine {
+		pointer-events: none;
+		position: absolute;
+		inset: 0;
+		border-radius: 19px;
+		background: linear-gradient(125deg, rgba(255, 255, 255, 0.35) 0%, transparent 42%, transparent 100%);
+		mix-blend-mode: soft-light;
+	}
+
+	.donate-intro-caption {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		margin-top: 14px;
+		font-size: 13px;
+		font-weight: 600;
+		color: rgba(0, 32, 91, 0.55);
+	}
+
+	.donate-intro-caption-dot {
+		width: 8px;
+		height: 8px;
+		border-radius: 50%;
+		background: #4ade80;
+		box-shadow: 0 0 0 3px rgba(74, 222, 128, 0.25);
+		animation: donate-cap-pulse 2.2s ease-in-out infinite;
+	}
+
+	@keyframes donate-cap-pulse {
+		0%,
+		100% {
+			opacity: 1;
+			transform: scale(1);
+		}
+		50% {
+			opacity: 0.85;
+			transform: scale(0.92);
+		}
+	}
+
+	/* ── Banda clara unificada (Membership + How to Donate) ─ */
+	.donate-light-band {
+		position: relative;
+		isolation: isolate;
+		overflow: hidden;
+		background:
+			linear-gradient(180deg, rgba(240, 248, 255, 0.65) 0%, transparent 42%),
+			linear-gradient(180deg, #eef3fb 0%, #fafcff 22%, #ffffff 52%, #f3f7fc 78%, #eef4fb 100%);
+	}
+
+	.donate-light-band::before {
+		content: '';
+		position: absolute;
+		left: 0;
+		right: 0;
+		top: 0;
+		height: 1px;
+		z-index: 4;
+		background: linear-gradient(90deg, transparent, rgba(42, 118, 181, 0.22), transparent);
+		pointer-events: none;
+	}
+
+	/* Capa océano / olas — envuelve Membership + How to Donate */
+	.donate-band-decor {
+		position: absolute;
+		inset: 0;
+		z-index: 0;
+		pointer-events: none;
+		overflow: hidden;
+	}
+
+	.donate-band-decor__mesh {
+		position: absolute;
+		inset: 0;
+		background:
+			radial-gradient(ellipse 65% 50% at 10% 18%, rgba(42, 118, 181, 0.16), transparent 58%),
+			radial-gradient(ellipse 50% 45% at 92% 12%, rgba(237, 67, 76, 0.08), transparent 52%),
+			radial-gradient(ellipse 55% 40% at 48% 88%, rgba(0, 32, 91, 0.06), transparent 55%),
+			radial-gradient(ellipse 35% 30% at 72% 45%, rgba(42, 118, 181, 0.05), transparent 50%);
+	}
+
+	.donate-band-decor__top {
+		position: absolute;
+		left: -8%;
+		right: -8%;
+		top: 0;
+		height: min(22vh, 180px);
+		line-height: 0;
+		opacity: 0.95;
+	}
+
+	.donate-band-decor__top svg {
+		width: 100%;
+		height: 100%;
+		display: block;
+	}
+
+	.donate-band-decor__bottom {
+		position: absolute;
+		left: -12%;
+		right: -12%;
+		bottom: 0;
+		height: min(46vh, 340px);
+		line-height: 0;
+	}
+
+	.donate-band-decor__bottom .donate-band-decor__svg {
+		position: absolute;
+		left: 0;
+		bottom: 0;
+		width: 100%;
+		height: auto;
+		min-height: 100px;
+		display: block;
+	}
+
+	.donate-band-decor__svg--b2 {
+		z-index: 0;
+		opacity: 0.92;
+	}
+
+	.donate-band-decor__svg--b1 {
+		z-index: 1;
+		bottom: -6px;
+		opacity: 1;
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		.donate-band-decor__svg--top {
+			animation: donate-wave-shift 26s ease-in-out infinite alternate;
+		}
+
+		.donate-band-decor__svg--b1 {
+			animation: donate-wave-shift 20s ease-in-out infinite alternate-reverse;
+		}
+
+		.donate-band-decor__svg--b2 {
+			animation: donate-wave-drift 24s ease-in-out infinite alternate;
+		}
+	}
+
+	@keyframes donate-wave-shift {
+		from {
+			transform: translateX(-2.5%);
+		}
+		to {
+			transform: translateX(2.5%);
+		}
+	}
+
+	@keyframes donate-wave-drift {
+		from {
+			transform: translateX(-1.5%) scaleY(1);
+		}
+		to {
+			transform: translateX(3%) scaleY(1.03);
+		}
+	}
+
+	/* Textura fina tipo sal / grano (muy sutil) */
+	.donate-band-decor__noise {
+		position: absolute;
+		inset: 0;
+		opacity: 0.45;
+		mix-blend-mode: soft-light;
+		background-image:
+			repeating-linear-gradient(
+				-12deg,
+				transparent,
+				transparent 1px,
+				rgba(0, 32, 91, 0.018) 1px,
+				rgba(0, 32, 91, 0.018) 2px
+			),
+			repeating-linear-gradient(
+				78deg,
+				transparent,
+				transparent 1px,
+				rgba(42, 118, 181, 0.012) 1px,
+				rgba(42, 118, 181, 0.012) 2px
+			);
+		pointer-events: none;
+	}
+
+	.donate-light-band > section,
+	.donate-light-band > .donate-band-divider {
+		position: relative;
+		z-index: 1;
+	}
+
+	.donate-band-divider {
+		height: 1px;
+		max-width: min(720px, 92vw);
+		margin: 0 auto;
+		background: linear-gradient(90deg, transparent, rgba(0, 32, 91, 0.1), transparent);
+	}
+
+	.membership-section {
+		position: relative;
+		padding-bottom: 28px;
+		overflow: hidden;
+	}
+
+	.membership-ambient {
+		position: absolute;
+		inset: -12% -20% auto;
+		height: min(420px, 55vw);
+		pointer-events: none;
+		background:
+			radial-gradient(ellipse 70% 60% at 12% 30%, rgba(42, 118, 181, 0.07), transparent 55%),
+			radial-gradient(ellipse 55% 50% at 88% 20%, rgba(237, 67, 76, 0.05), transparent 50%),
+			radial-gradient(ellipse 40% 35% at 50% 80%, rgba(0, 32, 91, 0.03), transparent 60%);
+	}
+
+	.membership-wrap {
+		position: relative;
+		z-index: 1;
+		max-width: 980px;
+		margin: 0 auto;
+	}
+
+	.membership-hero {
+		text-align: center;
+		max-width: 640px;
+		margin: 0 auto 8px;
+	}
+
+	.membership-kicker-centered {
+		margin-bottom: 10px;
+	}
+
+	.membership-title-xl {
+		margin: 0 0 14px;
+		letter-spacing: -0.02em;
+	}
+
+	.membership-title-rule {
+		width: 56px;
+		height: 4px;
+		margin: 0 auto;
+		border-radius: 4px;
+		background: linear-gradient(90deg, var(--color-accent), var(--color-primary));
+		opacity: 0.9;
+	}
+
+	.membership-grid-top {
+		display: grid;
+		gap: 18px;
+		margin-top: 32px;
+	}
+
+	@media (min-width: 720px) {
+		.membership-grid-top {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: 22px;
+		}
+	}
+
+	.membership-tier-card {
+		position: relative;
+		border-radius: 22px;
+		padding: 26px 22px 28px;
+		background: linear-gradient(165deg, #ffffff 0%, #f5f9ff 52%, #fafcff 100%);
+		border: 1px solid rgba(0, 32, 91, 0.09);
+		box-shadow:
+			0 10px 36px rgba(0, 32, 91, 0.07),
+			0 0 0 1px rgba(255, 255, 255, 0.85) inset;
+		overflow: hidden;
+		transition:
+			transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+			box-shadow 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+			border-color 0.35s ease;
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		.membership-tier-card:hover {
+			transform: translateY(-6px);
+			box-shadow:
+				0 22px 52px rgba(0, 32, 91, 0.14),
+				0 0 0 1px rgba(42, 118, 181, 0.12) inset;
+			border-color: rgba(42, 118, 181, 0.22);
+		}
+	}
+
+	.membership-tier-shine {
+		position: absolute;
+		inset: -40% -50% auto auto;
+		width: 70%;
+		height: 100%;
+		background: linear-gradient(
+			118deg,
+			transparent 35%,
+			rgba(255, 255, 255, 0.55) 48%,
+			transparent 62%
+		);
+		opacity: 0;
+		transform: translateX(-25%) rotate(0deg);
+		transition:
+			opacity 0.45s ease,
+			transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+		pointer-events: none;
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		.membership-tier-card:hover .membership-tier-shine {
+			opacity: 1;
+			transform: translateX(35%) rotate(0deg);
+		}
+	}
+
+	.membership-tier-icon {
+		width: 52px;
+		height: 52px;
+		border-radius: 50%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin-bottom: 16px;
+		color: var(--color-primary);
+		background: linear-gradient(145deg, rgba(42, 118, 181, 0.2) 0%, rgba(0, 32, 91, 0.08) 100%);
+		border: 1px solid rgba(42, 118, 181, 0.22);
+		box-shadow: 0 4px 14px rgba(42, 118, 181, 0.12);
+	}
+
+	.membership-tier-icon svg {
+		width: 26px;
+		height: 26px;
+	}
+
+	.membership-tier-icon--monthly {
+		background: linear-gradient(145deg, rgba(42, 118, 181, 0.14) 0%, rgba(0, 32, 91, 0.06) 100%);
+	}
+
+	.membership-tier-name {
+		margin: 0 0 10px;
+		font-size: 1.125rem;
+		font-weight: 700;
+		color: var(--color-base);
+		letter-spacing: -0.015em;
+	}
+
+	.membership-tier-desc {
+		margin: 0;
+		font-size: 15px;
+		line-height: 1.72;
+		color: var(--color-muted);
+	}
+
+	.membership-bridge {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 14px;
+		flex-wrap: wrap;
+		margin: 28px auto 26px;
+		max-width: 620px;
+		text-align: center;
+	}
+
+	.membership-bridge-line {
+		flex: 1 1 48px;
+		max-width: 100px;
+		height: 1px;
+		background: linear-gradient(90deg, transparent, rgba(0, 32, 91, 0.14), transparent);
+	}
+
+	.membership-bridge-text {
+		flex: 1 1 220px;
+		margin: 0;
+		font-size: 15px;
+		line-height: 1.65;
+		font-style: italic;
+		color: var(--color-muted);
+	}
+
+	.membership-grid-bottom {
+		display: grid;
+		gap: 16px;
+	}
+
+	@media (min-width: 720px) {
+		.membership-grid-bottom {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: 18px;
+		}
+	}
+
+	.membership-spotlight {
+		display: flex;
+		gap: 16px;
+		align-items: flex-start;
+		padding: 20px 18px 22px;
+		border-radius: 18px;
+		border: 1px solid transparent;
+		transition:
+			transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+			box-shadow 0.35s ease;
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		.membership-spotlight:hover {
+			transform: translateY(-3px);
+			box-shadow: 0 14px 36px rgba(0, 32, 91, 0.1);
+		}
+	}
+
+	.membership-spotlight--tax {
+		background: linear-gradient(155deg, rgba(42, 118, 181, 0.12) 0%, rgba(42, 118, 181, 0.05) 100%);
+		border-color: rgba(42, 118, 181, 0.2);
+	}
+
+	.membership-spotlight--angel {
+		background: linear-gradient(155deg, rgba(237, 67, 76, 0.1) 0%, rgba(237, 67, 76, 0.04) 100%);
+		border-color: rgba(237, 67, 76, 0.16);
+	}
+
+	.membership-spotlight-icon {
+		flex-shrink: 0;
+		width: 44px;
+		height: 44px;
+		border-radius: 12px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background: rgba(42, 118, 181, 0.18);
+		color: var(--color-primary);
+		border: 1px solid rgba(42, 118, 181, 0.22);
+	}
+
+	.membership-spotlight-icon svg {
+		width: 22px;
+		height: 22px;
+	}
+
+	.membership-spotlight-icon--angel {
+		background: rgba(237, 67, 76, 0.12);
+		color: #c42d3a;
+		border-color: rgba(237, 67, 76, 0.22);
+	}
+
+	.membership-spotlight-title {
+		margin: 0 0 6px;
+		font-size: 1rem;
+		font-weight: 700;
+		color: var(--color-base);
+		letter-spacing: -0.01em;
+	}
+
+	.membership-spotlight-text {
+		margin: 0;
+		font-size: 14px;
+		line-height: 1.65;
+		color: var(--color-muted);
+	}
+
+	.membership-every {
+		position: relative;
+		margin-top: 22px;
+		border-radius: 22px;
+		padding: 28px 22px 32px;
+		overflow: hidden;
+		background: linear-gradient(
+			180deg,
+			rgba(42, 118, 181, 0.1) 0%,
+			rgba(248, 251, 255, 0.95) 42%,
+			#ffffff 100%
+		);
+		border: 1px solid rgba(42, 118, 181, 0.14);
+		box-shadow: 0 12px 40px rgba(0, 32, 91, 0.08);
+	}
+
+	.membership-every-blob {
+		position: absolute;
+		width: 200px;
+		height: 200px;
+		top: -60px;
+		right: -40px;
+		border-radius: 50%;
+		background: radial-gradient(circle, rgba(42, 118, 181, 0.18), transparent 68%);
+		pointer-events: none;
+	}
+
+	.membership-every-inner {
+		position: relative;
+		z-index: 1;
+		text-align: center;
+		max-width: 560px;
+		margin: 0 auto;
+	}
+
+	.membership-every-heart {
+		display: block;
+		margin: 0 auto 14px;
+		width: 40px;
+		height: 40px;
+		object-fit: contain;
+		opacity: 0.92;
+		filter: drop-shadow(0 2px 8px rgba(42, 118, 181, 0.25));
+	}
+
+	.membership-every-text {
+		margin: 0;
+		font-size: clamp(1rem, 2.5vw, 1.0625rem);
+		font-weight: 700;
+		line-height: 1.55;
+		color: var(--color-base);
+	}
+
+	/* ── How to donate (premium cards + reveal) ─────────── */
+	.how-section {
+		position: relative;
+		padding-top: 12px;
+		padding-bottom: 8px;
+		overflow: hidden;
+	}
+
+	.how-ambient {
+		position: absolute;
+		inset: -8% -15% auto;
+		height: min(380px, 50vw);
+		pointer-events: none;
+		background:
+			radial-gradient(ellipse 55% 55% at 15% 25%, rgba(42, 118, 181, 0.05), transparent 55%),
+			radial-gradient(ellipse 45% 45% at 92% 35%, rgba(0, 32, 91, 0.04), transparent 50%);
+	}
+
+	.how-section .container {
+		position: relative;
+		z-index: 1;
+	}
+
+	.how-header {
+		text-align: center;
+		max-width: 540px;
+		margin: 0 auto 36px;
+	}
+
+	.how-kicker {
+		margin-bottom: 8px;
+	}
+
+	.how-title {
+		margin: 0 0 12px;
+		letter-spacing: -0.02em;
+	}
+
+	.how-title-rule {
+		width: 48px;
+		height: 4px;
+		margin: 0 auto 14px;
+		border-radius: 4px;
+		background: linear-gradient(90deg, var(--color-accent), var(--color-primary));
+		opacity: 0.92;
+	}
+
+	.how-sub {
+		margin: 0;
+		font-size: 15px;
+		line-height: 1.62;
+		color: var(--color-muted);
+	}
+
+	.methods-grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 18px;
+		align-items: stretch;
+	}
+
+	@media (min-width: 640px) {
+		.methods-grid {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: 20px;
+		}
+
+		.method-card--bank {
+			grid-column: 1 / -1;
+		}
+	}
+
+	@media (min-width: 960px) {
+		.methods-grid {
+			gap: 22px;
+		}
+	}
+
+	.method-card {
+		position: relative;
+		padding: 24px 20px 22px;
+		display: flex;
+		flex-direction: column;
+		gap: 0;
+		min-height: 100%;
+		background: linear-gradient(165deg, #ffffff 0%, #f6f9ff 48%, #fafcff 100%);
+		border: 1px solid rgba(0, 32, 91, 0.09);
+		border-radius: 22px;
+		box-shadow:
+			0 10px 36px rgba(0, 32, 91, 0.07),
+			0 0 0 1px rgba(255, 255, 255, 0.85) inset;
+		overflow: hidden;
+		transition:
+			transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+			box-shadow 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+			border-color 0.35s ease;
+	}
+
+	.method-card::before {
+		content: '';
+		position: absolute;
+		left: 0;
+		right: 0;
+		top: 0;
+		height: 3px;
+		background: linear-gradient(90deg, var(--color-accent) 0%, var(--color-primary) 55%, rgba(42, 118, 181, 0.35) 100%);
+		opacity: 0.55;
+		pointer-events: none;
+	}
+
+	.method-card--bank::before {
+		height: 4px;
+		opacity: 0.95;
+		background: linear-gradient(90deg, var(--color-accent) 0%, var(--color-primary) 40%, var(--color-accent) 100%);
+	}
+
+	.method-card-shine {
+		position: absolute;
+		inset: -35% -45% auto auto;
+		width: 65%;
+		height: 95%;
+		background: linear-gradient(
+			118deg,
+			transparent 36%,
+			rgba(255, 255, 255, 0.5) 49%,
+			transparent 62%
+		);
+		opacity: 0;
+		transform: translateX(-22%);
+		transition:
+			opacity 0.45s ease,
+			transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+		pointer-events: none;
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		.method-card:hover {
+			transform: translateY(-6px);
+			box-shadow:
+				0 22px 52px rgba(0, 32, 91, 0.13),
+				0 0 0 1px rgba(42, 118, 181, 0.1) inset;
+			border-color: rgba(42, 118, 181, 0.22);
+		}
+
+		.method-card:hover .method-card-shine {
+			opacity: 1;
+			transform: translateX(32%);
+		}
+
+		.method-card:hover .method-icon {
+			transform: scale(1.06);
+			box-shadow: 0 6px 18px rgba(42, 118, 181, 0.18);
+		}
+	}
+
+	.method-card-top {
+		display: flex;
+		align-items: flex-start;
+		gap: 14px;
+		margin-bottom: 14px;
+	}
+
+	.method-icon {
+		flex-shrink: 0;
+		width: 50px;
+		height: 50px;
+		border-radius: 50%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		transition:
+			transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+			box-shadow 0.35s ease;
+	}
+
+	.method-icon svg {
+		width: 24px;
+		height: 24px;
+	}
+
+	.method-icon--us {
+		background: linear-gradient(145deg, rgba(42, 118, 181, 0.2) 0%, rgba(0, 32, 91, 0.08) 100%);
+		color: var(--color-primary);
+		border: 1px solid rgba(42, 118, 181, 0.24);
+	}
+
+	.method-icon--paypal {
+		background: linear-gradient(145deg, rgba(0, 55, 150, 0.14) 0%, rgba(0, 55, 150, 0.05) 100%);
+		color: #0037a0;
+		border: 1px solid rgba(0, 55, 150, 0.18);
+	}
+
+	.method-icon--bank {
+		background: linear-gradient(145deg, rgba(0, 32, 91, 0.12) 0%, rgba(42, 118, 181, 0.08) 100%);
+		color: var(--color-base);
+		border: 1px solid rgba(0, 32, 91, 0.14);
+	}
+
+	.method-title {
+		margin: 0;
+		padding-top: 2px;
+		font-size: clamp(1rem, 2.2vw, 1.0625rem);
+		font-weight: 800;
+		line-height: 1.28;
+		color: var(--color-base);
+		letter-spacing: -0.02em;
+	}
+
+	.method-body {
+		margin: 0;
+		font-size: 14px;
+		line-height: 1.72;
+		color: var(--color-muted);
+		flex: 1;
+	}
+
+	.method-card-footer {
+		margin-top: auto;
+		padding-top: 18px;
+	}
+
+	.method-btn {
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+		font-size: 14px;
+		padding: 11px 18px;
+		transition:
+			transform 0.25s ease,
+			box-shadow 0.25s ease;
+	}
+
+	.method-btn-arrow {
+		width: 14px;
+		height: 14px;
+		flex-shrink: 0;
+		transition: transform 0.25s ease;
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		.method-card:hover .method-btn {
+			box-shadow: 0 6px 20px rgba(42, 118, 181, 0.35);
+		}
+
+		.method-card:hover .method-btn-arrow {
+			transform: translateX(3px);
+		}
+	}
+
+	/* Bank transfer */
+	.method-bank-meta {
+		margin-bottom: 12px;
+	}
+
+	.bank-line {
+		margin: 0;
+		font-size: 14px;
+		line-height: 1.5;
+	}
+
+	.bank-name {
+		font-weight: 700;
+	}
+
+	.bank-accounts {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 12px;
+		margin-top: 2px;
+	}
+
+	@media (min-width: 520px) {
+		.method-card--bank .bank-accounts {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: 14px;
+		}
+	}
+
+	.bank-account {
+		position: relative;
+		background: linear-gradient(180deg, rgba(0, 32, 91, 0.04) 0%, rgba(42, 118, 181, 0.05) 100%);
+		border: 1px solid rgba(0, 32, 91, 0.08);
+		border-radius: 14px;
+		padding: 14px 14px 14px 16px;
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+		transition:
+			border-color 0.3s ease,
+			box-shadow 0.3s ease;
+	}
+
+	.bank-account::before {
+		content: '';
+		position: absolute;
+		left: 0;
+		top: 12px;
+		bottom: 12px;
+		width: 3px;
+		border-radius: 0 3px 3px 0;
+		background: linear-gradient(180deg, var(--color-primary), var(--color-accent));
+		opacity: 0.85;
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		.method-card--bank:hover .bank-account {
+			border-color: rgba(42, 118, 181, 0.2);
+			box-shadow: 0 4px 16px rgba(0, 32, 91, 0.06);
+		}
+	}
+
+	.bank-account-label {
+		font-size: 10px;
+		font-weight: 800;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		color: var(--color-primary);
+	}
+
+	.bank-num,
+	.bank-iban {
+		font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, monospace;
+		font-size: 12px;
+		line-height: 1.45;
+		color: var(--color-text);
+		background: transparent;
+		user-select: all;
+		word-break: break-all;
+	}
+
+	/* ── Important (banda + tarjeta premium + pasos) ─────── */
+	.important-section {
+		position: relative;
+		padding-top: 12px;
+		padding-bottom: 48px;
+		overflow: hidden;
+	}
+
+	.important-ambient {
+		position: absolute;
+		inset: 0;
+		pointer-events: none;
+		background:
+			radial-gradient(ellipse 70% 55% at 50% -10%, rgba(42, 118, 181, 0.09), transparent 55%),
+			linear-gradient(180deg, #eef3fb 0%, #f6f9fd 38%, #fafbfc 100%);
+	}
+
+	.important-container {
+		position: relative;
+		z-index: 1;
+		max-width: 820px;
+	}
+
+	.important-box {
+		position: relative;
+		padding: 26px 20px 28px;
+		border-radius: 24px;
+		border: 1px solid rgba(0, 32, 91, 0.09);
+		background: linear-gradient(165deg, #ffffff 0%, #f5f9ff 55%, #fafcff 100%);
+		box-shadow:
+			0 16px 48px rgba(0, 32, 91, 0.08),
+			0 0 0 1px rgba(255, 255, 255, 0.9) inset;
+		overflow: hidden;
+		transition:
+			box-shadow 0.35s ease,
+			border-color 0.35s ease;
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		.important-box:hover {
+			box-shadow:
+				0 22px 56px rgba(0, 32, 91, 0.11),
+				0 0 0 1px rgba(42, 118, 181, 0.08) inset;
+			border-color: rgba(42, 118, 181, 0.16);
+		}
+	}
+
+	.important-box::before {
+		content: '';
+		position: absolute;
+		left: 0;
+		top: 0;
+		bottom: 0;
+		width: 4px;
+		background: linear-gradient(180deg, var(--color-accent) 0%, var(--color-primary) 45%, rgba(42, 118, 181, 0.35) 100%);
+		border-radius: 0 0 0 24px;
+		pointer-events: none;
+	}
+
+	.important-box::after {
+		content: '';
+		position: absolute;
+		left: 0;
+		right: 0;
+		top: 0;
+		height: 3px;
+		background: linear-gradient(90deg, var(--color-accent), var(--color-primary));
+		opacity: 0.75;
+		pointer-events: none;
+	}
+
+	.important-box-shine {
+		position: absolute;
+		inset: -40% -50% auto auto;
+		width: 70%;
+		height: 100%;
+		background: linear-gradient(
+			118deg,
+			transparent 38%,
+			rgba(255, 255, 255, 0.55) 50%,
+			transparent 62%
+		);
+		opacity: 0;
+		transform: translateX(-20%);
+		transition:
+			opacity 0.45s ease,
+			transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+		pointer-events: none;
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		.important-box:hover .important-box-shine {
+			opacity: 1;
+			transform: translateX(28%);
+		}
+	}
+
+	.important-box-inner {
+		position: relative;
+		z-index: 1;
+	}
+
+	.important-header {
+		display: flex;
+		align-items: flex-start;
+		gap: 16px;
+		margin-bottom: 20px;
+	}
+
+	.important-heading-block {
+		flex: 1;
+		min-width: 0;
+	}
+
+	.important-icon {
+		width: 48px;
+		height: 48px;
+		border-radius: 14px;
+		background: linear-gradient(145deg, rgba(237, 67, 76, 0.18) 0%, rgba(237, 67, 76, 0.06) 100%);
+		color: #c42d3a;
+		border: 1px solid rgba(237, 67, 76, 0.22);
+		box-shadow: 0 4px 14px rgba(237, 67, 76, 0.12);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-shrink: 0;
+	}
+
+	.important-icon svg {
+		width: 24px;
+		height: 24px;
+	}
+
+	.important-title {
+		margin: 0 0 10px;
+		font-size: clamp(1.35rem, 3.5vw, 1.6rem);
+		font-weight: 800;
+		letter-spacing: -0.03em;
+		line-height: 1.2;
+		color: var(--color-base);
+	}
+
+	.important-title-rule {
+		width: 44px;
+		height: 3px;
+		border-radius: 3px;
+		background: linear-gradient(90deg, var(--color-accent), var(--color-primary));
+		opacity: 0.9;
+	}
+
+	.important-intro {
+		margin: 0 0 22px;
+		font-size: 15px;
+		line-height: 1.68;
+		font-weight: 600;
+		color: var(--color-muted);
+		max-width: 54ch;
+	}
+
+	.important-form-note {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 18px;
+		align-items: center;
+		margin-bottom: 28px;
+		padding: 18px 18px 20px;
+		border-radius: 18px;
+		background: linear-gradient(135deg, rgba(42, 118, 181, 0.1) 0%, rgba(42, 118, 181, 0.04) 100%);
+		border: 1px solid rgba(42, 118, 181, 0.2);
+		transition:
+			transform 0.3s ease,
+			box-shadow 0.3s ease,
+			border-color 0.3s ease;
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		.important-form-note:hover {
+			transform: translateY(-2px);
+			box-shadow: 0 12px 32px rgba(0, 32, 91, 0.09);
+			border-color: rgba(42, 118, 181, 0.28);
+		}
+	}
+
+	.important-form-note-icon {
+		width: 44px;
+		height: 44px;
+		border-radius: 12px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background: rgba(255, 255, 255, 0.75);
+		color: var(--color-primary);
+		border: 1px solid rgba(42, 118, 181, 0.2);
+		box-shadow: 0 2px 10px rgba(42, 118, 181, 0.12);
+	}
+
+	.important-form-note-icon svg {
+		width: 22px;
+		height: 22px;
+	}
+
+	.important-form-note-copy p {
+		margin: 0;
+		font-size: 14px;
+		line-height: 1.72;
+		color: var(--color-text);
+		font-weight: 500;
+		max-width: 56ch;
+	}
+
+	.important-form-btn {
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+		white-space: nowrap;
+		transition: transform 0.25s ease, box-shadow 0.25s ease;
+	}
+
+	.important-form-btn-arrow {
+		width: 14px;
+		height: 14px;
+		flex-shrink: 0;
+		transition: transform 0.25s ease;
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		.important-form-note:hover .important-form-btn-arrow {
+			transform: translateX(3px);
+		}
+	}
+
+	@media (min-width: 720px) {
+		.important-form-note {
+			grid-template-columns: auto 1fr auto;
+			gap: 20px 24px;
+			padding: 22px 24px;
+		}
+
+		.important-form-note-icon {
+			align-self: start;
+		}
+	}
+
+	.important-steps {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+	}
+
+	.important-step {
+		display: flex;
+		align-items: flex-start;
+		gap: 14px;
+		padding: 16px 16px 18px;
+		border-radius: 16px;
+		background: rgba(255, 255, 255, 0.65);
+		border: 1px solid rgba(0, 32, 91, 0.07);
+		box-shadow: 0 2px 12px rgba(0, 32, 91, 0.04);
+		transition:
+			transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+			box-shadow 0.3s ease,
+			border-color 0.3s ease,
+			background 0.3s ease;
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		.important-step:hover {
+			transform: translateY(-3px);
+			box-shadow: 0 14px 36px rgba(0, 32, 91, 0.1);
+			border-color: rgba(42, 118, 181, 0.18);
+			background: #ffffff;
+		}
+	}
+
+	.important-step-body {
+		flex: 1;
+		min-width: 0;
+		font-size: 14px;
+		line-height: 1.65;
+		color: var(--color-text);
+	}
+
+	.important-step-text {
+		margin: 0;
+		font-weight: 500;
+		color: var(--color-text);
+	}
+
+	.step-num {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 32px;
+		height: 32px;
+		border-radius: 50%;
+		background: linear-gradient(145deg, var(--color-accent) 0%, #e02a35 100%);
+		color: white;
+		font-weight: 800;
+		font-size: 13px;
+		flex-shrink: 0;
+		margin-top: 2px;
+		box-shadow:
+			0 2px 8px rgba(237, 67, 76, 0.35),
+			0 0 0 2px rgba(255, 255, 255, 0.8) inset;
+	}
+
+	.important-contact-grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 10px;
+		margin-top: 14px;
+	}
+
+	@media (min-width: 480px) {
+		.important-contact-grid {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: 12px;
+		}
+	}
+
+	.important-contact-item {
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+		padding: 10px 12px;
+		border-radius: 12px;
+		background: rgba(42, 118, 181, 0.06);
+		border: 1px solid rgba(42, 118, 181, 0.12);
+		transition: background 0.25s ease, border-color 0.25s ease;
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		.important-step:hover .important-contact-item {
+			background: rgba(42, 118, 181, 0.08);
+			border-color: rgba(42, 118, 181, 0.18);
+		}
+	}
+
+	.important-contact-label {
+		font-size: 10px;
+		font-weight: 800;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		color: var(--color-primary);
+	}
+
+	.important-contact-item a {
+		color: var(--color-primary);
+		font-weight: 700;
+		font-size: 13px;
+		text-decoration: none;
+		word-break: break-word;
+		border-bottom: 1px solid rgba(42, 118, 181, 0.35);
+		transition: color 0.2s ease, border-color 0.2s ease;
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		.important-contact-item a:hover {
+			color: var(--color-base);
+			border-bottom-color: var(--color-accent);
+		}
+	}
+
+	@media (min-width: 560px) {
+		.important-box {
+			padding: 34px 32px 38px;
+		}
+	}
+</style>

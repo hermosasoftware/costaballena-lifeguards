@@ -1,0 +1,13 @@
+---
+import { copy, type Lang } from '../i18n/copy';
+import CommunitySupportPage from '../components/CommunitySupportPage.astro';
+import SiteLayout from '../layouts/SiteLayout.astro';
+
+const lang: Lang = 'en';
+const c = copy[lang];
+---
+
+<SiteLayout lang={lang} title={c.pages.communityTitle}>
+	<CommunitySupportPage lang={lang} />
+</SiteLayout>
+

@@ -1,0 +1,786 @@
+---
+import { copy, type Lang } from '../i18n/copy';
+import { getRoutes } from '../i18n/routes';
+import { sponsorLogos } from '../data/sponsorLogos';
+import { sponsorLogosPlayaHermosa } from '../data/sponsorLogosPlayaHermosa';
+
+interface Props {
+	lang: Lang;
+}
+
+const { lang } = Astro.props;
+const c = copy[lang];
+const p = c.pages;
+const routes = getRoutes(lang);
+
+const nameKey = lang === 'es' ? 'nameEs' : 'nameEn';
+const altSuffix = lang === 'es' ? 'logo de aliado' : 'partner logo';
+const logos = sponsorLogos.map((s) => {
+	const name = s[nameKey];
+	return {
+		href: s.href,
+		alt: `${name} — ${altSuffix}`,
+		name,
+	};
+});
+const logosHermosa = sponsorLogosPlayaHermosa.map((s) => {
+	const name = s[nameKey];
+	return {
+		href: s.href,
+		alt: `${name} — ${altSuffix}`,
+		name,
+	};
+});
+
+const fuelParas = p.communityFuelParagraphs;
+const hermosaParas = p.communityHermosaParagraphs;
+
+const nav = c.nav;
+---
+
+<main class="community-page">
+	<section class="community-hero" aria-labelledby="community-hero-title">
+		<div class="community-hero-bg" aria-hidden="true"></div>
+		<div class="community-hero-waves" aria-hidden="true">
+			<svg class="community-wave community-wave--top" viewBox="0 0 1440 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+				<path fill="rgba(42, 118, 181, 0.08)" d="M0 100V48Q360 8 720 52T1440 38V100H0z"></path>
+			</svg>
+		</div>
+		<div class="container community-hero-inner">
+			<p class="kicker community-kicker reveal">{p.communityKicker}</p>
+			<h1 id="community-hero-title" class="community-hero-title reveal reveal-d1">{p.communityHeroTitle}</h1>
+			<div class="community-hero-rule reveal reveal-d1" aria-hidden="true"></div>
+			<div class="community-fuel-copy">
+				{
+					fuelParas.map((para, i) => (
+						<p class={`community-fuel-p reveal reveal-d${Math.min(i + 2, 6)}`}>{para}</p>
+					))
+				}
+			</div>
+		</div>
+	</section>
+
+	<section class="community-marquee-section" aria-labelledby="marquee-heading">
+		<div class="container">
+			<h2 id="marquee-heading" class="community-section-label reveal">{p.communityMarqueeLabel}</h2>
+		</div>
+		<div class="community-marquee" role="region" aria-label={p.communityMarqueeAria}>
+			<div class="community-marquee-fade community-marquee-fade--left" aria-hidden="true"></div>
+			<div class="community-marquee-fade community-marquee-fade--right" aria-hidden="true"></div>
+			<div class="community-marquee-track community-marquee-track--a">
+				{
+					[0, 1].flatMap((dup) =>
+						logos.map((logo, i) => (
+							<div class="community-marquee-item">
+								<img
+									src={logo.href}
+									alt=""
+									class="community-marquee-img"
+									width={280}
+									height={72}
+									loading={dup === 0 && i < 3 ? 'eager' : 'lazy'}
+									decoding="async"
+								/>
+							</div>
+						))
+					)
+				}
+			</div>
+		</div>
+		<div class="community-marquee community-marquee--b" aria-hidden="true">
+			<div class="community-marquee-fade community-marquee-fade--left" aria-hidden="true"></div>
+			<div class="community-marquee-fade community-marquee-fade--right" aria-hidden="true"></div>
+			<div class="community-marquee-track community-marquee-track--b">
+				{
+					[0, 1].flatMap(() =>
+						[...logos].reverse().map((logo) => (
+							<div class="community-marquee-item">
+								<img
+									src={logo.href}
+									alt=""
+									class="community-marquee-img"
+									width={280}
+									height={72}
+									loading="lazy"
+									decoding="async"
+								/>
+							</div>
+						))
+					)
+				}
+			</div>
+		</div>
+	</section>
+
+	<section class="community-grid-section" aria-labelledby="grid-heading">
+		<div class="container">
+			<h2 id="grid-heading" class="community-grid-title reveal">{p.communityGridTitle}</h2>
+			<ul class="community-grid">
+				{
+					logos.map((logo, index) => (
+						<li
+							class={`community-card reveal reveal-d${(index % 6) + 1}`}
+							style={`--i:${index}`}
+						>
+							<div class="community-card-inner">
+								<div class="community-card-shine" aria-hidden="true"></div>
+								<div class="community-card-frame">
+									<img
+										src={logo.href}
+										alt={logo.alt}
+										class="community-card-img"
+										width={320}
+										height={120}
+										loading="lazy"
+										decoding="async"
+									/>
+								</div>
+								<p class="community-card-name">{logo.name}</p>
+							</div>
+						</li>
+					))
+				}
+			</ul>
+		</div>
+	</section>
+
+	<section class="community-hermosa-band" aria-labelledby="hermosa-heading">
+		<div class="community-hermosa-bg" aria-hidden="true"></div>
+		<div class="container community-hermosa-intro">
+			<h2 id="hermosa-heading" class="community-hermosa-title reveal">{p.communityHermosaTitle}</h2>
+			<div class="community-hermosa-rule reveal" aria-hidden="true"></div>
+			{
+				hermosaParas.map((para, i) => (
+					<p class={`community-hermosa-p reveal reveal-d${i + 1}`}>{para}</p>
+				))
+			}
+		</div>
+
+		<div class="community-marquee-section community-marquee-section--hermosa">
+			<div class="container">
+				<h3 class="community-section-label community-section-label--hermosa reveal">{p.communityHermosaMarqueeLabel}</h3>
+			</div>
+			<div class="community-marquee community-marquee--hermosa" role="region" aria-label={p.communityHermosaMarqueeAria}>
+				<div class="community-marquee-fade community-marquee-fade--left community-marquee-fade--hermosa" aria-hidden="true"></div>
+				<div class="community-marquee-fade community-marquee-fade--right community-marquee-fade--hermosa" aria-hidden="true"></div>
+				<div class="community-marquee-track community-marquee-track--a community-marquee-track--hermosa">
+					{
+						[0, 1].flatMap((dup) =>
+							logosHermosa.map((logo, i) => (
+								<div class="community-marquee-item">
+									<img
+										src={logo.href}
+										alt=""
+										class="community-marquee-img"
+										width={280}
+										height={72}
+										loading={dup === 0 && i < 3 ? 'eager' : 'lazy'}
+										decoding="async"
+									/>
+								</div>
+							))
+						)
+					}
+				</div>
+			</div>
+			<div class="community-marquee community-marquee--b community-marquee--hermosa-b" aria-hidden="true">
+				<div class="community-marquee-fade community-marquee-fade--left community-marquee-fade--hermosa" aria-hidden="true"></div>
+				<div class="community-marquee-fade community-marquee-fade--right community-marquee-fade--hermosa" aria-hidden="true"></div>
+				<div class="community-marquee-track community-marquee-track--b community-marquee-track--hermosa">
+					{
+						[0, 1].flatMap(() =>
+							[...logosHermosa].reverse().map((logo) => (
+								<div class="community-marquee-item">
+									<img
+										src={logo.href}
+										alt=""
+										class="community-marquee-img"
+										width={280}
+										height={72}
+										loading="lazy"
+										decoding="async"
+									/>
+								</div>
+							))
+						)
+					}
+				</div>
+			</div>
+		</div>
+
+		<div class="container community-grid-section community-grid-section--hermosa">
+			<h3 id="hermosa-grid-heading" class="community-grid-title community-grid-title--hermosa reveal">
+				{p.communityHermosaGridTitle}
+			</h3>
+			<ul class="community-grid" aria-labelledby="hermosa-grid-heading">
+				{
+					logosHermosa.map((logo, index) => (
+						<li
+							class={`community-card community-card--hermosa reveal reveal-d${(index % 6) + 1}`}
+							style={`--i:${index}`}
+						>
+							<div class="community-card-inner community-card-inner--hermosa">
+								<div class="community-card-shine" aria-hidden="true"></div>
+								<div class="community-card-frame">
+									<img
+										src={logo.href}
+										alt={logo.alt}
+										class="community-card-img"
+										width={320}
+										height={120}
+										loading="lazy"
+										decoding="async"
+									/>
+								</div>
+								<p class="community-card-name">{logo.name}</p>
+							</div>
+						</li>
+					))
+				}
+			</ul>
+		</div>
+	</section>
+
+	<section class="community-cta-section" aria-labelledby="cta-heading">
+		<div class="container community-cta-wrap">
+			<div class="community-cta reveal reveal-scale">
+				<div class="community-cta-glow" aria-hidden="true"></div>
+				<h2 id="cta-heading" class="community-cta-title">{p.communityCtaTitle}</h2>
+				<p class="community-cta-body">{p.communityCtaBody}</p>
+				<div class="community-cta-actions">
+					<a class="btn btn-primary community-cta-btn" href={routes.donate}>
+						{p.communityCtaBtn}
+						<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" class="community-cta-arrow" aria-hidden="true">
+							<path d="M3 8h10M9 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"></path>
+						</svg>
+					</a>
+					<a class="btn btn-outline community-cta-secondary" href={routes.contact}>{nav.contact}</a>
+				</div>
+			</div>
+		</div>
+	</section>
+</main>
+
+<style>
+	.community-page {
+		overflow-x: hidden;
+	}
+
+	/* ── Hero ─────────────────────────────────────────────── */
+	.community-hero {
+		position: relative;
+		padding: clamp(32px, 6vw, 56px) 0 clamp(40px, 7vw, 64px);
+		overflow: hidden;
+	}
+
+	.community-hero-bg {
+		position: absolute;
+		inset: 0;
+		background:
+			radial-gradient(ellipse 80% 60% at 50% -20%, rgba(42, 118, 181, 0.14), transparent 55%),
+			linear-gradient(180deg, #f0f5fc 0%, #fafcff 45%, #ffffff 100%);
+		pointer-events: none;
+	}
+
+	.community-hero-waves {
+		position: absolute;
+		left: -10%;
+		right: -10%;
+		top: 0;
+		height: min(20vh, 160px);
+		opacity: 0.85;
+		pointer-events: none;
+	}
+
+	.community-wave {
+		width: 100%;
+		height: 100%;
+		display: block;
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		.community-wave--top {
+			animation: community-wave-float 22s ease-in-out infinite alternate;
+		}
+	}
+
+	@keyframes community-wave-float {
+		from {
+			transform: translateX(-2%);
+		}
+		to {
+			transform: translateX(2%);
+		}
+	}
+
+	.community-hero-inner {
+		position: relative;
+		z-index: 1;
+		max-width: 720px;
+		margin: 0 auto;
+		text-align: center;
+	}
+
+	.community-kicker {
+		margin-bottom: 12px;
+	}
+
+	.community-hero-title {
+		margin: 0 0 14px;
+		font-size: clamp(2rem, 5vw, 2.75rem);
+		font-weight: 800;
+		letter-spacing: -0.03em;
+		line-height: 1.12;
+		color: var(--color-base);
+	}
+
+	.community-hero-rule {
+		width: 56px;
+		height: 4px;
+		margin: 0 auto 20px;
+		border-radius: 4px;
+		background: linear-gradient(90deg, var(--color-accent), var(--color-primary));
+	}
+
+	.community-fuel-copy {
+		text-align: left;
+		max-width: 58ch;
+		margin: 0 auto;
+	}
+
+	.community-fuel-p {
+		margin: 0 0 14px;
+		font-size: 15px;
+		line-height: 1.72;
+		color: var(--color-text);
+		font-weight: 500;
+	}
+
+	.community-fuel-p:last-child {
+		margin-bottom: 0;
+	}
+
+	.community-fuel-p:first-of-type {
+		font-size: clamp(1.02rem, 2.1vw, 1.12rem);
+		font-weight: 600;
+		color: var(--color-base);
+	}
+
+	/* ── Playa Hermosa band ───────────────────────────────── */
+	.community-hermosa-band {
+		position: relative;
+		padding-bottom: 8px;
+		overflow: hidden;
+	}
+
+	.community-hermosa-bg {
+		position: absolute;
+		inset: 0;
+		background:
+			radial-gradient(ellipse 60% 50% at 50% 0%, rgba(237, 67, 76, 0.07), transparent 55%),
+			linear-gradient(180deg, #fff9f6 0%, #f3f7fc 38%, #fafcff 100%);
+		pointer-events: none;
+	}
+
+	.community-hermosa-intro {
+		position: relative;
+		z-index: 1;
+		max-width: 720px;
+		margin: 0 auto;
+		padding: 40px 0 12px;
+		text-align: center;
+	}
+
+	.community-hermosa-title {
+		margin: 0 0 12px;
+		font-size: clamp(1.65rem, 4vw, 2.1rem);
+		font-weight: 800;
+		letter-spacing: -0.03em;
+		color: var(--color-base);
+	}
+
+	.community-hermosa-rule {
+		width: 48px;
+		height: 3px;
+		margin: 0 auto 18px;
+		border-radius: 3px;
+		background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+		opacity: 0.9;
+	}
+
+	.community-hermosa-p {
+		margin: 0 0 14px;
+		font-size: 15px;
+		line-height: 1.72;
+		color: var(--color-muted);
+		font-weight: 500;
+		text-align: left;
+		max-width: 58ch;
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	.community-hermosa-p:last-of-type {
+		margin-bottom: 0;
+		font-style: italic;
+		color: var(--color-text);
+	}
+
+	.community-section-label--hermosa {
+		color: #7a2a32;
+		opacity: 0.95;
+	}
+
+	.community-marquee-section--hermosa {
+		background: transparent;
+		padding-top: 0;
+	}
+
+	.community-marquee-fade--hermosa.community-marquee-fade--left {
+		background: linear-gradient(90deg, #f7f9fc, transparent);
+	}
+
+	.community-marquee-fade--hermosa.community-marquee-fade--right {
+		background: linear-gradient(270deg, #f7f9fc, transparent);
+	}
+
+	.community-grid-section--hermosa {
+		padding-top: 28px;
+		padding-bottom: 44px;
+		background: transparent;
+		position: relative;
+		z-index: 1;
+	}
+
+	.community-grid-title--hermosa {
+		color: var(--color-base);
+	}
+
+	.community-card-inner--hermosa {
+		background: linear-gradient(165deg, #ffffff 0%, #fff8f3 100%);
+		border-color: rgba(237, 67, 76, 0.1);
+	}
+
+	/* ── Marquee ─────────────────────────────────────────── */
+	.community-marquee-section {
+		padding: 8px 0 28px;
+		background: linear-gradient(180deg, #ffffff 0%, #f5f8fd 100%);
+	}
+
+	.community-section-label {
+		margin: 0 0 18px;
+		font-size: 11px;
+		font-weight: 800;
+		letter-spacing: 0.16em;
+		text-transform: uppercase;
+		color: var(--color-primary);
+		text-align: center;
+	}
+
+	.community-marquee {
+		position: relative;
+		overflow: hidden;
+		padding: 12px 0;
+		mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+	}
+
+	.community-marquee--b {
+		margin-top: 4px;
+		opacity: 0.92;
+	}
+
+	.community-marquee-fade {
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		width: 48px;
+		z-index: 2;
+		pointer-events: none;
+	}
+
+	.community-marquee-fade--left {
+		left: 0;
+		background: linear-gradient(90deg, #f5f8fd, transparent);
+	}
+
+	.community-marquee-fade--right {
+		right: 0;
+		background: linear-gradient(270deg, #f5f8fd, transparent);
+	}
+
+	.community-marquee-track {
+		display: flex;
+		width: max-content;
+		gap: clamp(28px, 4vw, 48px);
+		align-items: center;
+	}
+
+	.community-marquee-track--a {
+		animation: community-marquee-scroll 45s linear infinite;
+	}
+
+	.community-marquee-track--b {
+		animation: community-marquee-scroll 52s linear infinite reverse;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.community-marquee-track--a,
+		.community-marquee-track--b {
+			animation: none;
+			flex-wrap: wrap;
+			justify-content: center;
+			width: 100%;
+			max-width: 960px;
+			margin: 0 auto;
+			padding: 0 16px;
+		}
+
+		.community-marquee {
+			mask-image: none;
+		}
+	}
+
+	@keyframes community-marquee-scroll {
+		from {
+			transform: translateX(0);
+		}
+		to {
+			transform: translateX(-50%);
+		}
+	}
+
+	.community-marquee-item {
+		flex-shrink: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		height: 72px;
+		width: 160px;
+	}
+
+	.community-marquee-img {
+		max-width: 100%;
+		max-height: 72px;
+		width: auto;
+		height: auto;
+		object-fit: contain;
+		filter: drop-shadow(0 2px 8px rgba(0, 32, 91, 0.08));
+		opacity: 0.92;
+		transition: opacity 0.3s ease, transform 0.35s ease;
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		.community-marquee-item:hover .community-marquee-img {
+			opacity: 1;
+			transform: scale(1.06);
+		}
+	}
+
+	/* ── Grid ────────────────────────────────────────────── */
+	.community-grid-section {
+		padding: 36px 0 48px;
+		background: linear-gradient(180deg, #f5f8fd 0%, #ffffff 35%, #fafcff 100%);
+	}
+
+	.community-grid-title {
+		margin: 0 0 28px;
+		font-size: clamp(1.35rem, 3vw, 1.6rem);
+		font-weight: 800;
+		letter-spacing: -0.02em;
+		text-align: center;
+		color: var(--color-base);
+	}
+
+	.community-grid {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 16px;
+	}
+
+	@media (min-width: 640px) {
+		.community-grid {
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+			gap: 18px;
+		}
+	}
+
+	@media (min-width: 960px) {
+		.community-grid {
+			grid-template-columns: repeat(4, minmax(0, 1fr));
+			gap: 20px;
+		}
+	}
+
+	.community-card {
+		position: relative;
+		margin: 0;
+	}
+
+	.community-card-inner {
+		position: relative;
+		height: 100%;
+		padding: 18px 14px 16px;
+		border-radius: 18px;
+		background: linear-gradient(165deg, #ffffff 0%, #f4f8ff 100%);
+		border: 1px solid rgba(0, 32, 91, 0.08);
+		box-shadow: 0 8px 28px rgba(0, 32, 91, 0.06);
+		overflow: hidden;
+		transition:
+			transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+			box-shadow 0.4s ease,
+			border-color 0.35s ease;
+	}
+
+	.community-card-shine {
+		position: absolute;
+		inset: -30% -40% auto auto;
+		width: 70%;
+		height: 90%;
+		background: linear-gradient(
+			120deg,
+			transparent 40%,
+			rgba(255, 255, 255, 0.5) 50%,
+			transparent 60%
+		);
+		opacity: 0;
+		transform: translateX(-15%);
+		transition:
+			opacity 0.45s ease,
+			transform 0.6s ease;
+		pointer-events: none;
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		.community-card:hover .community-card-inner {
+			transform: translateY(-6px);
+			box-shadow: 0 20px 48px rgba(0, 32, 91, 0.12);
+			border-color: rgba(42, 118, 181, 0.2);
+		}
+
+		.community-card:hover .community-card-shine {
+			opacity: 1;
+			transform: translateX(25%);
+		}
+	}
+
+	.community-card-frame {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		min-height: 100px;
+		margin-bottom: 10px;
+	}
+
+	.community-card-img {
+		max-width: 100%;
+		max-height: 100px;
+		width: auto;
+		height: auto;
+		object-fit: contain;
+	}
+
+	.community-card-name {
+		margin: 0;
+		font-size: 12px;
+		font-weight: 700;
+		line-height: 1.35;
+		text-align: center;
+		color: var(--color-muted);
+		letter-spacing: -0.01em;
+	}
+
+	/* ── CTA ──────────────────────────────────────────────── */
+	.community-cta-section {
+		padding: 8px 0 56px;
+	}
+
+	.community-cta-wrap {
+		max-width: 640px;
+	}
+
+	.community-cta {
+		position: relative;
+		padding: 32px 24px 34px;
+		border-radius: 22px;
+		text-align: center;
+		overflow: hidden;
+		background: linear-gradient(
+			155deg,
+			rgba(0, 32, 91, 0.97) 0%,
+			rgba(0, 45, 120, 0.96) 45%,
+			rgba(42, 118, 181, 0.88) 100%
+		);
+		color: #fff;
+		border: 1px solid rgba(255, 255, 255, 0.12);
+		box-shadow: 0 20px 50px rgba(0, 32, 91, 0.25);
+	}
+
+	.community-cta-glow {
+		position: absolute;
+		width: 220px;
+		height: 220px;
+		top: -80px;
+		right: -60px;
+		border-radius: 50%;
+		background: radial-gradient(circle, rgba(255, 255, 255, 0.12), transparent 65%);
+		pointer-events: none;
+	}
+
+	.community-cta-title {
+		position: relative;
+		margin: 0 0 12px;
+		font-size: clamp(1.25rem, 3vw, 1.45rem);
+		font-weight: 800;
+		letter-spacing: -0.02em;
+		line-height: 1.25;
+	}
+
+	.community-cta-body {
+		position: relative;
+		margin: 0 0 22px;
+		font-size: 15px;
+		line-height: 1.65;
+		opacity: 0.92;
+		font-weight: 500;
+	}
+
+	.community-cta-actions {
+		position: relative;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 12px;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.community-cta-btn {
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+	}
+
+	.community-cta-arrow {
+		width: 14px;
+		height: 14px;
+		transition: transform 0.25s ease;
+	}
+
+	.community-cta-btn:hover .community-cta-arrow {
+		transform: translateX(3px);
+	}
+
+	.community-cta-secondary {
+		border-color: rgba(255, 255, 255, 0.45);
+		color: #fff;
+		background: rgba(255, 255, 255, 0.08);
+	}
+
+	.community-cta-secondary:hover {
+		background: rgba(255, 255, 255, 0.16);
+		border-color: rgba(255, 255, 255, 0.55);
+		color: #fff;
+	}
+</style>

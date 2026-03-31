@@ -1,0 +1,511 @@
+---
+import { copy, type Lang } from '../i18n/copy';
+import { tiers } from '../i18n/tiers';
+
+interface Props {
+	lang: Lang;
+	ctaHref: string;
+}
+
+const { lang, ctaHref } = Astro.props;
+const d = copy[lang].donate;
+const tierList = tiers[lang];
+
+// Glow colours for the hover shadow per tier
+const glowColors: Record<string, string> = {
+	platinum: 'rgba(212, 185, 90, 0.55)',
+	gold:     'rgba(248, 185, 40, 0.55)',
+	silver:   'rgba(148, 180, 210, 0.45)',
+	black:    'rgba(120, 128, 150, 0.35)',
+	red:      'rgba(224, 48,  64,  0.55)',
+	blue:     'rgba(72,  160, 240, 0.55)',
+};
+
+// Text shadow colour for tier name (to improve legibility on lighter gradients)
+const nameShadow: Record<string, string> = {
+	platinum: '0 1px 6px rgba(80,50,0,0.45)',
+	gold:     '0 1px 6px rgba(80,40,0,0.45)',
+	silver:   '0 1px 6px rgba(30,60,80,0.45)',
+	black:    '0 1px 6px rgba(0,0,0,0.6)',
+	red:      '0 1px 6px rgba(80,0,10,0.45)',
+	blue:     '0 1px 6px rgba(0,30,80,0.45)',
+};
+
+const specialBadge: Record<string, string> = {
+	platinum: lang === 'es' ? 'Cupos limitados' : 'Limited spots',
+	red:      lang === 'es' ? 'Más popular'     : 'Most popular',
+};
+
+// Card number indicator (decorative)
+const cardNumbers = ['01', '02', '03', '04', '05', '06'];
+---
+
+<section class="tiers-section" id="tiers-section">
+	<div class="container">
+
+		<div class="tiers-header reveal">
+			<div class="kicker tiers-kicker">
+				{lang === 'es' ? 'Niveles de apoyo' : 'Support tiers'}
+			</div>
+			<h2 class="h2 tiers-title">{d.tiersTitle}</h2>
+			<p class="tiers-subtitle">{d.tiersSubtitle}</p>
+		</div>
+
+		<div class="tiers-grid">
+			{tierList.map((tier, i) => (
+				<div
+					class={`tier-card reveal reveal-scale reveal-d${Math.min(i + 1, 6)}`}
+					data-tier={tier.id}
+					style={`--card-grad: ${tier.gradient}; --card-glow: ${glowColors[tier.id]}; --name-shadow: ${nameShadow[tier.id]};`}
+				>
+					{/* Dynamic cursor-follow shine (controlled via JS) */}
+					<div class="tier-shine" aria-hidden="true"></div>
+
+					{/* Decorative ambient highlight (always visible) */}
+					<div class="tier-ambient" aria-hidden="true"></div>
+
+					{/* Special badge */}
+					{specialBadge[tier.id] && (
+						<div class={`tier-badge-special ${tier.id === 'platinum' ? 'tier-badge-exclusive' : 'tier-badge-popular'}`}>
+							{tier.id === 'red' && (
+								<svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+									<path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+								</svg>
+							)}
+							{specialBadge[tier.id]}
+						</div>
+					)}
+
+					{/* ── CARD FACE ── */}
+					<div class="tier-face">
+						{/* Brand strip */}
+						<div class="tier-brand-strip">
+							<span class="tier-brand-name">COSTA BALLENA · LIFEGUARDS</span>
+							<div class="tier-brand-icon" aria-hidden="true">
+								<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+									<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+									<polyline points="9 12 11 14 15 10"/>
+								</svg>
+							</div>
+						</div>
+
+						{/* Tier name */}
+						<div class="tier-name-area">
+							<div class="tier-name">{tier.name}</div>
+							<div class="tier-type">
+								{lang === 'es' ? 'Patrocinador Anual' : 'Annual Supporter'}
+							</div>
+						</div>
+
+						{/* Bottom: price + card number */}
+						<div class="tier-face-bottom">
+							<div class="tier-price-block">
+								<span class="tier-price">{tier.price}</span>
+								<span class="tier-per">{lang === 'es' ? '/año' : '/yr'}</span>
+							</div>
+							<div class="tier-card-num" aria-hidden="true">
+								{cardNumbers[i]} <span class="tier-card-num-of">/ 06</span>
+							</div>
+						</div>
+
+						{/* Decorative orbs */}
+						<div class="tier-orb tier-orb-1" aria-hidden="true"></div>
+						<div class="tier-orb tier-orb-2" aria-hidden="true"></div>
+					</div>
+
+					{/* ── BENEFITS PANEL ── */}
+					<div class="tier-benefits">
+						<ul class="tier-list">
+							{tier.bullets.map((b) => (
+								<li>
+									<svg class="tier-check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+										<polyline points="3 8 6.5 11.5 13 4.5"/>
+									</svg>
+									{b}
+								</li>
+							))}
+						</ul>
+
+						<a
+							class="tier-cta"
+							href={ctaHref}
+							target={ctaHref.startsWith('http') ? '_blank' : undefined}
+							rel={ctaHref.startsWith('http') ? 'noopener noreferrer' : undefined}
+						>
+							<span>{d.seeMore}</span>
+							<svg class="tier-cta-arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+								<path d="M3 8h10M9 4l4 4-4 4"/>
+							</svg>
+						</a>
+					</div>
+				</div>
+			))}
+		</div>
+
+	</div>
+</section>
+
+<script>
+	// ── 3-D tilt + cursor-follow shine on tier cards ────────────────
+	(function () {
+		const cards = document.querySelectorAll<HTMLElement>('.tier-card');
+		if (!cards.length) return;
+
+		const isMobile = () => window.matchMedia('(max-width: 540px)').matches;
+
+		cards.forEach((card) => {
+			const shine = card.querySelector<HTMLElement>('.tier-shine');
+
+			card.addEventListener('mousemove', (e: MouseEvent) => {
+				if (isMobile()) return;
+				const rect = card.getBoundingClientRect();
+				const x = (e.clientX - rect.left) / rect.width;   // 0-1
+				const y = (e.clientY - rect.top)  / rect.height;  // 0-1
+
+				const rotY =  (x - 0.5) * 18;  // ±9deg
+				const rotX = -(y - 0.5) * 12;  // ±6deg
+
+				card.style.transform =
+					`perspective(900px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale3d(1.03, 1.03, 1.03)`;
+				card.style.boxShadow =
+					`0 28px 64px -8px var(--card-glow), 0 8px 24px rgba(0,0,0,0.45)`;
+
+				if (shine) {
+					shine.style.background =
+						`radial-gradient(circle at ${x * 100}% ${y * 100}%, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0.06) 38%, transparent 65%)`;
+					shine.style.opacity = '1';
+				}
+			});
+
+			card.addEventListener('mouseleave', () => {
+				card.style.transform = '';
+				card.style.boxShadow = '';
+				if (shine) {
+					shine.style.opacity = '0';
+				}
+			});
+		});
+	})();
+</script>
+
+<style>
+	/* ── Section ─────────────────────────────────────────────── */
+	.tiers-section {
+		padding: 72px 0 80px;
+		background: var(--color-base);
+	}
+
+	.tiers-kicker {
+		color: rgba(255, 255, 255, 0.45) !important;
+		border-color: rgba(255, 255, 255, 0.15) !important;
+	}
+
+	.tiers-header {
+		text-align: center;
+		margin-bottom: 48px;
+	}
+
+	.tiers-title {
+		color: white;
+		margin: 10px 0 10px;
+	}
+
+	.tiers-subtitle {
+		color: rgba(255, 255, 255, 0.5);
+		font-size: 15px;
+		max-width: 52ch;
+		margin: 0 auto;
+		line-height: 1.7;
+	}
+
+	/* ── Grid ───────────────────────────────────────────────── */
+	.tiers-grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 20px;
+	}
+
+	@media (min-width: 540px) {
+		.tiers-grid { grid-template-columns: repeat(2, 1fr); gap: 22px; }
+	}
+
+	@media (min-width: 960px) {
+		.tiers-grid { grid-template-columns: repeat(3, 1fr); gap: 24px; }
+	}
+
+	/* ── Card ───────────────────────────────────────────────── */
+	.tier-card {
+		--card-grad: linear-gradient(145deg, #333, #111);
+		--card-glow: rgba(255, 255, 255, 0.2);
+		position: relative;
+		border-radius: 20px;
+		overflow: hidden;
+		display: flex;
+		flex-direction: column;
+		border: 1px solid rgba(255, 255, 255, 0.1);
+		box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+		transition:
+			transform 0.08s ease,
+			box-shadow 0.08s ease;
+		will-change: transform;
+		cursor: default;
+	}
+
+	/* ── Shine & ambient overlays ───────────────────────────── */
+	.tier-shine {
+		position: absolute;
+		inset: 0;
+		pointer-events: none;
+		z-index: 4;
+		border-radius: inherit;
+		opacity: 0;
+		transition: opacity 0.15s ease;
+	}
+
+	/* Static ambient highlight: top-left corner always lit */
+	.tier-ambient {
+		position: absolute;
+		inset: 0;
+		background: radial-gradient(ellipse at 25% 20%, rgba(255, 255, 255, 0.14) 0%, transparent 55%);
+		pointer-events: none;
+		z-index: 1;
+		border-radius: inherit;
+	}
+
+	/* ── Special badge ──────────────────────────────────────── */
+	.tier-badge-special {
+		position: absolute;
+		top: 12px;
+		right: 12px;
+		z-index: 5;
+		display: flex;
+		align-items: center;
+		gap: 5px;
+		font-size: 9.5px;
+		font-weight: 800;
+		text-transform: uppercase;
+		letter-spacing: 0.1em;
+		padding: 4px 10px;
+		border-radius: 999px;
+	}
+
+	.tier-badge-exclusive {
+		background: rgba(0, 0, 0, 0.35);
+		border: 1px solid rgba(255, 255, 255, 0.28);
+		color: rgba(255, 255, 255, 0.9);
+	}
+
+	.tier-badge-popular {
+		background: rgba(255, 255, 255, 0.2);
+		border: 1px solid rgba(255, 255, 255, 0.42);
+		color: white;
+	}
+
+	/* ── Card face (gradient area) ──────────────────────────── */
+	.tier-face {
+		background: var(--card-grad);
+		padding: 22px 22px 20px;
+		position: relative;
+		overflow: hidden;
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+		min-height: 148px;
+		z-index: 2;
+	}
+
+	/* Decorative orbs inside face */
+	.tier-orb {
+		position: absolute;
+		border-radius: 50%;
+		background: rgba(255, 255, 255, 0.08);
+		pointer-events: none;
+	}
+
+	.tier-orb-1 {
+		width: 120px;
+		height: 120px;
+		bottom: -40px;
+		right: -30px;
+	}
+
+	.tier-orb-2 {
+		width: 70px;
+		height: 70px;
+		top: -20px;
+		right: 60px;
+		background: rgba(255, 255, 255, 0.05);
+	}
+
+	/* Brand strip */
+	.tier-brand-strip {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		z-index: 2;
+		position: relative;
+	}
+
+	.tier-brand-name {
+		font-size: 9px;
+		font-weight: 800;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		color: rgba(255, 255, 255, 0.65);
+	}
+
+	.tier-brand-icon {
+		width: 24px;
+		height: 24px;
+		color: rgba(255, 255, 255, 0.7);
+	}
+
+	.tier-brand-icon svg {
+		width: 100%;
+		height: 100%;
+	}
+
+	/* Tier name */
+	.tier-name-area {
+		flex: 1;
+		position: relative;
+		z-index: 2;
+	}
+
+	.tier-name {
+		font-size: clamp(26px, 3.5vw, 32px);
+		font-weight: 900;
+		letter-spacing: -0.03em;
+		color: white;
+		line-height: 1;
+		text-shadow: var(--name-shadow, none);
+	}
+
+	.tier-type {
+		font-size: 11px;
+		font-weight: 600;
+		letter-spacing: 0.04em;
+		color: rgba(255, 255, 255, 0.62);
+		margin-top: 5px;
+		text-transform: uppercase;
+	}
+
+	/* Price + card number row */
+	.tier-face-bottom {
+		display: flex;
+		justify-content: space-between;
+		align-items: flex-end;
+		z-index: 2;
+		position: relative;
+	}
+
+	.tier-price-block {
+		display: flex;
+		align-items: baseline;
+		gap: 4px;
+	}
+
+	.tier-price {
+		font-size: clamp(22px, 3vw, 28px);
+		font-weight: 900;
+		color: white;
+		letter-spacing: -0.02em;
+		line-height: 1;
+		text-shadow: var(--name-shadow, none);
+	}
+
+	.tier-per {
+		font-size: 12px;
+		font-weight: 600;
+		color: rgba(255, 255, 255, 0.58);
+	}
+
+	.tier-card-num {
+		font-size: 11px;
+		font-weight: 800;
+		color: rgba(255, 255, 255, 0.45);
+		letter-spacing: 0.06em;
+	}
+
+	.tier-card-num-of {
+		opacity: 0.5;
+		font-weight: 600;
+	}
+
+	/* ── Benefits panel ─────────────────────────────────────── */
+	.tier-benefits {
+		background: rgba(255, 255, 255, 0.04);
+		border-top: 1px solid rgba(255, 255, 255, 0.1);
+		padding: 18px 22px 22px;
+		display: flex;
+		flex-direction: column;
+		gap: 14px;
+		flex: 1;
+		z-index: 2;
+		position: relative;
+	}
+
+	/* ── Benefits list ──────────────────────────────────────── */
+	.tier-list {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+		flex: 1;
+	}
+
+	.tier-list li {
+		display: flex;
+		align-items: flex-start;
+		gap: 9px;
+		font-size: 12.5px;
+		line-height: 1.5;
+		color: rgba(255, 255, 255, 0.78);
+	}
+
+	.tier-check {
+		width: 14px;
+		height: 14px;
+		flex-shrink: 0;
+		margin-top: 1px;
+		color: rgba(255, 255, 255, 0.6);
+	}
+
+	/* ── CTA button ─────────────────────────────────────────── */
+	.tier-cta {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 8px;
+		padding: 11px 18px;
+		background: rgba(255, 255, 255, 0.1);
+		border: 1px solid rgba(255, 255, 255, 0.22);
+		border-radius: 10px;
+		color: white;
+		font-size: 13px;
+		font-weight: 700;
+		text-decoration: none;
+		transition:
+			background 0.2s ease,
+			border-color 0.2s ease;
+		margin-top: auto;
+	}
+
+	.tier-cta:hover {
+		background: rgba(255, 255, 255, 0.2);
+		border-color: rgba(255, 255, 255, 0.5);
+	}
+
+	.tier-cta-arrow {
+		width: 14px;
+		height: 14px;
+		flex-shrink: 0;
+		transition: transform 0.18s ease;
+	}
+
+	.tier-cta:hover .tier-cta-arrow {
+		transform: translateX(3px);
+	}
+</style>

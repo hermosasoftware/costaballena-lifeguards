@@ -1,0 +1,373 @@
+---
+import { copy, type Lang } from '../i18n/copy';
+import { getRoutes } from '../i18n/routes';
+import logo from '../assets/logo-guardavidas.avif';
+
+interface Props {
+	lang: Lang;
+}
+
+const { lang } = Astro.props;
+const c = copy[lang];
+const r = getRoutes(lang);
+---
+
+<footer class="site-footer">
+
+	<!-- Thin accent line at the top -->
+	<div class="footer-accent" aria-hidden="true"></div>
+
+	<div class="container footer-body">
+
+		<!-- ── Brand column ──────────────────────────────────────── -->
+		<div class="footer-brand">
+			<a href={r.home} class="footer-logo-link" aria-label={c.siteName}>
+				<img src={logo.src} alt={c.siteName} width="160" height="44" loading="lazy" decoding="async" />
+			</a>
+		<p class="footer-tagline">{c.footer.tagline}</p>
+			<div class="footer-socials">
+				<a
+					class="footer-social"
+					href={c.footer.facebookHref}
+					aria-label="Facebook"
+					target="_blank"
+					rel="noopener noreferrer"
+				>
+					<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" width="16" height="16">
+						<path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+					</svg>
+				</a>
+				<a
+					class="footer-social"
+					href={c.footer.instagramHref}
+					aria-label="Instagram"
+					target="_blank"
+					rel="noopener noreferrer"
+				>
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" width="16" height="16">
+						<rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+						<path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+						<line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+					</svg>
+				</a>
+			</div>
+		</div>
+
+		<!-- ── Navigation ─────────────────────────────────────────── -->
+		<div class="footer-col">
+			<h4 class="footer-col-title">{c.footer.navTitle}</h4>
+			<nav>
+				<ul class="footer-nav-list">
+					<li><a href={r.home}>{c.nav.home}</a></li>
+					<li><a href={r.donate}>{c.nav.donate}</a></li>
+					<li><a href={r.community}>{c.nav.community}</a></li>
+					<li><a href={r.contact}>{c.nav.contact}</a></li>
+				</ul>
+			</nav>
+		</div>
+
+		<!-- ── Contact ────────────────────────────────────────────── -->
+		<div class="footer-col">
+			<h4 class="footer-col-title">{c.footer.contactTitle}</h4>
+			<ul class="footer-contact-list">
+				<li>
+					<span class="footer-contact-label">{c.footer.emailLabel}</span>
+					<a href={`mailto:${c.footer.email}`}>{c.footer.email}</a>
+				</li>
+				<li>
+					<span class="footer-contact-label">{c.footer.phoneLabel}</span>
+					<a href={`tel:${c.footer.phone}`}>{c.footer.phone}</a>
+				</li>
+				<li>
+					<span class="footer-contact-label">{c.footer.whatsappLabel}</span>
+					<a href={c.footer.whatsappHref} target="_blank" rel="noopener noreferrer">{c.footer.whatsapp}</a>
+				</li>
+			</ul>
+		</div>
+
+		<!-- ── Beaches ────────────────────────────────────────────── -->
+		<div class="footer-col">
+			<h4 class="footer-col-title">{c.footer.beachesTitle}</h4>
+			<ul class="footer-beaches">
+				<li class="footer-beach footer-beach--active">
+					<span class="footer-beach-dot" aria-hidden="true"></span>
+					<div>
+						<strong>Playa Dominical</strong>
+						<span>{c.footer.beachActive}</span>
+					</div>
+				</li>
+				<li class="footer-beach footer-beach--campaign">
+					<span class="footer-beach-dot footer-beach-dot--campaign" aria-hidden="true"></span>
+					<div>
+						<strong>Playa Hermosa</strong>
+						<span>{c.footer.beachCampaign}</span>
+					</div>
+				</li>
+			</ul>
+			<p class="footer-region">
+				<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" width="12" height="12">
+					<path d="M8 1.5a5 5 0 1 0 0 10A5 5 0 0 0 8 1.5z"/><path d="M8 6.5v2l1.5 1.5"/>
+				</svg>
+				Costa Rica · Puntarenas
+			</p>
+		</div>
+
+	</div>
+
+	<!-- ── Bottom bar ─────────────────────────────────────────────── -->
+	<div class="footer-bottom">
+		<div class="container footer-bottom-inner">
+			<p>{c.footer.copyright}</p>
+		<p class="footer-built">{c.footer.builtWith}</p>
+		</div>
+	</div>
+
+</footer>
+
+<style>
+	/* ── Footer shell ────────────────────────────────────────── */
+	.site-footer {
+		background: var(--color-base);
+		color: rgba(255, 255, 255, 0.85);
+	}
+
+	/* Red accent line at the very top of footer */
+	.footer-accent {
+		height: 3px;
+		background: linear-gradient(90deg, var(--color-accent) 0%, var(--color-primary) 60%, transparent 100%);
+	}
+
+	.footer-body {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 36px;
+		padding-top: 52px;
+		padding-bottom: 48px;
+	}
+
+	@media (min-width: 640px) {
+		.footer-body { grid-template-columns: repeat(2, 1fr); gap: 32px 40px; }
+	}
+
+	@media (min-width: 1024px) {
+		.footer-body { grid-template-columns: 1.6fr 1fr 1.4fr 1.2fr; gap: 0 48px; }
+	}
+
+	/* ── Brand column ────────────────────────────────────────── */
+	.footer-brand {
+		display: flex;
+		flex-direction: column;
+		gap: 14px;
+	}
+
+	.footer-logo-link {
+		display: inline-block;
+		transition: opacity 0.18s ease;
+	}
+
+	.footer-logo-link:hover { opacity: 0.82; }
+
+	.footer-logo-link img {
+		width: 140px;
+		height: auto;
+		display: block;
+	}
+
+	.footer-tagline {
+		font-size: 13px;
+		line-height: 1.65;
+		color: rgba(255, 255, 255, 0.52);
+		max-width: 26ch;
+		margin: 0;
+	}
+
+	/* Social icons */
+	.footer-socials {
+		display: flex;
+		gap: 10px;
+	}
+
+	.footer-social {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 36px;
+		height: 36px;
+		border-radius: 50%;
+		border: 1px solid rgba(255, 255, 255, 0.2);
+		color: rgba(255, 255, 255, 0.7);
+		background: rgba(255, 255, 255, 0.05);
+		transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+	}
+
+	.footer-social:hover {
+		background: rgba(255, 255, 255, 0.14);
+		border-color: rgba(255, 255, 255, 0.5);
+		color: white;
+	}
+
+	/* ── Shared column styles ────────────────────────────────── */
+	.footer-col {
+		display: flex;
+		flex-direction: column;
+		gap: 14px;
+	}
+
+	.footer-col-title {
+		font-size: 11px;
+		font-weight: 800;
+		text-transform: uppercase;
+		letter-spacing: 0.1em;
+		color: rgba(255, 255, 255, 0.4);
+		margin: 0;
+	}
+
+	/* ── Navigation list ─────────────────────────────────────── */
+	.footer-nav-list {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+	}
+
+	.footer-nav-list a {
+		font-size: 14px;
+		color: rgba(255, 255, 255, 0.72);
+		text-decoration: none;
+		transition: color 0.18s ease;
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+	}
+
+	.footer-nav-list a:hover { color: white; }
+
+	.footer-nav-list a::before {
+		content: '';
+		display: inline-block;
+		width: 14px;
+		height: 1px;
+		background: rgba(255, 255, 255, 0.25);
+		flex-shrink: 0;
+		transition: width 0.2s ease, background 0.2s ease;
+	}
+
+	.footer-nav-list a:hover::before {
+		width: 20px;
+		background: var(--color-accent);
+	}
+
+	/* ── Contact list ────────────────────────────────────────── */
+	.footer-contact-list {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+	}
+
+	.footer-contact-list li {
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+	}
+
+	.footer-contact-label {
+		font-size: 9.5px;
+		font-weight: 800;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		color: rgba(255, 255, 255, 0.32);
+	}
+
+	.footer-contact-list a {
+		font-size: 13px;
+		color: rgba(255, 255, 255, 0.72);
+		text-decoration: none;
+		transition: color 0.18s ease;
+		word-break: break-all;
+	}
+
+	.footer-contact-list a:hover { color: white; }
+
+	/* ── Beaches column ──────────────────────────────────────── */
+	.footer-beaches {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+	}
+
+	.footer-beach {
+		display: flex;
+		align-items: flex-start;
+		gap: 10px;
+	}
+
+	.footer-beach-dot {
+		width: 8px;
+		height: 8px;
+		border-radius: 50%;
+		background: #4ade80;
+		box-shadow: 0 0 0 3px rgba(74, 222, 128, 0.2);
+		flex-shrink: 0;
+		margin-top: 5px;
+		animation: pulse-dot 2.2s ease-in-out infinite;
+	}
+
+	.footer-beach-dot--campaign {
+		background: #fbbf24;
+		box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.2);
+	}
+
+	.footer-beach strong {
+		display: block;
+		font-size: 13.5px;
+		color: rgba(255, 255, 255, 0.85);
+		font-weight: 700;
+	}
+
+	.footer-beach span {
+		font-size: 11.5px;
+		color: rgba(255, 255, 255, 0.42);
+	}
+
+	.footer-region {
+		display: flex;
+		align-items: center;
+		gap: 6px;
+		font-size: 12px;
+		color: rgba(255, 255, 255, 0.32);
+		margin: 6px 0 0;
+	}
+
+	/* ── Bottom bar ──────────────────────────────────────────── */
+	.footer-bottom {
+		border-top: 1px solid rgba(255, 255, 255, 0.08);
+	}
+
+	.footer-bottom-inner {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		flex-wrap: wrap;
+		gap: 8px;
+		padding-top: 18px;
+		padding-bottom: 22px;
+	}
+
+	.footer-bottom p {
+		font-size: 12px;
+		color: rgba(255, 255, 255, 0.32);
+		margin: 0;
+	}
+
+	.footer-built {
+		font-style: italic;
+	}
+</style>

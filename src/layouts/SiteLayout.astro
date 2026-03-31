@@ -1,0 +1,53 @@
+---
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import type { Lang } from '../i18n/copy';
+
+import '../styles/global.css';
+
+interface Props {
+	lang: Lang;
+	title?: string;
+}
+
+const { lang, title = '' } = Astro.props;
+const fullTitle = title ? `${title} | Guardavidas Costa Ballena` : 'Guardavidas Costa Ballena';
+---
+
+<!doctype html>
+<html lang={lang}>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{fullTitle}</title>
+	</head>
+	<body>
+		<div class="app">
+			<SiteHeader lang={lang} />
+			<slot />
+			<SiteFooter lang={lang} />
+		</div>
+
+		<!-- Scroll-reveal: elements with .reveal/.reveal-left/.reveal-right animate in -->
+		<script>
+			const observer = new IntersectionObserver(
+				(entries) => {
+					entries.forEach((entry) => {
+						if (entry.isIntersecting) {
+							entry.target.classList.add('is-visible');
+							observer.unobserve(entry.target);
+						}
+					});
+				},
+				{ threshold: 0.1, rootMargin: '0px 0px -52px 0px' }
+			);
+
+			document
+				.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale')
+				.forEach((el) => observer.observe(el));
+		</script>
+	</body>
+</html>
+
