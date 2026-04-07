@@ -27,7 +27,7 @@ function parseUsdEnv(value: string | undefined, fallback: number): number {
 	return Number.isFinite(n) && n >= 0 ? n : fallback;
 }
 
-/** Montos de la campaña Playa Hermosa (build-time). Ver `.env.example`. */
+/** Mounts for Playa Hermosa (build-time). See `.env.example`. */
 const playaHermosaRaised = parseUsdEnv(import.meta.env.PUBLIC_PLAYA_HERMOSA_RAISED, 60000);
 const playaHermosaGoal = parseUsdEnv(import.meta.env.PUBLIC_PLAYA_HERMOSA_GOAL, 100000);
 const playaHermosaPct =
