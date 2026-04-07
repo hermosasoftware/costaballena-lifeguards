@@ -1,5 +1,15 @@
 export type Lang = 'en' | 'es';
 
+/** Texto bajo el monto recaudado; la meta sale de `PUBLIC_PLAYA_HERMOSA_GOAL` en build. */
+export function formatPlayaHermosaRaisedOf(lang: Lang, goalUsd: number): string {
+	const formatted = new Intl.NumberFormat('en-US', {
+		style: 'currency',
+		currency: 'USD',
+		maximumFractionDigits: 0,
+	}).format(goalUsd);
+	return lang === 'es' ? `recaudados de ${formatted}` : `raised of ${formatted} goal`;
+}
+
 export const copy: Record<
 	Lang,
 	{
@@ -64,7 +74,6 @@ export const copy: Record<
 			reopenKicker: string;
 			domFunded: string;
 			cardInProgress: string;
-			raisedOf: string;
 			monthsShort: string;
 			reopenGoalNote: string;
 			ctaSub: string;
@@ -351,7 +360,6 @@ export const copy: Record<
 			reopenKicker: 'Active campaign',
 			domFunded: '— fully funded and protected',
 			cardInProgress: 'In progress',
-			raisedOf: 'raised of $100,000 goal',
 			monthsShort: 'mo.',
 			reopenGoalNote: 'Goal: 6 months of stable funding to guarantee continuous beach coverage.',
 			ctaSub: 'Your support keeps lifeguards on the beach and helps prevent tragedies.',
@@ -678,7 +686,6 @@ export const copy: Record<
 			reopenKicker: 'Campaña activa',
 			domFunded: '— completamente financiada y protegida',
 			cardInProgress: 'En campaña',
-			raisedOf: 'recaudados de $100,000',
 			monthsShort: 'meses',
 			reopenGoalNote: 'Meta: 6 meses de financiamiento estable para garantizar presencia continua en la playa.',
 			ctaSub: 'Tu apoyo mantiene a los guardavidas en la playa y ayuda a prevenir tragedias.',
