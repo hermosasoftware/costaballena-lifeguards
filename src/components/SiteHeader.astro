@@ -98,7 +98,7 @@ const routes = getRoutes(lang);
 		gap: 5px;
 		width: 42px;
 		height: 42px;
-		background: rgba(255, 255, 255, 0.45);
+		background: var(--color-primary);
 		border: 1px solid rgba(255, 255, 255, 0.55);
 		backdrop-filter: blur(10px) saturate(135%);
 		-webkit-backdrop-filter: blur(10px) saturate(135%);
@@ -113,16 +113,11 @@ const routes = getRoutes(lang);
 		box-shadow: 0 6px 20px rgba(0, 32, 91, 0.12);
 	}
 
-	.nav-toggle:hover {
-		background: rgba(255, 255, 255, 0.62);
-		border-color: rgba(255, 255, 255, 0.78);
-	}
-
 	.bar {
 		display: block;
 		width: 22px;
 		height: 2px;
-		background: var(--color-text);
+		background: var(--color-bg);
 		border-radius: 2px;
 		transition: transform 0.22s ease, opacity 0.22s ease;
 	}
