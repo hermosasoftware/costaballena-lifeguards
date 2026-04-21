@@ -154,13 +154,28 @@ img {
 	position: sticky;
 	top: 0;
 	z-index: 20;
-	background: linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(252, 253, 255, 0.94) 100%);
-	backdrop-filter: blur(12px);
-	-webkit-backdrop-filter: blur(12px);
-	border-bottom: 1px solid rgba(0, 32, 91, 0.1);
+	isolation: isolate;
+	overflow: visible;
+	background:
+		linear-gradient(160deg, rgba(255, 255, 255, 0.2) 0%, rgba(236, 245, 255, 0.12) 100%),
+		linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.1) 100%);
+	backdrop-filter: blur(14px) saturate(160%);
+	-webkit-backdrop-filter: blur(14px) saturate(160%);
+	border-bottom: 1px solid rgba(255, 255, 255, 0.28);
 	box-shadow:
-		0 1px 0 rgba(255, 255, 255, 0.9) inset,
-		0 4px 24px rgba(0, 32, 91, 0.06);
+		0 1px 0 rgba(255, 255, 255, 0.55) inset,
+		0 8px 22px rgba(0, 24, 74, 0.1);
+}
+
+.site-header::before {
+	content: '';
+	position: absolute;
+	inset: 0;
+	background:
+		radial-gradient(circle at 10% -180%, rgba(255, 255, 255, 0.28), transparent 56%),
+		linear-gradient(95deg, rgba(66, 142, 204, 0.08) 0%, transparent 48%);
+	pointer-events: none;
+	z-index: 0;
 }
 
 .site-header::after {
@@ -177,8 +192,9 @@ img {
 		rgba(42, 118, 181, 0.2) 72%,
 		transparent 100%
 	);
-	opacity: 0.4;
+	opacity: 0.5;
 	pointer-events: none;
+	z-index: 2;
 }
 
 .header-inner {
@@ -191,6 +207,10 @@ img {
 	padding-bottom: 14px;
 	padding-left: max(22px, env(safe-area-inset-left, 0px));
 	padding-right: max(22px, env(safe-area-inset-right, 0px));
+}
+
+.page-padding {
+	padding-top: 60px;
 }
 
 .brand {
@@ -299,7 +319,7 @@ img {
 .hero-overlay {
 	position: absolute;
 	inset: 0;
-	background: rgba(10, 16, 36, 0.70);
+	background: linear-gradient(180deg, rgba(10, 16, 36, 0.52) 0%, rgba(10, 16, 36, 0.72) 48%);
 }
 
 .hero-inner {
