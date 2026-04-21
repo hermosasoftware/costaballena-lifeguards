@@ -1,5 +1,5 @@
 ---
-import logo from '../assets/logo-guardavidas.avif';
+import logo2 from '../assets/logo-guardavidas-lettersonly.png';
 import { copy, type Lang } from '../i18n/copy';
 import { getRoutes } from '../i18n/routes';
 
@@ -16,7 +16,7 @@ const routes = getRoutes(lang);
 	<div class="container header-inner">
 
 		<a class="brand" href={routes.home} aria-label={c.siteName}>
-			<img src={logo.src} alt={c.siteName} width="180" height="48" decoding="async" />
+			<img src={logo2.src} alt={c.siteName} width="180" height="48" decoding="async" />
 		</a>
 
 	<!-- Primary nav — hidden on mobile, shown via JS toggle -->
@@ -98,8 +98,10 @@ const routes = getRoutes(lang);
 		gap: 5px;
 		width: 42px;
 		height: 42px;
-		background: rgba(255, 255, 255, 0.65);
-		border: 1px solid rgba(0, 32, 91, 0.12);
+		background: rgba(255, 255, 255, 0.45);
+		border: 1px solid rgba(255, 255, 255, 0.55);
+		backdrop-filter: blur(10px) saturate(135%);
+		-webkit-backdrop-filter: blur(10px) saturate(135%);
 		border-radius: 10px;
 		padding: 9px;
 		cursor: pointer;
@@ -108,12 +110,12 @@ const routes = getRoutes(lang);
 			border-color 0.16s ease,
 			box-shadow 0.16s ease;
 		flex-shrink: 0;
-		box-shadow: 0 1px 2px rgba(0, 32, 91, 0.05);
+		box-shadow: 0 6px 20px rgba(0, 32, 91, 0.12);
 	}
 
 	.nav-toggle:hover {
-		background: rgba(0, 32, 91, 0.06);
-		border-color: rgba(0, 32, 91, 0.18);
+		background: rgba(255, 255, 255, 0.62);
+		border-color: rgba(255, 255, 255, 0.78);
 	}
 
 	.bar {
@@ -144,11 +146,11 @@ const routes = getRoutes(lang);
 		top: 100%;
 		left: 0;
 		right: 0;
-		background: rgba(255, 255, 255, 0.98);
-		backdrop-filter: blur(14px);
-		-webkit-backdrop-filter: blur(14px);
-		border-bottom: 1px solid rgba(0, 32, 91, 0.12);
-		box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
+		background: linear-gradient(180deg, rgba(255, 255, 255, 0.74), rgba(250, 253, 255, 0.68));
+		backdrop-filter: blur(18px) saturate(145%);
+		-webkit-backdrop-filter: blur(18px) saturate(145%);
+		border-bottom: 1px solid rgba(255, 255, 255, 0.45);
+		box-shadow: 0 20px 34px rgba(0, 24, 74, 0.15);
 		flex-direction: column;
 		padding: 10px 16px 18px;
 		gap: 2px;
