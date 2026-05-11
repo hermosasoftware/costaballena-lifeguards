@@ -255,6 +255,10 @@ const supporterIconSrc = [iconUsers, iconStore, iconHeart, iconHandHeart, iconUs
 							<h3 class="method-title">{d.methodUsTitle}</h3>
 						</div>
 						<p class="method-body">{d.methodUsBody}</p>
+						<div class="method-card-extra">
+							<span class="method-card-extra-badge">{d.methodUsNonprofitLabel}</span>
+							<p class="method-card-extra-note">{d.methodUsFundsNote}</p>
+						</div>
 						<div class="method-card-footer">
 							<a
 								class="btn btn-primary method-btn"
@@ -283,6 +287,10 @@ const supporterIconSrc = [iconUsers, iconStore, iconHeart, iconHandHeart, iconUs
 							<h3 class="method-title">{d.methodPaypalTitle}</h3>
 						</div>
 						<p class="method-body">{d.methodPaypalBody}</p>
+						<div class="method-card-extra">
+							<span class="method-card-extra-badge">{d.methodPaypalExtraLabel}</span>
+							<p class="method-card-extra-note">{d.methodPaypalExtraNote}</p>
+						</div>
 						<div class="method-card-footer">
 							<a
 								class="btn btn-primary method-btn"
@@ -1383,6 +1391,36 @@ const supporterIconSrc = [iconUsers, iconStore, iconHeart, iconHandHeart, iconUs
 		line-height: 1.72;
 		color: var(--color-muted);
 		flex: 1;
+	}
+
+	.method-card-extra {
+		margin-top: 14px;
+		padding-top: 14px;
+		border-top: 1px solid rgba(0, 32, 91, 0.08);
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+	}
+
+	.method-card-extra-badge {
+		display: inline-block;
+		align-self: flex-start;
+		font-size: 11px;
+		font-weight: 800;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		color: var(--color-primary);
+		background: rgba(42, 118, 181, 0.1);
+		border: 1px solid rgba(42, 118, 181, 0.2);
+		border-radius: 999px;
+		padding: 4px 10px;
+	}
+
+	.method-card-extra-note {
+		margin: 0;
+		font-size: 13px;
+		line-height: 1.6;
+		color: var(--color-muted);
 	}
 
 	.method-card-footer {

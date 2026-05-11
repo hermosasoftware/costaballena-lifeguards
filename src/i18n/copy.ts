@@ -161,10 +161,14 @@ export const copy: Record<
 			howKicker: string;
 			methodUsTitle: string;
 			methodUsBody: string;
+			methodUsNonprofitLabel: string;
+			methodUsFundsNote: string;
 			methodUsLink: string;
 			methodUsBtn: string;
 			methodPaypalTitle: string;
 			methodPaypalBody: string;
+			methodPaypalExtraLabel: string;
+			methodPaypalExtraNote: string;
 			methodPaypalLink: string;
 			methodPaypalBtn: string;
 			methodBankTitle: string;
@@ -474,10 +478,16 @@ export const copy: Record<
 			methodUsTitle: 'U.S. Tax-Deductible Donation',
 			methodUsBody:
 				'To make a one-time or annual tax-deductible donation (to the extent allowable under U.S. law), please donate through our partner, Amigos de Costa Rica, a U.S.-based 501(c)(3) nonprofit.',
+			methodUsNonprofitLabel: 'Not-for-profit',
+			methodUsFundsNote:
+				'Donations through this link go directly to Amigos de Costa Rica, the nonprofit partner that receives and stewards funds for this lifeguard program.',
 			methodUsLink: 'https://www.classy.org/give/258087/',
 			methodUsBtn: 'Donate via Classy',
 			methodPaypalTitle: 'PayPal',
 			methodPaypalBody: 'If you prefer to donate via PayPal, use the link below.',
+			methodPaypalExtraLabel: 'Secure & direct',
+			methodPaypalExtraNote:
+				'Your gift supports Guardavidas Costa Ballena. Include your name in the PayPal note, then send a payment screenshot to the email under Important below so we can match your donation and send donor benefits.',
 			methodPaypalLink: 'https://www.paypal.com/donate/?hosted_button_id=ACBS9J3CKSHFS',
 			methodPaypalBtn: 'Donate via PayPal',
 			methodBankTitle: 'Costa Rica Bank Transfer (Banco Nacional)',
@@ -800,10 +810,16 @@ export const copy: Record<
 			methodUsTitle: 'Donación deducible en EE.UU.',
 			methodUsBody:
 				'Para hacer una donación única o anual deducible de impuestos (en la medida en que lo permita la ley de EE.UU.), dona a través de nuestro socio, Amigos de Costa Rica, una organización sin fines de lucro 501(c)(3) con sede en EE.UU.',
+			methodUsNonprofitLabel: 'Sin fines de lucro',
+			methodUsFundsNote:
+				'Las donaciones por este enlace van directamente a Amigos de Costa Rica, el socio sin fines de lucro que recibe y administra los fondos para este programa de guardavidas.',
 			methodUsLink: 'https://www.classy.org/give/258087/',
 			methodUsBtn: 'Donar por Classy',
 			methodPaypalTitle: 'PayPal',
 			methodPaypalBody: 'Si prefieres donar por PayPal, usa el siguiente enlace.',
+			methodPaypalExtraLabel: 'Seguro y directo',
+			methodPaypalExtraNote:
+				'Tu aporte respalda a Guardavidas Costa Ballena. Incluye tu nombre en la nota de PayPal y luego envía una captura de la confirmación al correo de Importante abajo para vincular tu donación y enviarte los beneficios de donante.',
 			methodPaypalLink: 'https://www.paypal.com/donate/?hosted_button_id=ACBS9J3CKSHFS',
 			methodPaypalBtn: 'Donar por PayPal',
 			methodBankTitle: 'Transferencia bancaria en Costa Rica (Banco Nacional)',
