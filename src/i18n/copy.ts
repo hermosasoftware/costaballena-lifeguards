@@ -207,6 +207,10 @@ export const copy: Record<
 			contactFormError: string;
 			contactFormInvalidEmail: string;
 			contactFormFillAll: string;
+			/** `{{name}}` is replaced with the visitor’s name */
+			contactMailtoSubject: string;
+			/** First lines of the draft email body (before name / email / message) */
+			contactMailtoBodyLead: string;
 			contactAsideTitle: string;
 			contactAsideSubtitle: string;
 			contactImageAlt: string;
@@ -531,6 +535,8 @@ export const copy: Record<
 			contactFormError: 'Something went wrong. Please try again or email us directly.',
 			contactFormInvalidEmail: 'Please enter a valid email address.',
 			contactFormFillAll: 'Please fill in all fields.',
+			contactMailtoSubject: 'Website contact — {{name}}',
+			contactMailtoBodyLead: 'Message from the Guardavidas Costa Ballena website contact form.',
 			contactAsideTitle: 'Prefer another channel?',
 			contactAsideSubtitle: 'You can also reach us directly:',
 			contactImageAlt: 'Lifeguard tower on duty — Costa Ballena',
@@ -863,6 +869,8 @@ export const copy: Record<
 			contactFormError: 'Algo salió mal. Intenta de nuevo o escríbenos por correo.',
 			contactFormInvalidEmail: 'Introduce un correo electrónico válido.',
 			contactFormFillAll: 'Completa todos los campos.',
+			contactMailtoSubject: 'Contacto web — {{name}}',
+			contactMailtoBodyLead: 'Mensaje enviado desde el formulario de contacto del sitio Guardavidas Costa Ballena.',
 			contactAsideTitle: '¿Prefieres otro canal?',
 			contactAsideSubtitle: 'También puedes contactarnos directamente:',
 			contactImageAlt: 'Torre de guardavidas en servicio — Costa Ballena',
