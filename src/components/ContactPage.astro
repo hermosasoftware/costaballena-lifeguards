@@ -13,6 +13,7 @@ const p = c.pages;
 const f = c.footer;
 
 const CONTACT_ENDPOINT = 'https://form-email-sender-omega.vercel.app/costaballena';
+const mailtoTo = f.email;
 ---
 
 <main class="contact-page page-padding">
@@ -37,6 +38,12 @@ const CONTACT_ENDPOINT = 'https://form-email-sender-omega.vercel.app/costaballen
 						name="contact"
 						novalidate
 						data-endpoint={CONTACT_ENDPOINT}
+						data-mailto-to={mailtoTo}
+						data-mailto-subject-template={p.contactMailtoSubject}
+						data-mailto-body-lead={p.contactMailtoBodyLead}
+						data-label-name={p.contactFormNameLabel}
+						data-label-email={p.contactFormEmailLabel}
+						data-label-message={p.contactFormMessageLabel}
 						data-sending={p.contactFormSending}
 						data-success={p.contactFormSuccess}
 						data-error={p.contactFormError}
@@ -145,11 +152,43 @@ const CONTACT_ENDPOINT = 'https://form-email-sender-omega.vercel.app/costaballen
 		return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
 	}
 
+	/** Many mail clients cap mailto URL length; keep a safe ceiling. */
+	const MAILTO_HREF_MAX = 1950;
+
+	function buildContactDraftBody(
+		lead: string,
+		nameLabel: string,
+		emailLabel: string,
+		messageLabel: string,
+		name: string,
+		email: string,
+		message: string,
+	) {
+		return `${lead}\n\n${nameLabel}: ${name}\n${emailLabel}: ${email}\n\n${messageLabel}:\n${message}`;
+	}
+
+	function openMailtoDraft(href: string) {
+		const a = document.createElement('a');
+		a.href = href;
+		a.setAttribute('aria-hidden', 'true');
+		a.style.position = 'fixed';
+		a.style.left = '-9999px';
+		document.body.appendChild(a);
+		a.click();
+		document.body.removeChild(a);
+	}
+
 	form?.addEventListener('submit', async (e) => {
 		e.preventDefault();
 		if (!form || !statusEl || !submitBtn) return;
 
 		const endpoint = form.dataset.endpoint;
+		const mailtoToAddr = form.dataset.mailtoTo?.trim();
+		const subjectTpl = form.dataset.mailtoSubjectTemplate ?? '';
+		const bodyLead = form.dataset.mailtoBodyLead ?? '';
+		const labelName = form.dataset.labelName ?? 'Name';
+		const labelEmail = form.dataset.labelEmail ?? 'Email';
+		const labelMessage = form.dataset.labelMessage ?? 'Message';
 		const msgSending = form.dataset.sending ?? '…';
 		const msgSuccess = form.dataset.success ?? '';
 		const msgError = form.dataset.error ?? '';
@@ -176,6 +215,22 @@ const CONTACT_ENDPOINT = 'https://form-email-sender-omega.vercel.app/costaballen
 			statusEl.textContent = msgInvalid;
 			statusEl.classList.add('contact-status--err');
 			return;
+		}
+
+		if (mailtoToAddr) {
+			const subject = subjectTpl.includes('{{name}}')
+				? subjectTpl.split('{{name}}').join(name)
+				: `${subjectTpl} ${name}`.trim();
+			let body = buildContactDraftBody(bodyLead, labelName, labelEmail, labelMessage, name, email, message);
+			const ellipsis = '\n\n[…]';
+			for (;;) {
+				const href = `mailto:${mailtoToAddr}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+				if (href.length <= MAILTO_HREF_MAX || body.length < 80) {
+					openMailtoDraft(href);
+					break;
+				}
+				body = body.slice(0, Math.max(0, body.length - 120)) + ellipsis;
+			}
 		}
 
 		if (!endpoint) {
