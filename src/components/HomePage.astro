@@ -2505,8 +2505,9 @@ const heroAssistsDisplay = impactHeroAssists().toLocaleString();
 
 	// ── Impact: beach tabs, counters, comparison bars ───────────
 	(function () {
-		const section = document.getElementById('impact-section');
-		if (!section) return;
+		const sectionRoot = document.getElementById('impact-section');
+		if (!sectionRoot) return;
+		const section: HTMLElement = sectionRoot;
 
 		const tabs = section.querySelectorAll<HTMLButtonElement>('.impact-segment-btn');
 		const panels = section.querySelectorAll<HTMLElement>('.impact-panel');
