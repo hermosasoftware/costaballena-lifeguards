@@ -1,7 +1,8 @@
 ---
+import { Image } from 'astro:assets';
 import { copy, type Lang } from '../i18n/copy';
 import { getRoutes } from '../i18n/routes';
-import logo from '../assets/logo-guardavidas.avif';
+import footerLogo from '../assets/logo-guardavidas.webp';
 import hermosaLogo from '../assets/hermosa-software-logo.png';
 
 interface Props {
@@ -23,7 +24,14 @@ const r = getRoutes(lang);
 		<!-- ── Brand column ──────────────────────────────────────── -->
 		<div class="footer-brand">
 			<a href={r.home} class="footer-logo-link" aria-label={c.siteName}>
-				<img src={logo.src} alt={c.siteName} width="160" height="44" loading="lazy" decoding="async" />
+				<Image
+					src={footerLogo}
+					alt={c.siteName}
+					width={160}
+					height={44}
+					loading="lazy"
+					decoding="async"
+				/>
 			</a>
 		<p class="footer-tagline">{c.footer.tagline}</p>
 			<div class="footer-socials">
@@ -129,11 +137,11 @@ const r = getRoutes(lang);
 						target="_blank"
 						rel="noopener noreferrer"
 					>
-						<img
-							src={hermosaLogo.src}
+						<Image
+							src={hermosaLogo}
 							alt={c.footer.hermosaSoftwareLogoAlt}
-							width="140"
-							height="36"
+							width={140}
+							height={36}
 							loading="lazy"
 							decoding="async"
 							class="footer-powered-logo"
