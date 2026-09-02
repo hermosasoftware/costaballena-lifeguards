@@ -211,6 +211,11 @@ export const copy: Record<
 			contactTitle: string;
 			contactBody: string;
 			contactKicker: string;
+			contactVolunteerTitle: string;
+			contactVolunteerBody: string;
+			contactVolunteerKicker: string;
+			contactVolunteerMailtoSubject: string;
+			contactVolunteerMailtoBodyLead: string;
 			contactFormNameLabel: string;
 			contactFormEmailLabel: string;
 			contactFormMessageLabel: string;
@@ -261,6 +266,7 @@ export const copy: Record<
 			emailLabel: string;
 			phoneLabel: string;
 			email: string;
+			volunteerEmail: string;
 			phone: string;
 			facebookHref: string;
 			instagramHref: string;
@@ -545,14 +551,22 @@ export const copy: Record<
 		pages: {
 			contactTitle: 'Contact',
 			contactBody:
-				'Send a message for volunteering, sponsorship, media, or general questions. We read every note and respond as soon as we can.',
+				'Send a message for sponsorship, media, or general questions. We read every note and respond as soon as we can.',
 			contactKicker: 'Get in touch',
+			contactVolunteerTitle: 'Volunteer',
+			contactVolunteerBody:
+				'Tell us a bit about yourself and how you’d like to help. This message goes to our volunteer coordinators — we’ll get back to you as soon as we can.',
+			contactVolunteerKicker: 'Get involved',
+			contactVolunteerMailtoSubject: 'Volunteer application — {{name}}',
+			contactVolunteerMailtoBodyLead:
+				'Volunteer application from the Guardavidas Costa Ballena website.',
 			contactFormNameLabel: 'Name',
 			contactFormEmailLabel: 'Email',
 			contactFormMessageLabel: 'Message',
 			contactFormSubmit: 'Send message',
 			contactFormSending: 'Sending…',
-			contactFormSuccess: 'Thank you — your message was sent. We’ll get back to you shortly.',
+			contactFormSuccess:
+				'Thank you — your email app should have opened with a draft. Please send it so we can reply.',
 			contactFormError: 'Something went wrong. Please try again or email us directly.',
 			contactFormInvalidEmail: 'Please enter a valid email address.',
 			contactFormFillAll: 'Please fill in all fields.',
@@ -604,6 +618,7 @@ export const copy: Record<
 			emailLabel: 'EMAIL',
 			phoneLabel: 'PHONE',
 			email: 'lifeguardscostaballena@gmail.com',
+			volunteerEmail: 'guardavidas444@gmail.com',
 			phone: '+506 8371 7882',
 			facebookHref: 'https://www.facebook.com/GuardavidasCostaBallena',
 			instagramHref: 'https://www.instagram.com/guardavidascostaballena',
@@ -888,14 +903,22 @@ export const copy: Record<
 		pages: {
 			contactTitle: 'Contacto',
 			contactBody:
-				'Envíanos un mensaje por voluntariado, patrocinio, prensa o consultas generales. Leemos cada nota y respondemos lo antes posible.',
+				'Envíanos un mensaje por patrocinio, prensa o consultas generales. Leemos cada nota y respondemos lo antes posible.',
 			contactKicker: 'Escríbenos',
+			contactVolunteerTitle: 'Voluntariado',
+			contactVolunteerBody:
+				'Cuéntanos un poco sobre ti y cómo te gustaría ayudar. Este mensaje llega al equipo de voluntariado — te responderemos lo antes posible.',
+			contactVolunteerKicker: 'Únete',
+			contactVolunteerMailtoSubject: 'Postulación de voluntariado — {{name}}',
+			contactVolunteerMailtoBodyLead:
+				'Postulación de voluntariado enviada desde el sitio Guardavidas Costa Ballena.',
 			contactFormNameLabel: 'Nombre',
 			contactFormEmailLabel: 'Correo',
 			contactFormMessageLabel: 'Mensaje',
 			contactFormSubmit: 'Enviar mensaje',
 			contactFormSending: 'Enviando…',
-			contactFormSuccess: 'Gracias — tu mensaje fue enviado. Te responderemos pronto.',
+			contactFormSuccess:
+				'Gracias — debería haberse abierto tu correo con un borrador. Envíalo para que podamos responderte.',
 			contactFormError: 'Algo salió mal. Intenta de nuevo o escríbenos por correo.',
 			contactFormInvalidEmail: 'Introduce un correo electrónico válido.',
 			contactFormFillAll: 'Completa todos los campos.',
@@ -947,6 +970,7 @@ export const copy: Record<
 			emailLabel: 'EMAIL',
 			phoneLabel: 'TELÉFONO',
 			email: 'lifeguardscostaballena@gmail.com',
+			volunteerEmail: 'guardavidas444@gmail.com',
 			phone: '+506 8371 7882',
 			facebookHref: 'https://www.facebook.com/GuardavidasCostaBallena',
 			instagramHref: 'https://www.instagram.com/guardavidascostaballena',

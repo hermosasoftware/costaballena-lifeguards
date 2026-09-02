@@ -12,6 +12,8 @@ export function getRoutes(lang: Lang) {
 		donateForm: `${prefix}/donate/form`,
 		community: `${prefix}/community-support`,
 		contact: `${prefix}/contact`,
+		/** Contact form routed to the volunteer inbox */
+		contactVolunteer: `${prefix}/contact?topic=volunteer`,
 		/** Href and label for switching to the other language */
 		langToggle: {
 			href: lang === 'es' ? '/' : '/es',
