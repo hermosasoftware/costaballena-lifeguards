@@ -30,7 +30,7 @@ export const copy: Record<
 			contact: string;
 			heroStatPreventions: string;
 			heroStatRescues: string;
-			heroStatOnDuty: string;
+			heroStatAssists: string;
 			realityTitle: string;
 			realityText: string;
 			realityHeading: string;
@@ -59,26 +59,39 @@ export const copy: Record<
 			progCtaNote: string;
 			impactKicker: string;
 			impactPeriod: string;
+			impactTitle: string;
+			impactSubtitle: string;
 			statPreventions: string;
 			prevNote: string;
-			statRescues: string;
-			rescueBreakdown: Array<{ beach: string; count: string }>;
-			statMedical: string;
-			medicalBreakdown: Array<{ beach: string; count: string }>;
-			statOnDuty: string;
-			onDutyNote: string;
-			statOffDuty: string;
-			offDutyNote: string;
-			withoutOnDuty: string;
-			offDutyBreakdown: Array<{ beach: string; count: string }>;
+			impactTabDominical: string;
+			impactTabHermosa: string;
+			impactPeriodDominical: string;
+			impactPeriodHermosa: string;
+			impactCompareTitle: string;
+			impactUpdateKicker: string;
+			impactThanksTitle: string;
+			impactThanksParagraphs: [string, string, string];
+			impactFundedDominical: string;
+			impactFundedHermosa: string;
+			impactTabsHint: string;
+			impactMetricLabels: {
+				medical: string;
+				stingray: string;
+				drowning: string;
+				prehospital: string;
+				rescues: string;
+				deaths: string;
+			};
+			impactMetricNotes: {
+				drowningDominical: string;
+				deathsHermosa: string;
+			};
 			reopenKicker: string;
 			domFunded: string;
 			cardInProgress: string;
 			monthsShort: string;
 			reopenGoalNote: string;
 			ctaSub: string;
-			impactTitle: string;
-			impactSubtitle: string;
 			reopenTitle: string;
 			reopenBody: string;
 			reopenCta: string;
@@ -276,8 +289,8 @@ export const copy: Record<
 			sponsor: 'Become a Sponsor',
 			contact: 'Contact',
 			heroStatPreventions: 'Preventions',
-			heroStatRescues: 'Rescues',
-			heroStatOnDuty: 'On-duty drownings',
+			heroStatRescues: 'Effective rescues',
+			heroStatAssists: 'Medical & pre-hospital',
 			realityTitle: 'The Reality',
 			realityText:
 				'Costa Ballena has some of the most powerful waves in Costa Rica. Every year, locals and tourists face life-threatening situations in the ocean. Without lifeguards, small mistakes can become fatal in seconds.',
@@ -342,37 +355,45 @@ export const copy: Record<
 			progCta: 'Get involved',
 			progCtaNote: 'Open to local and international volunteers',
 			impactKicker: 'Official data',
-			impactPeriod: 'Logbook reports: April – December 2025',
+			impactPeriod: '2026 logbook reports',
+			impactTitle: 'Our Impact',
+			impactSubtitle: 'Behind every number is a life protected.',
 			statPreventions: 'Preventions',
-			prevNote: 'More preventions than rescues: proof that lifeguards are doing exactly their job.',
-			statRescues: 'Water Rescues',
-			rescueBreakdown: [
-				{ beach: 'Hermosa', count: '11' },
-				{ beach: 'Dominical', count: '6' },
+			prevNote: 'More preventions than rescues — proof that lifeguards are doing exactly their job.',
+			impactTabDominical: 'Playa Dominical',
+			impactTabHermosa: 'Playa Hermosa',
+			impactPeriodDominical: 'Dominical logbook report',
+			impactPeriodHermosa: 'January 1 through today — Playa Hermosa',
+			impactCompareTitle: 'Preventions by beach',
+			impactUpdateKicker: 'Campaign update · 2026',
+			impactThanksTitle: 'Thank you. Both beaches are safe for 2026.',
+			impactThanksParagraphs: [
+				'We raised enough to support our lifeguards through the rest of 2026.',
+				"Two anonymous donors together funded over 90% of this year's costs across Playa Dominical and Playa Hermosa combined — and dozens of you made up the rest, one contribution at a time.",
+				'Every wave counts. Thank you.',
 			],
-			statMedical: 'Medical Assists',
-			medicalBreakdown: [
-				{ beach: 'Hermosa', count: '12' },
-				{ beach: 'Dominical', count: '3' },
-			],
-			statOnDuty: 'On-duty Drownings',
-			onDutyNote: 'When we are present, no one dies.',
-			statOffDuty: 'Off-duty drownings',
-			offDutyNote: 'These tragedies happened outside lifeguard duty hours or in unprotected areas. They are the clearest argument for why this mission matters.',
-			withoutOnDuty: 'Without lifeguards on duty',
-			offDutyBreakdown: [
-				{ beach: 'Playa Hermosa', count: '3' },
-				{ beach: 'Playa Dominical', count: '2' },
-				{ beach: 'Rocas de Amancio', count: '3' },
-			],
+			impactFundedDominical: 'Playa Dominical — funded for 2026',
+			impactFundedHermosa: 'Playa Hermosa — funded for 2026',
+			impactTabsHint: 'Select a beach to view 2026 logbook stats',
+			impactMetricLabels: {
+				medical: 'Medical attentions',
+				stingray: 'Stingray stings',
+				drowning: 'Drowning',
+				prehospital: 'Pre-hospital attentions',
+				rescues: 'Effective water rescues',
+				deaths: 'Fatalities',
+			},
+			impactMetricNotes: {
+				drowningDominical: '1 person at Rocas de Amancio',
+				deathsHermosa:
+					'1 while working at Punta Achiote; 1 where no lifeguards were on duty',
+			},
 			reopenKicker: 'Active campaign',
 			domFunded: '— fully funded and protected',
 			cardInProgress: 'In progress',
 			monthsShort: 'mo.',
 			reopenGoalNote: 'Goal: 6 months of stable funding to guarantee continuous beach coverage.',
 			ctaSub: 'Your support keeps lifeguards on the beach and helps prevent tragedies.',
-			impactTitle: 'Our Impact',
-			impactSubtitle: 'Behind every number is a life protected.',
 			reopenTitle: 'Help us reopen Playa Hermosa',
 			reopenBody:
 				'Playa Dominical is currently fully funded — and protected. Our next goal is to reopen Playa Hermosa and bring lifeguards back to the beach. To do this responsibly, we aim to secure at least 6 months of funding in advance.',
@@ -610,8 +631,8 @@ export const copy: Record<
 			sponsor: 'Hazte patrocinador',
 			contact: 'Contacto',
 			heroStatPreventions: 'Prevenciones',
-			heroStatRescues: 'Rescates',
-			heroStatOnDuty: 'Ahogamientos en servicio',
+			heroStatRescues: 'Rescates efectivos',
+			heroStatAssists: 'Atenciones médicas y prehospitalarias',
 			realityTitle: 'La Realidad',
 			realityText:
 				'Costa Ballena tiene algunas de las olas más poderosas de Costa Rica. Cada año, locales y turistas enfrentan situaciones que amenazan la vida en el océano. Sin guardavidas, pequeños errores pueden volverse fatales en segundos.',
@@ -676,37 +697,46 @@ export const copy: Record<
 			progCta: 'Únete como voluntario',
 			progCtaNote: 'Abierto a voluntarios locales e internacionales',
 			impactKicker: 'Datos oficiales',
-			impactPeriod: 'Reportes de bitácora: Abril – Diciembre 2025',
+			impactPeriod: 'Reportes de bitácora 2026',
+			impactTitle: 'Nuestro Impacto',
+			impactSubtitle: 'Detrás de cada número hay una vida protegida.',
 			statPreventions: 'Prevenciones',
-			prevNote: 'Más prevenciones que rescates: la señal de que los guardavidas están haciendo exactamente su trabajo.',
-			statRescues: 'Rescates en agua',
-			rescueBreakdown: [
-				{ beach: 'Hermosa', count: '11' },
-				{ beach: 'Dominical', count: '6' },
+			prevNote:
+				'Más prevenciones que rescates: la señal de que los guardavidas están haciendo exactamente su trabajo.',
+			impactTabDominical: 'Playa Dominical',
+			impactTabHermosa: 'Playa Hermosa',
+			impactPeriodDominical: 'Reporte de bitácora — Dominical',
+			impactPeriodHermosa: 'Del 1 de enero a la fecha — Playa Hermosa',
+			impactCompareTitle: 'Prevenciones por playa',
+			impactUpdateKicker: 'Actualización de campaña · 2026',
+			impactThanksTitle: 'Gracias. Ambas playas están seguras para 2026.',
+			impactThanksParagraphs: [
+				'Recaudamos lo necesario para apoyar a nuestros guardavidas durante el resto de 2026.',
+				'Dos donantes anónimos financiaron juntos más del 90% de los costos de este año en Playa Dominical y Playa Hermosa — y decenas de ustedes completaron el resto, aporte a aporte.',
+				'Cada ola cuenta. Gracias.',
 			],
-			statMedical: 'Asistencias médicas',
-			medicalBreakdown: [
-				{ beach: 'Hermosa', count: '12' },
-				{ beach: 'Dominical', count: '3' },
-			],
-			statOnDuty: 'Ahogamientos en servicio',
-			onDutyNote: 'Cuando estamos presentes, nadie muere.',
-			statOffDuty: 'Ahogamientos fuera de servicio',
-			offDutyNote: 'Estas tragedias ocurrieron fuera del horario de los guardavidas o en zonas sin cobertura. Son el argumento más claro de por qué esta misión importa.',
-			withoutOnDuty: 'Sin guardavidas de servicio',
-			offDutyBreakdown: [
-				{ beach: 'Playa Hermosa', count: '3' },
-				{ beach: 'Playa Dominical', count: '2' },
-				{ beach: 'Rocas de Amancio', count: '3' },
-			],
+			impactFundedDominical: 'Playa Dominical — financiada para 2026',
+			impactFundedHermosa: 'Playa Hermosa — financiada para 2026',
+			impactTabsHint: 'Elige una playa para ver las estadísticas de bitácora 2026',
+			impactMetricLabels: {
+				medical: 'Atenciones médicas',
+				stingray: 'Picaduras de rayas',
+				drowning: 'Ahogamiento',
+				prehospital: 'Atenciones prehospitalarias',
+				rescues: 'Rescates efectivos en agua',
+				deaths: 'Fallecidos',
+			},
+			impactMetricNotes: {
+				drowningDominical: '1 persona en Rocas de Amancio',
+				deathsHermosa:
+					'1 laborando en Punta Achiote; 1 sin guardavidas presentes',
+			},
 			reopenKicker: 'Campaña activa',
 			domFunded: '— completamente financiada y protegida',
 			cardInProgress: 'En campaña',
 			monthsShort: 'meses',
 			reopenGoalNote: 'Meta: 6 meses de financiamiento estable para garantizar presencia continua en la playa.',
 			ctaSub: 'Tu apoyo mantiene a los guardavidas en la playa y ayuda a prevenir tragedias.',
-			impactTitle: 'Nuestro Impacto',
-			impactSubtitle: 'Detrás de cada número hay una vida protegida.',
 			reopenTitle: 'Ayúdanos a reabrir Playa Hermosa',
 			reopenBody:
 				'Playa Dominical está actualmente completamente financiada y protegida. Nuestro próximo objetivo es reabrir Playa Hermosa y volver a llevar guardavidas a la playa. Para hacerlo de forma responsable, buscamos asegurar al menos 6 meses de financiamiento por adelantado.',

@@ -1,15 +1,24 @@
 ---
+import { Image } from 'astro:assets';
 import { copy, type Lang, formatPlayaHermosaRaisedOf } from '../i18n/copy';
 import { getRoutes } from '../i18n/routes';
 import TiersSection from './TiersSection.astro';
 
-import heroBg from '../assets/lifeguard-testing-day-28.avif';
-import seaBg from '../assets/sea.avif';
-import supportImg from '../assets/domi-tower-inauguration-2.avif';
+import heroBg from '../assets/lifeguard-testing-day-28.webp';
+import seaBg from '../assets/sea.webp';
+import supportImg from '../assets/domi-tower-inauguration-2.webp';
 import heroPhoto from '../assets/domi-tower-inauguration-50.webp';
 import progVolunteer from '../assets/Volunteer.jpg';
 import progJunior from '../assets/JuniorLifguard.png';
 import progCommunity from '../assets/CommunityOutreach.png';
+import {
+	impact2026,
+	impactHeroAssists,
+	impactHeroRescues,
+	impactPreventionBarWidth,
+	type ImpactBeachId,
+	type ImpactMetricId,
+} from '../data/impact2026';
 
 interface Props {
 	lang: Lang;
@@ -54,11 +63,32 @@ const reopenAriaLabel =
 	lang === 'es'
 		? `Progreso de la campaña: ${playaHermosaPct}%`
 		: `Campaign progress: ${playaHermosaPct}%`;
+
+const impactMetricLabel = (id: ImpactMetricId) => c.home.impactMetricLabels[id];
+const impactBeachTabLabel = (id: ImpactBeachId) =>
+	id === 'dominical' ? c.home.impactTabDominical : c.home.impactTabHermosa;
+const impactBeachPeriod = (id: ImpactBeachId) =>
+	id === 'dominical' ? c.home.impactPeriodDominical : c.home.impactPeriodHermosa;
+const impactMetricNote = (key: 'drowningDominical' | 'deathsHermosa') =>
+	c.home.impactMetricNotes[key];
+
+const heroPreventionsDisplay = `${impact2026.totalPreventions.toLocaleString()}+`;
+const heroRescuesDisplay = impactHeroRescues().toLocaleString();
+const heroAssistsDisplay = impactHeroAssists().toLocaleString();
 ---
 
 <main class="page-padding">
 	<section class="hero">
-		<img class="hero-bg" src={heroPhoto.src} alt="" fetchpriority="high" decoding="async" />
+		<Image
+			class="hero-bg"
+			src={heroPhoto}
+			alt=""
+			priority
+			decoding="async"
+			width={heroPhoto.width}
+			height={heroPhoto.height}
+			sizes="100vw"
+		/>
 		<div class="hero-overlay" aria-hidden="true" />
 
 		<div class="container hero-inner">
@@ -79,18 +109,18 @@ const reopenAriaLabel =
 				<!-- ── Stats strip ───────────────────────── -->
 				<div class="hero-stats" role="list">
 				<div class="hero-stat" role="listitem">
-					<span class="hero-stat-num">6,700+</span>
+					<span class="hero-stat-num">{heroPreventionsDisplay}</span>
 					<span class="hero-stat-label">{c.home.heroStatPreventions}</span>
 				</div>
 				<div class="hero-stat-divider" aria-hidden="true" />
 				<div class="hero-stat" role="listitem">
-					<span class="hero-stat-num">17</span>
+					<span class="hero-stat-num">{heroRescuesDisplay}</span>
 					<span class="hero-stat-label">{c.home.heroStatRescues}</span>
 				</div>
 				<div class="hero-stat-divider" aria-hidden="true" />
 				<div class="hero-stat" role="listitem">
-					<span class="hero-stat-num">0</span>
-					<span class="hero-stat-label">{c.home.heroStatOnDuty}</span>
+					<span class="hero-stat-num">{heroAssistsDisplay}</span>
+					<span class="hero-stat-label">{c.home.heroStatAssists}</span>
 				</div>
 				</div>
 			</div>
@@ -98,8 +128,7 @@ const reopenAriaLabel =
 
 		<!-- ── Wave transition (4 parallax layers via <use>) ─── -->
 		<!--
-			Un único <path> en <defs> reutilizado 4 veces con distintas
-			opacidades y velocidades → paralaje más orgánico.
+			Single <path> in <defs> reused 4× with different opacity and speed for organic parallax.
 			GPU-composited: translateZ(0) + will-change + backface-visibility.
 		-->
 		<div class="hero-wave" aria-hidden="true">
@@ -129,10 +158,9 @@ const reopenAriaLabel =
 
 	<!-- ─── COMBINED: Reality → Support → Where ─────────────────── -->
 	<!--
-		Continuación directa de la ola del hero. Un solo bloque dark blue que:
-		1. Establece la urgencia (Reality — 2 sentencias)
-		2. Muestra exactamente qué hace posible el apoyo (4 glass cards)
-		3. Genera confianza mostrando en qué se usa el dinero (Where + imagen)
+		Flows from the hero wave. One dark-blue block that:
+		1. States the urgency (Reality)
+		2. Shows what support makes possible (glass cards)
 	-->
 	<section class="combined-section bg-base">
 		<div class="container">
@@ -207,9 +235,7 @@ const reopenAriaLabel =
 
 	<!-- ─── WHERE YOUR MONEY GOES ────────────────────────────────── -->
 	<!--
-		Sección de transparencia — fondo claro para crear contraste
-		visual tras las dos secciones oscuras (hero + combined).
-		El blanco refuerza la sensación de confianza y apertura.
+		Transparency section — light background for contrast after dark hero + combined blocks.
 	-->
 	<section class="where-section">
 		<div class="container">
@@ -246,7 +272,16 @@ const reopenAriaLabel =
 
 				<!-- ── Image column ───────────────────────────── -->
 				<div class="where-img-wrap reveal-right">
-					<img class="where-img" src={supportImg.src} alt="" loading="lazy" decoding="async" />
+					<Image
+						class="where-img"
+						src={supportImg}
+						alt=""
+						loading="lazy"
+						decoding="async"
+						width={supportImg.width}
+						height={supportImg.height}
+						sizes="(min-width: 960px) 46vw, 100vw"
+					/>
 					<!-- Floating badge -->
 					<div class="where-badge">
 						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -265,9 +300,7 @@ const reopenAriaLabel =
 
 	<!-- ─── PROGRAMS — accordion hover ──────────────────────────── -->
 	<!--
-		Dark blue para encadenar visualmente con la sección Impact.
-		Patrón: lista numerada a la izquierda, imagen sticky a la derecha
-		que cambia al hacer hover sobre cada programa.
+		Dark blue to chain visually with Impact. Numbered list left, sticky image right on hover.
 	-->
 	<section class="prog-section">
 		<div class="container">
@@ -325,15 +358,39 @@ const reopenAriaLabel =
 				<!-- ── Image preview (sticky) ─────────────────── -->
 				<div class="prog-preview" aria-hidden="true">
 					<div class="prog-img-stack">
-						<img class="prog-img is-active" data-index="0"
-							src={progVolunteer.src} alt={c.home.programs[0].altText}
-							loading="lazy" decoding="async" />
-						<img class="prog-img" data-index="1"
-							src={progJunior.src} alt={c.home.programs[1].altText}
-							loading="lazy" decoding="async" />
-						<img class="prog-img" data-index="2"
-							src={progCommunity.src} alt={c.home.programs[2].altText}
-							loading="lazy" decoding="async" />
+						<Image
+							class="prog-img is-active"
+							data-index="0"
+							src={progVolunteer}
+							alt={c.home.programs[0].altText}
+							loading="lazy"
+							decoding="async"
+							width={progVolunteer.width}
+							height={progVolunteer.height}
+							sizes="(min-width: 860px) 42vw, 100vw"
+						/>
+						<Image
+							class="prog-img"
+							data-index="1"
+							src={progJunior}
+							alt={c.home.programs[1].altText}
+							loading="lazy"
+							decoding="async"
+							width={progJunior.width}
+							height={progJunior.height}
+							sizes="(min-width: 860px) 42vw, 100vw"
+						/>
+						<Image
+							class="prog-img"
+							data-index="2"
+							src={progCommunity}
+							alt={c.home.programs[2].altText}
+							loading="lazy"
+							decoding="async"
+							width={progCommunity.width}
+							height={progCommunity.height}
+							sizes="(min-width: 860px) 42vw, 100vw"
+						/>
 					</div>
 				</div>
 
@@ -341,124 +398,176 @@ const reopenAriaLabel =
 		</div>
 	</section>
 
-	<!-- ─── OUR IMPACT ──────────────────────────────────────────── -->
-	<!--
-		Narrativa de datos: prevenciones → rescates → 0 ahogamientos en servicio
-		→ contraste off-duty. Cada bloque refuerza el mensaje de la misión.
-		Datos: Logbook Reports April–December 2025.
-	-->
+	<!-- ─── OUR IMPACT (2026) ───────────────────────────────────── -->
 	<section class="impact-section bg-base" id="impact-section">
 		<div class="container">
 
-			<!-- Header -->
-			<div class="impact-header reveal">
+			<header class="impact-header reveal">
 				<div class="kicker">{c.home.impactKicker}</div>
 				<h2 class="h2 impact-title">{c.home.impactTitle}</h2>
 				<p class="impact-subtitle">{c.home.impactSubtitle}</p>
 				<p class="impact-period">{c.home.impactPeriod}</p>
-			</div>
+			</header>
 
-			<!-- ── Prevention hero ───────────────────────────────── -->
-			<div class="impact-prevention reveal">
-				<div class="impact-prev-left">
-					<div class="impact-big-num" data-count="6689" data-suffix="+">0</div>
-				<div class="impact-big-label">{c.home.statPreventions}</div>
-				<p class="impact-prev-note">{c.home.prevNote}</p>
-				</div>
-				<div class="impact-prev-bars">
-					<div class="impact-bar-group">
-						<div class="impact-bar-header">
-							<span>Playa Hermosa</span>
-							<strong>4,345</strong>
-						</div>
-						<div class="impact-bar-track">
-							<div class="impact-bar-fill" style="--bar-w: 100%;"></div>
-						</div>
-					</div>
-					<div class="impact-bar-group">
-						<div class="impact-bar-header">
-							<span>Playa Dominical</span>
-							<strong>2,344</strong>
-						</div>
-						<div class="impact-bar-track">
-							<div class="impact-bar-fill" style="--bar-w: 54%;"></div>
-						</div>
-					</div>
-				</div>
-			</div>
+			<div class="impact-body reveal">
+				<aside class="impact-story">
+					<p class="impact-update-kicker">{c.home.impactUpdateKicker}</p>
+					<h3 class="impact-thanks-title">{c.home.impactThanksTitle}</h3>
+					{c.home.impactThanksParagraphs.map((paragraph) => (
+						<p class="impact-thanks-p">{paragraph}</p>
+					))}
+					<ul class="impact-funded-list">
+						<li>
+							<span class="impact-funded-dot" aria-hidden="true"></span>
+							{c.home.impactFundedDominical}
+						</li>
+						<li>
+							<span class="impact-funded-dot" aria-hidden="true"></span>
+							{c.home.impactFundedHermosa}
+						</li>
+					</ul>
+				</aside>
 
-			<!-- ── 3-column metrics ──────────────────────────────── -->
-			<div class="impact-metrics">
-				<!-- Water Rescues -->
-				<div class="impact-metric reveal reveal-d1">
-					<div class="impact-metric-icon" aria-hidden="true">
-						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-							<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/>
-							<line x1="4.93" y1="4.93" x2="7.76" y2="7.76"/>
-							<line x1="16.24" y1="16.24" x2="19.07" y2="19.07"/>
-							<line x1="16.24" y1="7.76" x2="19.07" y2="4.93"/>
-							<line x1="4.93" y1="19.07" x2="7.76" y2="16.24"/>
-						</svg>
-					</div>
-					<div class="impact-metric-num" data-count="17">0</div>
-					<div class="impact-metric-label">{c.home.statRescues}</div>
-					<div class="impact-metric-breakdown">
-						{c.home.rescueBreakdown.map(r => (
-							<span>{r.beach}: <strong>{r.count}</strong></span>
+				<div class="impact-dashboard">
+					<p class="impact-tabs-hint" id="impact-tabs-label">{c.home.impactTabsHint}</p>
+					<div
+						class="impact-segment"
+						role="tablist"
+						aria-labelledby="impact-tabs-label"
+					>
+						{impact2026.beaches.map((beach, i) => (
+							<button
+								type="button"
+								class={`impact-segment-btn${i === 0 ? ' is-active' : ''}`}
+								role="tab"
+								id={`impact-tab-${beach.id}`}
+								aria-selected={i === 0 ? 'true' : 'false'}
+								aria-controls={`impact-panel-${beach.id}`}
+								data-beach={beach.id}
+							>
+								{impactBeachTabLabel(beach.id)}
+							</button>
 						))}
 					</div>
-				</div>
 
-				<!-- Medical Assists -->
-				<div class="impact-metric reveal reveal-d2">
-					<div class="impact-metric-icon" aria-hidden="true">
-						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-							<path d="M12 22C6.5 22 2 17.5 2 12S6.5 2 12 2s10 4.5 10 10-4.5 10-10 10z"/>
-							<path d="M12 8v8M8 12h8"/>
-						</svg>
-					</div>
-					<div class="impact-metric-num" data-count="15">0</div>
-					<div class="impact-metric-label">{c.home.statMedical}</div>
-					<div class="impact-metric-breakdown">
-						{c.home.medicalBreakdown.map(r => (
-							<span>{r.beach}: <strong>{r.count}</strong></span>
-						))}
-					</div>
-				</div>
+					{impact2026.beaches.map((beach, i) => (
+						<div
+							class={`impact-panel${i === 0 ? ' is-active' : ''}`}
+							id={`impact-panel-${beach.id}`}
+							role="tabpanel"
+							aria-labelledby={`impact-tab-${beach.id}`}
+							data-panel={beach.id}
+							hidden={i !== 0}
+						>
+							<p class="impact-panel-period">{impactBeachPeriod(beach.id)}</p>
 
-				<!-- Zero on-duty drownings — the key stat -->
-				<div class="impact-metric impact-metric--zero reveal reveal-d3">
-					<div class="impact-metric-icon impact-metric-icon--success" aria-hidden="true">
-						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-							<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-							<polyline points="9 12 11 14 15 10"/>
-						</svg>
-					</div>
-					<div class="impact-metric-zero">0</div>
-					<div class="impact-metric-label">{c.home.statOnDuty}</div>
-					<p class="impact-metric-zero-note">{c.home.onDutyNote}</p>
-				</div>
-			</div>
-
-			<!-- ── Off-duty contrast ─────────────────────────────── -->
-			<div class="impact-contrast reveal">
-				<div class="impact-contrast-badge">{c.home.withoutOnDuty}</div>
-				<div class="impact-contrast-body">
-					<div class="impact-contrast-left">
-						<div class="impact-contrast-num">8</div>
-						<div class="impact-contrast-label">{c.home.statOffDuty}</div>
-						<p class="impact-contrast-note">{c.home.offDutyNote}</p>
-					</div>
-					<div class="impact-contrast-right">
-						<div class="impact-contrast-breakdown">
-							{c.home.offDutyBreakdown.map(row => (
-								<div class="impact-contrast-row">
-									<span>{row.beach}</span>
-									<strong>{row.count}</strong>
+							<div class="impact-prevention">
+								<div class="impact-prev-left">
+									<div class="impact-metric-icon impact-metric-icon--hero" aria-hidden="true">
+										<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+											<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+											<polyline points="9 12 11 14 15 10"/>
+										</svg>
+									</div>
+									<div
+										class="impact-big-num"
+										data-count={beach.preventions}
+										data-impact-counter
+									>
+										0
+									</div>
+									<div class="impact-big-label">{c.home.statPreventions}</div>
+									<p class="impact-prev-note">{c.home.prevNote}</p>
 								</div>
-							))}
+								<div class="impact-prev-bars">
+									<h4 class="impact-bars-title">{c.home.impactCompareTitle}</h4>
+									{impact2026.beaches.map((barBeach) => (
+										<div class="impact-bar-group">
+											<div class="impact-bar-header">
+												<span>{impactBeachTabLabel(barBeach.id)}</span>
+												<strong>{barBeach.preventions.toLocaleString()}</strong>
+											</div>
+											<div class="impact-bar-track">
+												<div
+													class="impact-bar-fill"
+													style={`--bar-w: ${impactPreventionBarWidth(barBeach.preventions)};`}
+												></div>
+											</div>
+										</div>
+									))}
+									<p class="impact-compare-total">
+										<span>{c.home.statPreventions}</span>
+										<strong>{impact2026.totalPreventions.toLocaleString()}</strong>
+									</p>
+								</div>
+							</div>
+
+							<div class="impact-metrics">
+								{beach.metrics.map((metric) => (
+									<article
+										class={`impact-metric${metric.id === 'deaths' || metric.id === 'drowning' ? ' impact-metric--alert' : ''}`}
+									>
+										<div class="impact-metric-icon" aria-hidden="true">
+											{metric.id === 'medical' && (
+												<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+													<path d="M12 22C6.5 22 2 17.5 2 12S6.5 2 12 2s10 4.5 10 10-4.5 10-10 10z"/>
+													<path d="M12 8v8M8 12h8"/>
+												</svg>
+											)}
+											{metric.id === 'stingray' && (
+												<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+													<path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+													<circle cx="12" cy="12" r="3"/>
+												</svg>
+											)}
+											{metric.id === 'drowning' && (
+												<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+													<path d="M2 20c2-4 6-6 10-6s8 2 10 6"/>
+													<path d="M12 14V8M9 11l3-3 3 3"/>
+												</svg>
+											)}
+											{metric.id === 'prehospital' && (
+												<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+													<path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+												</svg>
+											)}
+											{metric.id === 'rescues' && (
+												<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+													<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/>
+													<line x1="4.93" y1="4.93" x2="7.76" y2="7.76"/>
+													<line x1="16.24" y1="16.24" x2="19.07" y2="19.07"/>
+													<line x1="16.24" y1="7.76" x2="19.07" y2="4.93"/>
+													<line x1="4.93" y1="19.07" x2="7.76" y2="16.24"/>
+												</svg>
+											)}
+											{metric.id === 'deaths' && (
+												<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+													<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+													<line x1="12" y1="9" x2="12" y2="13"/>
+													<line x1="12" y1="17" x2="12.01" y2="17"/>
+												</svg>
+											)}
+										</div>
+										<div
+											class="impact-metric-num"
+											data-count={metric.value}
+											data-impact-counter
+										>
+											0
+										</div>
+										<div class="impact-metric-label">
+											{impactMetricLabel(metric.id)}
+										</div>
+										{metric.noteKey && (
+											<p class="impact-metric-note">
+												{impactMetricNote(metric.noteKey)}
+											</p>
+										)}
+									</article>
+								))}
+							</div>
 						</div>
-					</div>
+					))}
 				</div>
 			</div>
 
@@ -467,18 +576,23 @@ const reopenAriaLabel =
 
 
 	<!-- ─── HELP US REOPEN PLAYA HERMOSA ────────────────────────── -->
-	<!--
-		Urgencia concreta: campaña activa con progreso visible.
-		El visitante ya entiende quiénes son y cómo ayudan → ahora se le presenta
-		una necesidad específica.
-	-->
+	<!-- Active campaign block with visible progress toward Playa Hermosa funding. -->
 	<section
 		class="reopen"
 		id="reopen-section"
 		data-reopen-raised={playaHermosaRaised}
 		data-reopen-pct={playaHermosaPct}
 	>
-		<img class="reopen-bg" src={heroBg.src} alt="" loading="lazy" decoding="async" />
+		<Image
+			class="reopen-bg"
+			src={heroBg}
+			alt=""
+			loading="lazy"
+			decoding="async"
+			width={heroBg.width}
+			height={heroBg.height}
+			sizes="100vw"
+		/>
 		<div class="reopen-overlay" aria-hidden="true"></div>
 
 		<div class="container reopen-inner">
@@ -556,17 +670,24 @@ const reopenAriaLabel =
 	</section>
 
 	<!-- ─── TIERS ────────────────────────────────────────────────── -->
-	<!--
-		Ya convencido el visitante → se le presentan las opciones concretas
-		para unirse como miembro o donante.
-	-->
+	<!-- Membership / donation tiers once the visitor understands the mission. -->
 	<TiersSection lang={lang} ctaHref={donateHref} />
 
 
 	<!-- ─── BOTTOM CTA ───────────────────────────────────────────── -->
 	<section class="bottom-cta-section">
 		<!-- Background image -->
-		<img class="bottom-cta-bg" src={seaBg.src} alt="" aria-hidden="true" loading="lazy" decoding="async" />
+		<Image
+			class="bottom-cta-bg"
+			src={seaBg}
+			alt=""
+			aria-hidden="true"
+			loading="lazy"
+			decoding="async"
+			width={seaBg.width}
+			height={seaBg.height}
+			sizes="100vw"
+		/>
 		<!-- Gradient overlay -->
 		<div class="bottom-cta-overlay" aria-hidden="true"></div>
 
@@ -575,18 +696,18 @@ const reopenAriaLabel =
 			<!-- Mini stats reminder -->
 			<div class="cta-stats reveal">
 				<div class="cta-stat">
-					<span class="cta-stat-num">6,689+</span>
+					<span class="cta-stat-num">{heroPreventionsDisplay}</span>
 					<span class="cta-stat-label">{c.home.heroStatPreventions}</span>
 				</div>
 				<div class="cta-stat-sep" aria-hidden="true"></div>
 				<div class="cta-stat">
-					<span class="cta-stat-num">17</span>
+					<span class="cta-stat-num">{heroRescuesDisplay}</span>
 					<span class="cta-stat-label">{c.home.heroStatRescues}</span>
 				</div>
 				<div class="cta-stat-sep" aria-hidden="true"></div>
 				<div class="cta-stat">
-					<span class="cta-stat-num">0</span>
-					<span class="cta-stat-label">{c.home.heroStatOnDuty}</span>
+					<span class="cta-stat-num">{heroAssistsDisplay}</span>
+					<span class="cta-stat-label">{c.home.heroStatAssists}</span>
 				</div>
 			</div>
 
@@ -745,7 +866,7 @@ const reopenAriaLabel =
 			min-height: 60px;
 		}
 
-		/* GPU hints — cada capa en su propio compositor layer */
+		/* GPU hints — each layer on its own compositor */
 		.waves-parallax use {
 			transform: translateZ(0);
 			will-change: transform;
@@ -753,7 +874,7 @@ const reopenAriaLabel =
 			animation: gentleWave 25s cubic-bezier(0.5, 0.5, 0.45, 0.5) infinite;
 		}
 
-		/* Velocidades distintas por capa → efecto paralaje natural */
+		/* Different speeds per layer → natural parallax */
 		.waves-parallax use:nth-child(1) { animation-duration:  7s; animation-delay: -2s; }
 		.waves-parallax use:nth-child(2) { animation-duration: 10s; animation-delay: -3s; }
 		.waves-parallax use:nth-child(3) { animation-duration: 13s; animation-delay: -4s; }
@@ -1169,7 +1290,7 @@ const reopenAriaLabel =
 			text-align: center;
 		}
 
-		/* Kicker con estilo pill/badge — borde sutil sobre dark bg */
+		/* Kicker pill/badge — subtle border on dark bg */
 		.cs-reality-kicker {
 			display: inline-block;
 			padding: 5px 16px;
@@ -1184,7 +1305,7 @@ const reopenAriaLabel =
 			margin-bottom: 28px;
 		}
 
-		/* Primera frase — titular prominente */
+		/* Lead line — prominent headline */
 		.reality-heading {
 			margin: 0 auto 18px;
 			max-width: 30ch;
@@ -1195,7 +1316,7 @@ const reopenAriaLabel =
 			color: white;
 		}
 
-		/* Segunda frase — subtítulo */
+		/* Second line — subtitle */
 		.reality-sub {
 			margin: 0 auto;
 			max-width: 52ch;
@@ -1302,7 +1423,7 @@ const reopenAriaLabel =
 			margin: 0;
 		}
 
-		/* ── Where section — fondo claro ────────────────────────── */
+		/* ── Where section — light background ───────────────────── */
 		.where-section {
 			background: #f5f7fc;
 			padding: 80px 0;
@@ -1313,7 +1434,7 @@ const reopenAriaLabel =
 			gap: 56px;
 		}
 
-		/* Heading: primera línea normal, segunda bold + color */
+		/* Heading: first line regular, second bold + accent */
 		.where-heading {
 			font-size: clamp(26px, 3.2vw, 40px);
 			font-weight: 400;
@@ -1719,14 +1840,14 @@ const reopenAriaLabel =
 			transform: scale(1);
 		}
 
-		/* ── Impact section — dark (bg-base) ────────────────────── */
+		/* ── Impact section (2026) — story + dashboard grid ───── */
 		.impact-section {
 			padding: 80px 0 72px;
 		}
 
 		.impact-header {
 			text-align: center;
-			margin-bottom: 56px;
+			margin-bottom: 48px;
 		}
 
 		.impact-title {
@@ -1737,7 +1858,9 @@ const reopenAriaLabel =
 		.impact-subtitle {
 			color: rgba(255, 255, 255, 0.62);
 			font-size: 16px;
-			margin: 0 0 8px;
+			margin: 0 auto 10px;
+			max-width: 42ch;
+			font-style: italic;
 		}
 
 		.impact-period {
@@ -1752,24 +1875,217 @@ const reopenAriaLabel =
 			padding: 4px 14px;
 		}
 
-		/* Prevention hero block */
-		.impact-prevention {
+		.impact-body {
 			display: grid;
 			grid-template-columns: 1fr;
 			gap: 36px;
+			align-items: start;
+		}
+
+		@media (min-width: 960px) {
+			.impact-body {
+				grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.15fr);
+				gap: 48px;
+			}
+		}
+
+		/* Reference-style thank-you column */
+		.impact-story {
+			padding: 28px 24px;
 			background: rgba(255, 255, 255, 0.04);
 			border: 1px solid rgba(255, 255, 255, 0.09);
 			border-radius: 20px;
-			padding: 36px 32px;
-			margin-bottom: 24px;
 		}
 
-		@media (min-width: 720px) {
+		.impact-update-kicker {
+			margin: 0 0 14px;
+			font-size: 11px;
+			font-weight: 700;
+			letter-spacing: 0.12em;
+			text-transform: uppercase;
+			color: #4ade80;
+		}
+
+		.impact-thanks-title {
+			margin: 0 0 16px;
+			font-size: clamp(22px, 3vw, 30px);
+			font-weight: 800;
+			line-height: 1.25;
+			color: white;
+			letter-spacing: -0.02em;
+		}
+
+		.impact-thanks-p {
+			margin: 0 0 14px;
+			font-size: 15px;
+			line-height: 1.75;
+			color: rgba(255, 255, 255, 0.68);
+		}
+
+		.impact-thanks-p:last-of-type {
+			margin-bottom: 22px;
+		}
+
+		.impact-funded-list {
+			list-style: none;
+			margin: 0;
+			padding: 0;
+			display: flex;
+			flex-direction: column;
+			gap: 10px;
+		}
+
+		.impact-funded-list li {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			padding: 10px 14px;
+			border-radius: 10px;
+			background: rgba(34, 197, 94, 0.1);
+			border: 1px solid rgba(34, 197, 94, 0.28);
+			font-size: 13px;
+			font-weight: 600;
+			color: rgba(255, 255, 255, 0.82);
+		}
+
+		.impact-funded-dot {
+			width: 8px;
+			height: 8px;
+			border-radius: 50%;
+			background: #4ade80;
+			box-shadow: 0 0 0 3px rgba(74, 222, 128, 0.25);
+			flex-shrink: 0;
+		}
+
+		/* Data dashboard */
+		.impact-dashboard {
+			display: flex;
+			flex-direction: column;
+			gap: 16px;
+			min-width: 0;
+		}
+
+		.impact-tabs-hint {
+			margin: 0;
+			font-size: 13px;
+			font-weight: 600;
+			color: rgba(255, 255, 255, 0.5);
+		}
+
+		.impact-segment {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: 4px;
+			padding: 5px;
+			background: rgba(0, 0, 0, 0.22);
+			border: 1px solid rgba(255, 255, 255, 0.14);
+			border-radius: 14px;
+			box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+		}
+
+		.impact-segment-btn {
+			padding: 13px 16px;
+			border: none;
+			border-radius: 10px;
+			background: transparent;
+			color: rgba(255, 255, 255, 0.55);
+			font-size: 14px;
+			font-weight: 800;
+			cursor: pointer;
+			transition:
+				background 0.2s ease,
+				color 0.2s ease,
+				box-shadow 0.2s ease,
+				transform 0.15s ease;
+		}
+
+		.impact-segment-btn:hover {
+			color: rgba(255, 255, 255, 0.9);
+			background: rgba(255, 255, 255, 0.06);
+		}
+
+		.impact-segment-btn.is-active {
+			background: linear-gradient(180deg, var(--color-primary-500) 0%, var(--color-primary-600) 100%);
+			color: white;
+			box-shadow:
+				0 4px 14px rgba(42, 118, 181, 0.45),
+				0 0 0 1px rgba(255, 255, 255, 0.12);
+		}
+
+		.impact-segment-btn:focus-visible {
+			outline: 2px solid var(--color-primary-400);
+			outline-offset: 2px;
+		}
+
+		.impact-panel {
+			display: none;
+			flex-direction: column;
+			gap: 20px;
+		}
+
+		.impact-panel.is-active {
+			display: flex;
+			animation: impact-panel-in 0.35s ease;
+		}
+
+		@keyframes impact-panel-in {
+			from {
+				opacity: 0;
+				transform: translateY(6px);
+			}
+			to {
+				opacity: 1;
+				transform: translateY(0);
+			}
+		}
+
+		.impact-panel-period {
+			margin: 0;
+			font-size: 12px;
+			font-weight: 600;
+			letter-spacing: 0.06em;
+			text-transform: uppercase;
+			color: rgba(255, 255, 255, 0.42);
+		}
+
+		.impact-prevention {
+			display: grid;
+			grid-template-columns: 1fr;
+			gap: 28px;
+			background: rgba(255, 255, 255, 0.04);
+			border: 1px solid rgba(255, 255, 255, 0.09);
+			border-radius: 20px;
+			padding: 28px 24px;
+		}
+
+		@media (min-width: 640px) {
 			.impact-prevention {
 				grid-template-columns: auto 1fr;
-				gap: 52px;
+				gap: 40px;
 				align-items: center;
 			}
+		}
+
+		.impact-metric-icon {
+			width: 36px;
+			height: 36px;
+			border-radius: 50%;
+			background: rgba(255, 255, 255, 0.1);
+			color: rgba(255, 255, 255, 0.75);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			margin-bottom: 12px;
+		}
+
+		.impact-metric-icon svg {
+			width: 18px;
+			height: 18px;
+		}
+
+		.impact-metric-icon--hero {
+			background: rgba(34, 197, 94, 0.16);
+			color: #4ade80;
 		}
 
 		.impact-big-num {
@@ -1798,14 +2114,20 @@ const reopenAriaLabel =
 			font-style: italic;
 		}
 
-		/* Bars */
 		.impact-prev-bars {
 			display: flex;
 			flex-direction: column;
-			gap: 20px;
+			gap: 16px;
 		}
 
-		.impact-bar-group {}
+		.impact-bars-title {
+			margin: 0 0 4px;
+			font-size: 11px;
+			font-weight: 700;
+			text-transform: uppercase;
+			letter-spacing: 0.09em;
+			color: rgba(255, 255, 255, 0.45);
+		}
 
 		.impact-bar-header {
 			display: flex;
@@ -1844,12 +2166,27 @@ const reopenAriaLabel =
 			width: var(--bar-w);
 		}
 
-		/* 3-column metrics */
+		.impact-compare-total {
+			display: flex;
+			justify-content: space-between;
+			align-items: baseline;
+			margin: 4px 0 0;
+			padding-top: 14px;
+			border-top: 1px solid rgba(255, 255, 255, 0.1);
+			font-size: 13px;
+			color: rgba(255, 255, 255, 0.5);
+		}
+
+		.impact-compare-total strong {
+			font-size: 18px;
+			font-weight: 800;
+			color: white;
+		}
+
 		.impact-metrics {
 			display: grid;
 			grid-template-columns: 1fr;
 			gap: 16px;
-			margin-bottom: 24px;
 		}
 
 		@media (min-width: 600px) {
@@ -1868,26 +2205,14 @@ const reopenAriaLabel =
 			gap: 4px;
 		}
 
-		.impact-metric-icon {
-			width: 36px;
-			height: 36px;
-			border-radius: 50%;
-			background: rgba(255, 255, 255, 0.1);
-			color: rgba(255, 255, 255, 0.7);
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			margin-bottom: 12px;
+		.impact-metric--alert {
+			border-color: rgba(237, 67, 76, 0.28);
+			background: rgba(237, 67, 76, 0.06);
 		}
 
-		.impact-metric-icon svg {
-			width: 18px;
-			height: 18px;
-		}
-
-		.impact-metric-icon--success {
-			background: rgba(34, 197, 94, 0.18);
-			color: #4ade80;
+		.impact-metric--alert .impact-metric-icon {
+			background: rgba(237, 67, 76, 0.15);
+			color: var(--color-accent-400);
 		}
 
 		.impact-metric-num {
@@ -1898,6 +2223,10 @@ const reopenAriaLabel =
 			letter-spacing: -0.03em;
 		}
 
+		.impact-metric--alert .impact-metric-num {
+			color: var(--color-accent-400);
+		}
+
 		.impact-metric-label {
 			font-size: 12px;
 			font-weight: 700;
@@ -1905,129 +2234,24 @@ const reopenAriaLabel =
 			letter-spacing: 0.09em;
 			color: rgba(255, 255, 255, 0.45);
 			margin-top: 4px;
+			line-height: 1.35;
 		}
 
-		.impact-metric-breakdown {
-			display: flex;
-			gap: 12px;
-			margin-top: 10px;
-			flex-wrap: wrap;
-		}
-
-		.impact-metric-breakdown span {
+		.impact-metric-note {
+			margin: 10px 0 0;
 			font-size: 12.5px;
-			color: rgba(255, 255, 255, 0.42);
-		}
-
-		.impact-metric-breakdown strong {
-			color: rgba(255, 255, 255, 0.72);
-		}
-
-		/* Zero card */
-		.impact-metric--zero {
-			border-color: rgba(34, 197, 94, 0.22);
-			background: rgba(34, 197, 94, 0.06);
-		}
-
-		.impact-metric-zero {
-			font-size: clamp(52px, 7vw, 72px);
-			font-weight: 900;
-			color: #4ade80;
-			line-height: 1;
-			letter-spacing: -0.04em;
-		}
-
-		.impact-metric-zero-note {
-			font-size: 13px;
-			color: rgba(34, 197, 94, 0.7);
-			font-style: italic;
 			line-height: 1.5;
-			margin: 8px 0 0;
-		}
-
-		/* Off-duty contrast block */
-		.impact-contrast {
-			background: rgba(237, 67, 76, 0.07);
-			border: 1px solid rgba(237, 67, 76, 0.22);
-			border-radius: 16px;
-			padding: 32px;
-		}
-
-		.impact-contrast-badge {
-			display: inline-block;
-			font-size: 10.5px;
-			font-weight: 800;
-			text-transform: uppercase;
-			letter-spacing: 0.12em;
-			color: var(--color-accent-400);
-			border: 1px solid rgba(237, 67, 76, 0.3);
-			border-radius: 999px;
-			padding: 4px 12px;
-			margin-bottom: 20px;
-		}
-
-		.impact-contrast-body {
-			display: grid;
-			grid-template-columns: 1fr;
-			gap: 24px;
-		}
-
-		@media (min-width: 640px) {
-			.impact-contrast-body {
-				grid-template-columns: 1fr 1fr;
-				align-items: center;
-			}
-		}
-
-		.impact-contrast-num {
-			font-size: clamp(56px, 8vw, 80px);
-			font-weight: 900;
-			color: var(--color-accent-400);
-			line-height: 1;
-			letter-spacing: -0.04em;
-		}
-
-		.impact-contrast-label {
-			font-size: 13px;
-			font-weight: 700;
-			text-transform: uppercase;
-			letter-spacing: 0.08em;
-			color: rgba(255, 255, 255, 0.5);
-			margin-top: 4px;
-		}
-
-		.impact-contrast-note {
-			font-size: 14px;
-			line-height: 1.65;
 			color: rgba(255, 255, 255, 0.55);
-			margin: 12px 0 0;
-			max-width: 42ch;
 		}
 
-		.impact-contrast-breakdown {
-			display: flex;
-			flex-direction: column;
-			gap: 10px;
+		.impact-metric--alert .impact-metric-note {
+			color: rgba(255, 200, 200, 0.78);
 		}
 
-		.impact-contrast-row {
-			display: flex;
-			justify-content: space-between;
-			align-items: center;
-			padding: 10px 16px;
-			background: rgba(255, 255, 255, 0.04);
-			border-radius: 8px;
-			font-size: 14px;
-		}
-
-		.impact-contrast-row span {
-			color: rgba(255, 255, 255, 0.6);
-		}
-
-		.impact-contrast-row strong {
-			color: var(--color-accent-400);
-			font-size: 18px;
-			font-weight: 800;
+		@media (prefers-reduced-motion: reduce) {
+			.impact-panel.is-active {
+				animation: none;
+			}
 		}
 
 		/* ── Support feature cards ───────────────────────────────── */
@@ -2279,45 +2503,98 @@ const reopenAriaLabel =
 		obs.observe(section);
 	})();
 
-	// ── Impact: animated counters + bars on scroll ────────────
+	// ── Impact: beach tabs, counters, comparison bars ───────────
 	(function () {
-		const section = document.getElementById('impact-section');
-		if (!section) return;
+		const sectionRoot = document.getElementById('impact-section');
+		if (!sectionRoot) return;
+		const section: HTMLElement = sectionRoot;
 
-		let animated = false;
+		const tabs = section.querySelectorAll<HTMLButtonElement>('.impact-segment-btn');
+		const panels = section.querySelectorAll<HTMLElement>('.impact-panel');
+		let sectionReady = false;
+		const counterRaf = new WeakMap<HTMLElement, number>();
 
-		function easeOut(t: number) { return 1 - Math.pow(1 - t, 3); }
-
-		function animateCounter(el: HTMLElement, target: number, duration: number, suffix = '') {
-			const start = performance.now();
-			const update = (now: number) => {
-				const progress = Math.min((now - start) / duration, 1);
-				el.textContent = Math.floor(easeOut(progress) * target).toLocaleString() + (progress === 1 ? suffix : '');
-				if (progress < 1) requestAnimationFrame(update);
-			};
-			requestAnimationFrame(update);
+		function easeOut(t: number) {
+			return 1 - Math.pow(1 - t, 3);
 		}
 
-		function runAnimations() {
-			if (animated) return;
-			animated = true;
+		function parseCounterValue(text: string) {
+			const n = parseInt(text.replace(/[^\d]/g, ''), 10);
+			return Number.isFinite(n) ? n : 0;
+		}
 
-			// Counters
-			document.querySelectorAll<HTMLElement>('[data-count]').forEach(el => {
-				const target = parseInt(el.dataset.count || '0');
-				const suffix = el.dataset.suffix || '';
-				animateCounter(el, target, 1600, suffix);
+		function animateCounter(el: HTMLElement, target: number, duration = 1400) {
+			const prevRaf = counterRaf.get(el);
+			if (prevRaf !== undefined) cancelAnimationFrame(prevRaf);
+
+			const from = parseCounterValue(el.textContent ?? '0');
+			const start = performance.now();
+
+			const tick = (now: number) => {
+				const progress = Math.min((now - start) / duration, 1);
+				const value = Math.round(from + (target - from) * easeOut(progress));
+				el.textContent = value.toLocaleString();
+				if (progress < 1) {
+					counterRaf.set(el, requestAnimationFrame(tick));
+				} else {
+					counterRaf.delete(el);
+				}
+			};
+			counterRaf.set(el, requestAnimationFrame(tick));
+		}
+
+		function animatePanelCounters(panel: HTMLElement | null, fromZero = false) {
+			if (!panel) return;
+			panel.querySelectorAll<HTMLElement>('[data-impact-counter]').forEach((el) => {
+				const target = parseInt(el.dataset.count || '0', 10);
+				if (!Number.isFinite(target)) return;
+				if (fromZero) el.textContent = '0';
+				animateCounter(el, target);
 			});
+		}
 
-			// Bars — staggered
-			document.querySelectorAll<HTMLElement>('.impact-bar-fill').forEach((bar, i) => {
-				setTimeout(() => bar.classList.add('bars-animated'), 300 + i * 200);
+		function activateBeach(beachId: string) {
+			tabs.forEach((tab) => {
+				const active = tab.dataset.beach === beachId;
+				tab.classList.toggle('is-active', active);
+				tab.setAttribute('aria-selected', active ? 'true' : 'false');
+			});
+			panels.forEach((panel) => {
+				const active = panel.dataset.panel === beachId;
+				panel.classList.toggle('is-active', active);
+				panel.hidden = !active;
+			});
+			const activePanel = section.querySelector<HTMLElement>(
+				`.impact-panel[data-panel="${beachId}"]`
+			);
+			if (sectionReady) animatePanelCounters(activePanel, true);
+		}
+
+		tabs.forEach((tab) => {
+			tab.addEventListener('click', () => {
+				const beachId = tab.dataset.beach;
+				if (beachId) activateBeach(beachId);
+			});
+		});
+
+		function runSectionAnimations() {
+			if (sectionReady) return;
+			sectionReady = true;
+			const firstPanel = section.querySelector<HTMLElement>('.impact-panel.is-active');
+			animatePanelCounters(firstPanel, true);
+			section.querySelectorAll<HTMLElement>('.impact-bar-fill').forEach((bar, i) => {
+				setTimeout(() => bar.classList.add('bars-animated'), 280 + i * 180);
 			});
 		}
 
 		const obs = new IntersectionObserver(
-			(entries) => { if (entries[0].isIntersecting) { runAnimations(); obs.disconnect(); } },
-			{ threshold: 0.2 }
+			(entries) => {
+				if (entries[0].isIntersecting) {
+					runSectionAnimations();
+					obs.disconnect();
+				}
+			},
+			{ threshold: 0.15 }
 		);
 		obs.observe(section);
 	})();

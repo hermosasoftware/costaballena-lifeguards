@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets';
 import logo2 from '../assets/logo-guardavidas-lettersonly.png';
 import { copy, type Lang } from '../i18n/copy';
 import { getRoutes } from '../i18n/routes';
@@ -16,7 +17,7 @@ const routes = getRoutes(lang);
 	<div class="container header-inner">
 
 		<a class="brand" href={routes.home} aria-label={c.siteName}>
-			<img src={logo2.src} alt={c.siteName} width="180" height="48" decoding="async" />
+			<Image src={logo2} alt={c.siteName} width={180} height={48} decoding="async" />
 		</a>
 
 	<!-- Primary nav — hidden on mobile, shown via JS toggle -->

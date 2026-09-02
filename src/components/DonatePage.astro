@@ -1,13 +1,14 @@
 ---
+import { Image } from 'astro:assets';
 import { copy, type Lang } from '../i18n/copy';
 import { getRoutes } from '../i18n/routes';
 import TiersSection from './TiersSection.astro';
 import eventImg from '../assets/domi-tower-inauguration-48.webp';
-import iconUsers from '../assets/users.svg?url';
-import iconStore from '../assets/store.svg?url';
-import iconHeart from '../assets/heart.svg?url';
-import iconHandHeart from '../assets/hand-heart.svg?url';
-import iconUserCheck from '../assets/user-check.svg?url';
+import iconUsers from '../assets/users.svg';
+import iconStore from '../assets/store.svg';
+import iconHeart from '../assets/heart.svg';
+import iconHandHeart from '../assets/hand-heart.svg';
+import iconUserCheck from '../assets/user-check.svg';
 
 interface Props {
 	lang: Lang;
@@ -20,7 +21,7 @@ const routes = getRoutes(lang);
 const contactHref = routes.contact;
 
 /** Order matches introFundedList: community, businesses, donors, supporters, volunteers */
-const supporterIconSrc = [iconUsers, iconStore, iconHeart, iconHandHeart, iconUserCheck] as const;
+const supporterIcons = [iconUsers, iconStore, iconHeart, iconHandHeart, iconUserCheck] as const;
 
 ---
 
@@ -45,12 +46,12 @@ const supporterIconSrc = [iconUsers, iconStore, iconHeart, iconHandHeart, iconUs
 					{d.introFundedList.map((item, i) => (
 						<li class="donate-intro-supporter-card">
 							<span class="donate-intro-supporter-icon" aria-hidden="true">
-								<img
+								<Image
 									class="donate-intro-supporter-img"
-									src={supporterIconSrc[i]}
+									src={supporterIcons[i]}
 									alt=""
-									width="24"
-									height="24"
+									width={24}
+									height={24}
 									loading="lazy"
 									decoding="async"
 								/>
@@ -73,14 +74,15 @@ const supporterIconSrc = [iconUsers, iconStore, iconHeart, iconHandHeart, iconUs
 
 			<figure class="donate-intro-visual">
 				<div class="donate-intro-frame">
-					<img
-						src={eventImg.src}
+					<Image
+						src={eventImg}
 						alt={d.introImageAlt}
 						class="donate-intro-img"
 						loading="lazy"
 						decoding="async"
-						width="560"
-						height="700"
+						width={560}
+						height={700}
+						sizes="(min-width: 960px) 42vw, 100vw"
 					/>
 					<div class="donate-intro-img-shine" aria-hidden="true"></div>
 				</div>
@@ -213,12 +215,12 @@ const supporterIconSrc = [iconUsers, iconStore, iconHeart, iconHandHeart, iconUs
 					<div class="membership-every reveal reveal-scale">
 						<div class="membership-every-blob" aria-hidden="true"></div>
 						<div class="membership-every-inner">
-							<img
+							<Image
 								class="membership-every-heart"
 								src={iconHeart}
 								alt=""
-								width="40"
-								height="40"
+								width={40}
+								height={40}
 								loading="lazy"
 								decoding="async"
 							/>
