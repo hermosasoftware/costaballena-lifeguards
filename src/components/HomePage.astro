@@ -19,7 +19,7 @@ const { lang } = Astro.props;
 const c = copy[lang];
 const routes = getRoutes(lang);
 const donateHref = routes.donate;
-const contactHref = routes.contact;
+const volunteerHref = routes.contactVolunteer;
 
 function parseUsdEnv(value: string | undefined, fallback: number): number {
 	if (value === undefined || value === '') return fallback;
@@ -71,7 +71,7 @@ const reopenAriaLabel =
 					<a class="btn btn-accent hero-btn-sponsor" href={donateHref}>
 						{c.home.sponsor}
 					</a>
-					<a class="btn btn-outline hero-btn-volunteer" href={contactHref}>
+					<a class="btn btn-outline hero-btn-volunteer" href={volunteerHref}>
 						{c.home.volunteer}
 					</a>
 				</div>
@@ -317,7 +317,7 @@ const reopenAriaLabel =
 
 					<!-- CTA -->
 					<div class="prog-cta">
-						<a class="btn btn-outline" href={contactHref}>{c.home.progCta}</a>
+						<a class="btn btn-outline" href={volunteerHref}>{c.home.progCta}</a>
 						<p class="prog-cta-note">{c.home.progCtaNote}</p>
 					</div>
 				</div>
@@ -599,7 +599,7 @@ const reopenAriaLabel =
 			<!-- Actions -->
 			<div class="bottom-cta-actions reveal reveal-d3">
 				<a class="btn btn-accent bottom-cta-primary" href={donateHref}>{c.home.bottomCtaButton}</a>
-				<a class="btn btn-outline bottom-cta-volunteer" href={contactHref}>{c.home.volunteer}</a>
+				<a class="btn btn-outline bottom-cta-volunteer" href={volunteerHref}>{c.home.volunteer}</a>
 			</div>
 
 		</div>
