@@ -12,11 +12,29 @@ const c = copy[lang];
 const p = c.pages;
 const f = c.footer;
 
+/** Set to true when the Vercel form-email-sender is live again. */
+const CONTACT_API_ENABLED = false;
 const CONTACT_ENDPOINT = 'https://form-email-sender-omega.vercel.app/costaballena';
 const mailtoTo = f.email;
+const volunteerMailtoTo = f.volunteerEmail;
 ---
 
-<main class="contact-page page-padding">
+<main
+	id="contact-page"
+	class="contact-page page-padding"
+	data-email-general={mailtoTo}
+	data-email-volunteer={volunteerMailtoTo}
+	data-title-volunteer={`${p.contactVolunteerTitle} | Guardavidas Costa Ballena`}
+>
+	<script is:inline>
+		(function () {
+			var page = document.getElementById('contact-page');
+			if (!page) return;
+			if (new URLSearchParams(window.location.search).get('topic') !== 'volunteer') return;
+			page.classList.add('is-volunteer');
+			if (page.dataset.titleVolunteer) document.title = page.dataset.titleVolunteer;
+		})();
+	</script>
 	<section class="contact-hero" aria-labelledby="contact-heading">
 		<div class="contact-hero-bg" aria-hidden="true">
 			<span class="contact-orb contact-orb--a"></span>
@@ -26,10 +44,19 @@ const mailtoTo = f.email;
 		</div>
 		<div class="container contact-layout">
 			<div class="contact-copy reveal">
-				<p class="kicker contact-kicker">{p.contactKicker}</p>
-				<h1 id="contact-heading" class="contact-title">{p.contactTitle}</h1>
+				<p class="kicker contact-kicker">
+					<span data-mode="general">{p.contactKicker}</span>
+					<span data-mode="volunteer">{p.contactVolunteerKicker}</span>
+				</p>
+				<h1 id="contact-heading" class="contact-title">
+					<span data-mode="general">{p.contactTitle}</span>
+					<span data-mode="volunteer">{p.contactVolunteerTitle}</span>
+				</h1>
 				<div class="contact-rule" aria-hidden="true"></div>
-				<p class="contact-lead">{p.contactBody}</p>
+				<p class="contact-lead">
+					<span data-mode="general">{p.contactBody}</span>
+					<span data-mode="volunteer">{p.contactVolunteerBody}</span>
+				</p>
 
 				<div class="contact-form-card">
 					<form
@@ -37,10 +64,14 @@ const mailtoTo = f.email;
 						class="contact-form"
 						name="contact"
 						novalidate
+						data-api-enabled={CONTACT_API_ENABLED ? 'true' : 'false'}
 						data-endpoint={CONTACT_ENDPOINT}
 						data-mailto-to={mailtoTo}
+						data-mailto-to-volunteer={volunteerMailtoTo}
 						data-mailto-subject-template={p.contactMailtoSubject}
+						data-mailto-subject-volunteer={p.contactVolunteerMailtoSubject}
 						data-mailto-body-lead={p.contactMailtoBodyLead}
+						data-mailto-body-lead-volunteer={p.contactVolunteerMailtoBodyLead}
 						data-label-name={p.contactFormNameLabel}
 						data-label-email={p.contactFormEmailLabel}
 						data-label-message={p.contactFormMessageLabel}
@@ -124,7 +155,8 @@ const mailtoTo = f.email;
 					<ul class="contact-aside-list">
 						<li>
 							<span class="contact-aside-label">{f.emailLabel}</span>
-							<a class="contact-aside-link" href={`mailto:${f.email}`}>{f.email}</a>
+							<a class="contact-aside-link" data-mode="general" href={`mailto:${f.email}`}>{f.email}</a>
+							<a class="contact-aside-link" data-mode="volunteer" href={`mailto:${f.volunteerEmail}`}>{f.volunteerEmail}</a>
 						</li>
 						<li>
 							<span class="contact-aside-label">{f.whatsappLabel}</span>
@@ -147,6 +179,10 @@ const mailtoTo = f.email;
 	const form = document.getElementById('contact-form') as HTMLFormElement | null;
 	const statusEl = document.getElementById('contact-status');
 	const submitBtn = document.getElementById('contact-submit') as HTMLButtonElement | null;
+
+	function isVolunteerTopic() {
+		return new URLSearchParams(window.location.search).get('topic') === 'volunteer';
+	}
 
 	function emailValid(v: string) {
 		return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
@@ -178,14 +214,49 @@ const mailtoTo = f.email;
 		document.body.removeChild(a);
 	}
 
+	/** Kept for when CONTACT_API_ENABLED is flipped back on. */
+	async function submitViaContactApi(
+		endpoint: string,
+		name: string,
+		email: string,
+		message: string,
+		volunteer: boolean,
+		mailtoToAddr: string | undefined,
+	) {
+		const payload: { name: string; email: string; message: string; topic?: string; to?: string } = {
+			name,
+			email,
+			message,
+		};
+		if (volunteer && mailtoToAddr) {
+			payload.topic = 'volunteer';
+			payload.to = mailtoToAddr;
+		}
+
+		return fetch(endpoint, {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+			body: JSON.stringify(payload),
+			mode: 'cors',
+		});
+	}
+
 	form?.addEventListener('submit', async (e) => {
 		e.preventDefault();
 		if (!form || !statusEl || !submitBtn) return;
 
+		const apiEnabled = form.dataset.apiEnabled === 'true';
 		const endpoint = form.dataset.endpoint;
-		const mailtoToAddr = form.dataset.mailtoTo?.trim();
-		const subjectTpl = form.dataset.mailtoSubjectTemplate ?? '';
-		const bodyLead = form.dataset.mailtoBodyLead ?? '';
+		const volunteer = isVolunteerTopic();
+		const mailtoToAddr = (
+			volunteer ? form.dataset.mailtoToVolunteer : form.dataset.mailtoTo
+		)?.trim();
+		const subjectTpl = (
+			volunteer ? form.dataset.mailtoSubjectVolunteer : form.dataset.mailtoSubjectTemplate
+		) ?? '';
+		const bodyLead = (
+			volunteer ? form.dataset.mailtoBodyLeadVolunteer : form.dataset.mailtoBodyLead
+		) ?? '';
 		const labelName = form.dataset.labelName ?? 'Name';
 		const labelEmail = form.dataset.labelEmail ?? 'Email';
 		const labelMessage = form.dataset.labelMessage ?? 'Message';
@@ -217,25 +288,30 @@ const mailtoTo = f.email;
 			return;
 		}
 
-		if (mailtoToAddr) {
-			const subject = subjectTpl.includes('{{name}}')
-				? subjectTpl.split('{{name}}').join(name)
-				: `${subjectTpl} ${name}`.trim();
-			let body = buildContactDraftBody(bodyLead, labelName, labelEmail, labelMessage, name, email, message);
-			const ellipsis = '\n\n[…]';
-			for (;;) {
-				const href = `mailto:${mailtoToAddr}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-				if (href.length <= MAILTO_HREF_MAX || body.length < 80) {
-					openMailtoDraft(href);
-					break;
-				}
-				body = body.slice(0, Math.max(0, body.length - 120)) + ellipsis;
-			}
-		}
-
-		if (!endpoint) {
+		if (!mailtoToAddr) {
 			statusEl.textContent = msgError;
 			statusEl.classList.add('contact-status--err');
+			return;
+		}
+
+		const subject = subjectTpl.includes('{{name}}')
+			? subjectTpl.split('{{name}}').join(name)
+			: `${subjectTpl} ${name}`.trim();
+		let body = buildContactDraftBody(bodyLead, labelName, labelEmail, labelMessage, name, email, message);
+		const ellipsis = '\n\n[…]';
+		for (;;) {
+			const href = `mailto:${mailtoToAddr}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+			if (href.length <= MAILTO_HREF_MAX || body.length < 80) {
+				openMailtoDraft(href);
+				break;
+			}
+			body = body.slice(0, Math.max(0, body.length - 120)) + ellipsis;
+		}
+
+		if (!apiEnabled || !endpoint) {
+			statusEl.textContent = msgSuccess;
+			statusEl.classList.add('contact-status--ok');
+			form.reset();
 			return;
 		}
 
@@ -244,12 +320,7 @@ const mailtoTo = f.email;
 		submitBtn.textContent = msgSending;
 
 		try {
-			const res = await fetch(endpoint, {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-				body: JSON.stringify({ name, email, message }),
-				mode: 'cors',
-			});
+			const res = await submitViaContactApi(endpoint, name, email, message, volunteer, mailtoToAddr);
 
 			if (res.ok) {
 				statusEl.textContent = msgSuccess;
@@ -272,6 +343,11 @@ const mailtoTo = f.email;
 <style>
 	.contact-page {
 		overflow-x: hidden;
+	}
+
+	.contact-page:not(.is-volunteer) [data-mode="volunteer"],
+	.contact-page.is-volunteer [data-mode="general"] {
+		display: none;
 	}
 
 	.contact-hero {

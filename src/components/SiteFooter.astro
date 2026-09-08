@@ -29,6 +29,7 @@ const r = getRoutes(lang);
 					alt={c.siteName}
 					width={160}
 					height={44}
+					fit="contain"
 					loading="lazy"
 					decoding="async"
 				/>
@@ -105,11 +106,11 @@ const r = getRoutes(lang);
 						<span>{c.footer.beachActive}</span>
 					</div>
 				</li>
-				<li class="footer-beach footer-beach--campaign">
-					<span class="footer-beach-dot footer-beach-dot--campaign" aria-hidden="true"></span>
+				<li class="footer-beach footer-beach--active">
+					<span class="footer-beach-dot" aria-hidden="true"></span>
 					<div>
 						<strong>Playa Hermosa</strong>
-						<span>{c.footer.beachCampaign}</span>
+						<span>{c.footer.beachActive}</span>
 					</div>
 				</li>
 			</ul>
@@ -142,6 +143,7 @@ const r = getRoutes(lang);
 							alt={c.footer.hermosaSoftwareLogoAlt}
 							width={140}
 							height={36}
+							fit="contain"
 							loading="lazy"
 							decoding="async"
 							class="footer-powered-logo"
@@ -440,6 +442,8 @@ const r = getRoutes(lang);
 	.footer-powered-logo {
 		width: min(132px, 38vw);
 		height: auto;
+		max-height: 40px;
 		display: block;
+		object-fit: contain;
 	}
 </style>
