@@ -22,6 +22,15 @@ export const copy: Record<
 			navAriaLabel: string;
 			backToHome: string;
 		};
+		notFound: {
+			pageTitle: string;
+			kicker: string;
+			code: string;
+			title: string;
+			body: string;
+			homeCta: string;
+			contactCta: string;
+		};
 		home: {
 			heroTitle: string;
 			heroSubtitle: string;
@@ -250,6 +259,9 @@ export const copy: Record<
 			communityCtaBody: string;
 			communityCtaBtn: string;
 			communityMarqueeAria: string;
+			privacyTitle: string;
+			privacyUpdated: string;
+			privacySections: Array<{ heading: string; paragraphs: string[] }>;
 		};
 		footer: {
 			tagline: string;
@@ -274,6 +286,11 @@ export const copy: Record<
 			poweredBy: string;
 			hermosaSoftwareHref: string;
 			hermosaSoftwareLogoAlt: string;
+			legalName: string;
+			legalIdLabel: string;
+			legalId: string;
+			amigosNote: string;
+			privacyLink: string;
 		};
 	}
 > = {
@@ -286,6 +303,15 @@ export const copy: Record<
 			closeMenu: 'Close menu',
 			navAriaLabel: 'Primary navigation',
 			backToHome: 'Back to Home',
+		},
+		notFound: {
+			pageTitle: 'Page not found',
+			kicker: 'Off the charted path',
+			code: '404',
+			title: 'This page drifted out to sea.',
+			body: 'The link may be broken or the page may have moved. Head back to shore — we’ll help you find what you need.',
+			homeCta: 'Back to Home',
+			contactCta: 'Contact us',
 		},
 		home: {
 			heroTitle: 'Every day, lives are at risk on Costa Ballena beaches.',
@@ -394,15 +420,15 @@ export const copy: Record<
 				deathsHermosa:
 					'1 while working at Punta Achiote; 1 where no lifeguards were on duty',
 			},
-			reopenKicker: 'Active campaign',
+			reopenKicker: 'Both beaches protected',
 			domFunded: '— fully funded and protected',
-			cardInProgress: 'In progress',
+			cardInProgress: 'Funded for 2026',
 			monthsShort: 'mo.',
-			reopenGoalNote: 'Goal: 6 months of stable funding to guarantee continuous beach coverage.',
+			reopenGoalNote: 'Goal: keep stable funding ahead so coverage continues without interruption.',
 			ctaSub: 'Your support keeps lifeguards on the beach and helps prevent tragedies.',
-			reopenTitle: 'Help us reopen Playa Hermosa',
+			reopenTitle: 'Help us keep Playa Hermosa protected',
 			reopenBody:
-				'Playa Dominical is currently fully funded — and protected. Our next goal is to reopen Playa Hermosa and bring lifeguards back to the beach. To do this responsibly, we aim to secure at least 6 months of funding in advance.',
+				'Playa Dominical and Playa Hermosa are funded and protected for 2026. Your continued support sustains year-round lifeguard presence and helps us plan ahead with stable funding.',
 			reopenCta: 'Become an Annual Supporter',
 			tiersTitle: 'Choose how you want to help',
 			tiersSubtitle: 'We have a vision. Help us bring it to life.',
@@ -539,7 +565,7 @@ export const copy: Record<
 			importantFormLink: '/donate/form',
 			importantStep1: 'Include your name in the payment description.',
 			importantStep2: 'Send your payment confirmation (screenshot) to:',
-			importantStep2Email: 'lifeguardcostaballena@gmail.com',
+			importantStep2Email: 'lifeguardscostaballena@gmail.com',
 			importantStep2Whatsapp: '+506 8371 7882',
 			importantContactEmailLabel: 'Email',
 			importantContactWhatsappLabel: 'WhatsApp',
@@ -592,7 +618,7 @@ export const copy: Record<
 			communityHermosaTitle: 'Playa Hermosa',
 			communityHermosaParagraphs: [
 				'We want to extend a heartfelt thank you to all the amazing businesses that supported our lifeguards at Playa Hermosa by providing meals over the past months. Your generosity nourished not only our team, but also the spirit of this program and community.',
-				'We truly hope to reopen soon and continue building this together.',
+				'Playa Hermosa is protected for 2026 — and we are grateful to keep building this together.',
 			],
 			communityHermosaMarqueeLabel: 'Playa Hermosa partners',
 			communityHermosaGridTitle: 'Businesses at Playa Hermosa',
@@ -602,6 +628,46 @@ export const copy: Record<
 				'Become a sponsor or donor and join a visible circle of businesses that back beach safety. We’ll help you find the right tier and benefits.',
 			communityCtaBtn: 'Explore sponsorship',
 			communityMarqueeAria: 'Scrolling row of partner logos',
+			privacyTitle: 'Privacy Policy',
+			privacyUpdated: 'Last updated: November 2026',
+			privacySections: [
+				{
+					heading: 'Who we are',
+					paragraphs: [
+						'This website is operated by Asociación de Guardavidas de la Zona Sur de Costa Rica (Guardavidas Costa Ballena), legal ID 3-002-738759.',
+						'If you have privacy questions, contact us at lifeguardscostaballena@gmail.com.',
+					],
+				},
+				{
+					heading: 'Information we collect',
+					paragraphs: [
+						'When you use our contact form, you may provide your name, email address, and message. Those details are used only to respond to your inquiry.',
+						'If you donate or fill out our support form, you may provide contact and preference information so we can coordinate donor benefits and follow-up.',
+						'We do not sell personal information.',
+					],
+				},
+				{
+					heading: 'How messages are sent',
+					paragraphs: [
+						'Contact messages may open in your own email app (mailto) so you can send them directly to our team. In that case, the content is handled by your email provider.',
+						'Payment confirmations and donation coordination may be sent by email or WhatsApp to the contact channels listed on this website.',
+					],
+				},
+				{
+					heading: 'Cookies and analytics',
+					paragraphs: [
+						'This site is primarily a static informational website. We do not operate a member login or payment processor on-site.',
+						'Your browser or hosting provider may process standard technical logs (such as IP address and request data) needed to deliver the website securely.',
+					],
+				},
+				{
+					heading: 'Your choices',
+					paragraphs: [
+						'You can ask us to update or delete contact information you previously shared by emailing lifeguardscostaballena@gmail.com.',
+						'You may also choose not to submit forms or messages through the website.',
+					],
+				},
+			],
 		},
 		footer: {
 			tagline: 'Protecting lives on the beaches of Costa Ballena, Costa Rica.',
@@ -626,6 +692,12 @@ export const copy: Record<
 			poweredBy: 'Powered by',
 			hermosaSoftwareHref: 'https://www.hermosasoftware.io/',
 			hermosaSoftwareLogoAlt: 'Hermosa Software',
+			legalName: 'Asociación de Guardavidas de la Zona Sur de Costa Rica',
+			legalIdLabel: 'Legal ID (Cédula jurídica)',
+			legalId: '3-002-738759',
+			amigosNote:
+				'U.S. tax-deductible donations (to the extent allowed by law) may be made through our partner Amigos de Costa Rica, a 501(c)(3) nonprofit.',
+			privacyLink: 'Privacy Policy',
 		},
 	},
 	es: {
@@ -637,6 +709,15 @@ export const copy: Record<
 			closeMenu: 'Cerrar menú',
 			navAriaLabel: 'Navegación principal',
 			backToHome: 'Volver al inicio',
+		},
+		notFound: {
+			pageTitle: 'Página no encontrada',
+			kicker: 'Fuera de la ruta marcada',
+			code: '404',
+			title: 'Esta página se fue mar adentro.',
+			body: 'El enlace puede estar roto o la página se movió. Vuelve a la orilla — te ayudamos a encontrar lo que buscas.',
+			homeCta: 'Volver al inicio',
+			contactCta: 'Contáctanos',
 		},
 		home: {
 			heroTitle: 'Cada día, la vida está en riesgo en las playas de Costa Ballena.',
@@ -746,15 +827,15 @@ export const copy: Record<
 				deathsHermosa:
 					'1 laborando en Punta Achiote; 1 sin guardavidas presentes',
 			},
-			reopenKicker: 'Campaña activa',
+			reopenKicker: 'Ambas playas protegidas',
 			domFunded: '— completamente financiada y protegida',
-			cardInProgress: 'En campaña',
+			cardInProgress: 'Financiada para 2026',
 			monthsShort: 'meses',
-			reopenGoalNote: 'Meta: 6 meses de financiamiento estable para garantizar presencia continua en la playa.',
+			reopenGoalNote: 'Meta: mantener financiamiento estable por adelantado para que la cobertura no se interrumpa.',
 			ctaSub: 'Tu apoyo mantiene a los guardavidas en la playa y ayuda a prevenir tragedias.',
-			reopenTitle: 'Ayúdanos a reabrir Playa Hermosa',
+			reopenTitle: 'Ayúdanos a mantener protegida Playa Hermosa',
 			reopenBody:
-				'Playa Dominical está actualmente completamente financiada y protegida. Nuestro próximo objetivo es reabrir Playa Hermosa y volver a llevar guardavidas a la playa. Para hacerlo de forma responsable, buscamos asegurar al menos 6 meses de financiamiento por adelantado.',
+				'Playa Dominical y Playa Hermosa están financiadas y protegidas para 2026. Tu apoyo continuo sostiene la presencia de guardavidas todo el año y nos permite planificar con financiamiento estable.',
 			reopenCta: 'Hazte patrocinador anual',
 			tiersTitle: 'Elige cómo quieres ayudar',
 			tiersSubtitle: 'Tenemos una visión. Ayúdanos a hacerla realidad.',
@@ -891,7 +972,7 @@ export const copy: Record<
 			importantFormLink: '/es/donate/form',
 			importantStep1: 'Incluye tu nombre en la descripción del pago.',
 			importantStep2: 'Envía tu confirmación de pago (captura de pantalla) a:',
-			importantStep2Email: 'lifeguardcostaballena@gmail.com',
+			importantStep2Email: 'lifeguardscostaballena@gmail.com',
 			importantStep2Whatsapp: '+506 8371 7882',
 			importantContactEmailLabel: 'Correo',
 			importantContactWhatsappLabel: 'WhatsApp',
@@ -944,7 +1025,7 @@ export const copy: Record<
 			communityHermosaTitle: 'Playa Hermosa',
 			communityHermosaParagraphs: [
 				'Queremos agradecer de corazón a todos los negocios increíbles que apoyaron a nuestros guardavidas en Playa Hermosa con comidas durante los últimos meses. Tu generosidad alimentó no solo a nuestro equipo, sino también el espíritu de este programa y de la comunidad.',
-				'Esperamos sinceramente reabrir pronto y seguir construyendo esto juntos.',
+				'Playa Hermosa está protegida para 2026 — y agradecemos seguir construyendo esto juntos.',
 			],
 			communityHermosaMarqueeLabel: 'Aliados en Playa Hermosa',
 			communityHermosaGridTitle: 'Negocios en Playa Hermosa',
@@ -954,6 +1035,46 @@ export const copy: Record<
 				'Hazte patrocinador o donante y únete a un círculo visible de negocios que respaldan la seguridad en la playa. Te ayudamos a elegir el nivel y los beneficios adecuados.',
 			communityCtaBtn: 'Ver patrocinios',
 			communityMarqueeAria: 'Carrusel de logos de aliados',
+			privacyTitle: 'Política de privacidad',
+			privacyUpdated: 'Última actualización: noviembre 2026',
+			privacySections: [
+				{
+					heading: 'Quiénes somos',
+					paragraphs: [
+						'Este sitio es operado por la Asociación de Guardavidas de la Zona Sur de Costa Rica (Guardavidas Costa Ballena), cédula jurídica 3-002-738759.',
+						'Si tienes preguntas de privacidad, escríbenos a lifeguardscostaballena@gmail.com.',
+					],
+				},
+				{
+					heading: 'Información que recopilamos',
+					paragraphs: [
+						'Cuando usas el formulario de contacto, puedes enviar tu nombre, correo y mensaje. Esos datos se usan solo para responder tu consulta.',
+						'Si donas o completas el formulario de apoyo, puedes compartir datos de contacto y preferencias para coordinar beneficios de donante y seguimiento.',
+						'No vendemos información personal.',
+					],
+				},
+				{
+					heading: 'Cómo se envían los mensajes',
+					paragraphs: [
+						'Los mensajes de contacto pueden abrirse en tu propia aplicación de correo (mailto) para que los envíes directamente a nuestro equipo. En ese caso, el contenido lo gestiona tu proveedor de correo.',
+						'Las confirmaciones de pago y la coordinación de donaciones pueden enviarse por correo o WhatsApp a los canales publicados en este sitio.',
+					],
+				},
+				{
+					heading: 'Cookies y analítica',
+					paragraphs: [
+						'Este sitio es principalmente informativo y estático. No operamos inicio de sesión de miembros ni un procesador de pagos dentro del sitio.',
+						'Tu navegador o el proveedor de hosting pueden procesar registros técnicos estándar (como dirección IP y datos de solicitud) necesarios para entregar el sitio de forma segura.',
+					],
+				},
+				{
+					heading: 'Tus opciones',
+					paragraphs: [
+						'Puedes pedirnos actualizar o eliminar información de contacto que hayas compartido escribiendo a lifeguardscostaballena@gmail.com.',
+						'También puedes optar por no enviar formularios ni mensajes a través del sitio.',
+					],
+				},
+			],
 		},
 		footer: {
 			tagline: 'Protegiendo vidas en las playas de Costa Ballena, Costa Rica.',
@@ -978,6 +1099,12 @@ export const copy: Record<
 			poweredBy: 'Desarrollado por',
 			hermosaSoftwareHref: 'https://www.hermosasoftware.io/',
 			hermosaSoftwareLogoAlt: 'Hermosa Software',
+			legalName: 'Asociación de Guardavidas de la Zona Sur de Costa Rica',
+			legalIdLabel: 'Cédula jurídica',
+			legalId: '3-002-738759',
+			amigosNote:
+				'Las donaciones deducibles en EE.UU. (en la medida que permita la ley) pueden hacerse a través de nuestro aliado Amigos de Costa Rica, una organización 501(c)(3).',
+			privacyLink: 'Política de privacidad',
 		},
 	},
 };

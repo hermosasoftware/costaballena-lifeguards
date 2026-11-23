@@ -72,6 +72,7 @@ const r = getRoutes(lang);
 					<li><a href={r.donate}>{c.nav.donate}</a></li>
 					<li><a href={r.community}>{c.nav.community}</a></li>
 					<li><a href={r.contact}>{c.nav.contact}</a></li>
+					<li><a href={r.privacy}>{c.footer.privacyLink}</a></li>
 				</ul>
 			</nav>
 		</div>
@@ -122,6 +123,14 @@ const r = getRoutes(lang);
 			</p>
 		</div>
 
+	</div>
+
+	<div class="footer-legal container">
+		<p class="footer-legal-name">{c.footer.legalName}</p>
+		<p class="footer-legal-id">
+			<span>{c.footer.legalIdLabel}:</span> {c.footer.legalId}
+		</p>
+		<p class="footer-legal-amigos">{c.footer.amigosNote}</p>
 	</div>
 
 	<!-- ── Bottom bar ─────────────────────────────────────────────── -->
@@ -379,6 +388,34 @@ const r = getRoutes(lang);
 	}
 
 	/* ── Bottom bar ──────────────────────────────────────────── */
+	.footer-legal {
+		padding: 8px 0 28px;
+		border-top: 1px solid rgba(255, 255, 255, 0.08);
+	}
+
+	.footer-legal-name,
+	.footer-legal-id,
+	.footer-legal-amigos {
+		margin: 0 0 8px;
+		font-size: 12px;
+		line-height: 1.55;
+		color: rgba(255, 255, 255, 0.72);
+		max-width: 72ch;
+	}
+
+	.footer-legal-name {
+		font-weight: 700;
+		color: rgba(255, 255, 255, 0.88);
+	}
+
+	.footer-legal-id span {
+		font-weight: 600;
+	}
+
+	.footer-legal-amigos {
+		margin-bottom: 0;
+	}
+
 	.footer-bottom {
 		border-top: 1px solid rgba(255, 255, 255, 0.08);
 	}

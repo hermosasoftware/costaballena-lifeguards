@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://www.lifeguardscostaballena.com/sitemap-index.xml

@@ -14,6 +14,7 @@ export function getRoutes(lang: Lang) {
 		contact: `${prefix}/contact`,
 		/** Contact form routed to the volunteer inbox */
 		contactVolunteer: `${prefix}/contact?topic=volunteer`,
+		privacy: `${prefix}/privacy`,
 		/** Href and label for switching to the other language */
 		langToggle: {
 			href: lang === 'es' ? '/' : '/es',

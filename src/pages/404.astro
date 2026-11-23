@@ -1,0 +1,268 @@
+---
+import { copy } from '../i18n/copy';
+import { getRoutes } from '../i18n/routes';
+import SiteLayout from '../layouts/SiteLayout.astro';
+
+/** Static 404: language is refined client-side from the requested path (/es/…). */
+const en = copy.en.notFound;
+const es = copy.es.notFound;
+const routesEn = getRoutes('en');
+const routesEs = getRoutes('es');
+---
+
+<SiteLayout lang="en" title={en.pageTitle}>
+	<main
+		id="not-found-page"
+		class="not-found page-padding"
+		data-title-en={`${en.pageTitle} | Guardavidas Costa Ballena`}
+		data-title-es={`${es.pageTitle} | Guardavidas Costa Ballena`}
+	>
+		<script is:inline>
+			(function () {
+				var page = document.getElementById('not-found-page');
+				if (!page) return;
+				var isEs = window.location.pathname === '/es' || window.location.pathname.indexOf('/es/') === 0;
+				if (!isEs) return;
+				page.classList.add('is-es');
+				document.documentElement.lang = 'es';
+				if (page.dataset.titleEs) document.title = page.dataset.titleEs;
+			})();
+		</script>
+
+		<section class="not-found-hero" aria-labelledby="not-found-heading">
+			<div class="not-found-bg" aria-hidden="true">
+				<span class="not-found-orb not-found-orb--a"></span>
+				<span class="not-found-orb not-found-orb--b"></span>
+				<span class="not-found-orb not-found-orb--c"></span>
+				<span class="not-found-grid"></span>
+			</div>
+
+			<div class="container not-found-inner">
+				<p class="kicker not-found-kicker">
+					<span data-mode="en">{en.kicker}</span>
+					<span data-mode="es">{es.kicker}</span>
+				</p>
+
+				<p class="not-found-code" aria-hidden="true">{en.code}</p>
+
+				<h1 id="not-found-heading" class="not-found-title">
+					<span data-mode="en">{en.title}</span>
+					<span data-mode="es">{es.title}</span>
+				</h1>
+
+				<div class="not-found-rule" aria-hidden="true"></div>
+
+				<p class="not-found-body">
+					<span data-mode="en">{en.body}</span>
+					<span data-mode="es">{es.body}</span>
+				</p>
+
+				<div class="not-found-actions">
+					<a class="btn btn-primary" data-mode="en" href={routesEn.home}>{en.homeCta}</a>
+					<a class="btn btn-primary" data-mode="es" href={routesEs.home}>{es.homeCta}</a>
+					<a class="btn not-found-btn-secondary" data-mode="en" href={routesEn.contact}>{en.contactCta}</a>
+					<a class="btn not-found-btn-secondary" data-mode="es" href={routesEs.contact}>{es.contactCta}</a>
+				</div>
+			</div>
+
+			<div class="not-found-wave" aria-hidden="true">
+				<svg class="not-found-waves-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 21 150 30" preserveAspectRatio="none">
+					<defs>
+						<path id="nf-wave" d="M-160 44c30 0 58-18 88-18s58 18 88 18 58-18 88-18 58 18 88 18v48h-352z"></path>
+					</defs>
+					<g>
+						<use href="#nf-wave" x="48" y="0" fill="#00205b" fill-opacity="0.18"></use>
+						<use href="#nf-wave" x="48" y="3" fill="#00205b" fill-opacity="0.36"></use>
+						<use href="#nf-wave" x="48" y="5" fill="#00205b" fill-opacity="0.58"></use>
+						<use href="#nf-wave" x="48" y="7" fill="#00205b"></use>
+					</g>
+				</svg>
+			</div>
+		</section>
+	</main>
+</SiteLayout>
+
+<style>
+	.not-found {
+		overflow-x: hidden;
+	}
+
+	.not-found:not(.is-es) [data-mode='es'],
+	.not-found.is-es [data-mode='en'] {
+		display: none;
+	}
+
+	.not-found-hero {
+		position: relative;
+		min-height: min(78vh, 760px);
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		padding: clamp(40px, 7vw, 72px) 0 0;
+	}
+
+	.not-found-bg {
+		position: absolute;
+		inset: 0;
+		overflow: hidden;
+		background:
+			radial-gradient(ellipse 85% 60% at 12% 8%, rgba(42, 118, 181, 0.22), transparent 55%),
+			radial-gradient(ellipse 70% 50% at 92% 18%, rgba(237, 67, 76, 0.09), transparent 50%),
+			radial-gradient(ellipse 55% 40% at 78% 88%, rgba(0, 32, 91, 0.08), transparent 48%),
+			linear-gradient(165deg, #e8f0fa 0%, #f6f9ff 28%, #ffffff 58%, #f3f7fd 100%);
+		pointer-events: none;
+	}
+
+	.not-found-grid {
+		position: absolute;
+		inset: -40%;
+		opacity: 0.4;
+		background-image:
+			linear-gradient(rgba(0, 32, 91, 0.04) 1px, transparent 1px),
+			linear-gradient(90deg, rgba(0, 32, 91, 0.04) 1px, transparent 1px);
+		background-size: 48px 48px;
+		mask-image: radial-gradient(ellipse 55% 50% at 50% 40%, black 0%, transparent 72%);
+		-webkit-mask-image: radial-gradient(ellipse 55% 50% at 50% 40%, black 0%, transparent 72%);
+	}
+
+	.not-found-orb {
+		position: absolute;
+		border-radius: 50%;
+		filter: blur(64px);
+		opacity: 0.85;
+		pointer-events: none;
+	}
+
+	.not-found-orb--a {
+		width: min(420px, 55vw);
+		height: min(420px, 55vw);
+		top: -8%;
+		left: -12%;
+		background: radial-gradient(circle at 30% 30%, rgba(74, 158, 220, 0.55), rgba(42, 118, 181, 0.15) 55%, transparent 70%);
+	}
+
+	.not-found-orb--b {
+		width: min(320px, 42vw);
+		height: min(320px, 42vw);
+		top: 18%;
+		right: -8%;
+		background: radial-gradient(circle at 40% 40%, rgba(237, 67, 76, 0.22), transparent 70%);
+	}
+
+	.not-found-orb--c {
+		width: min(280px, 38vw);
+		height: min(280px, 38vw);
+		bottom: 12%;
+		left: 28%;
+		background: radial-gradient(circle at 50% 50%, rgba(0, 32, 91, 0.12), transparent 70%);
+	}
+
+	.not-found-inner {
+		position: relative;
+		z-index: 1;
+		max-width: 640px;
+		padding-bottom: clamp(48px, 8vw, 88px);
+		text-align: center;
+		margin-inline: auto;
+	}
+
+	.not-found-kicker {
+		margin-bottom: 8px;
+	}
+
+	.not-found-code {
+		margin: 0;
+		font-size: clamp(72px, 16vw, 140px);
+		font-weight: 800;
+		letter-spacing: -0.06em;
+		line-height: 0.92;
+		background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-base) 55%, var(--color-accent) 120%);
+		-webkit-background-clip: text;
+		background-clip: text;
+		color: transparent;
+		opacity: 0.92;
+	}
+
+	.not-found-title {
+		margin: 12px 0 0;
+		font-size: clamp(26px, 3.4vw, 38px);
+		letter-spacing: -0.02em;
+		color: var(--color-base);
+		line-height: 1.2;
+	}
+
+	.not-found-rule {
+		width: 56px;
+		height: 3px;
+		border-radius: 999px;
+		margin: 18px auto 16px;
+		background: linear-gradient(90deg, var(--color-accent), var(--color-primary));
+	}
+
+	.not-found-body {
+		margin: 0 auto 28px;
+		max-width: 46ch;
+		font-size: 16px;
+		line-height: 1.7;
+		color: var(--color-muted);
+	}
+
+	.not-found-actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 12px;
+		justify-content: center;
+	}
+
+	.not-found-btn-secondary {
+		background: white;
+		color: var(--color-primary);
+		border-color: rgba(42, 118, 181, 0.28);
+		box-shadow: 0 4px 16px rgba(0, 32, 91, 0.06);
+	}
+
+	.not-found-btn-secondary:hover {
+		transform: translateY(-2px);
+		border-color: rgba(42, 118, 181, 0.5);
+		box-shadow: 0 8px 22px rgba(42, 118, 181, 0.16);
+	}
+
+	.not-found-wave {
+		position: relative;
+		z-index: 1;
+		margin-top: auto;
+		line-height: 0;
+	}
+
+	.not-found-waves-svg {
+		display: block;
+		width: 100%;
+		height: clamp(56px, 10vw, 96px);
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		.not-found-code {
+			animation: nf-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+		}
+
+		.not-found-title {
+			animation: nf-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.08s both;
+		}
+
+		.not-found-body,
+		.not-found-actions {
+			animation: nf-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.16s both;
+		}
+	}
+
+	@keyframes nf-rise {
+		from {
+			opacity: 0;
+			transform: translateY(14px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+</style>

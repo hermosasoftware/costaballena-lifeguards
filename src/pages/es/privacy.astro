@@ -1,0 +1,12 @@
+---
+import { copy, type Lang } from '../../i18n/copy';
+import PrivacyPage from '../../components/PrivacyPage.astro';
+import SiteLayout from '../../layouts/SiteLayout.astro';
+
+const lang: Lang = 'es';
+const c = copy[lang];
+---
+
+<SiteLayout lang={lang} title={c.pages.privacyTitle}>
+	<PrivacyPage lang={lang} />
+</SiteLayout>

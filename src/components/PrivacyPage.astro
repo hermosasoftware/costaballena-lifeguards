@@ -1,0 +1,88 @@
+---
+import { copy, type Lang } from '../i18n/copy';
+
+interface Props {
+	lang: Lang;
+}
+
+const { lang } = Astro.props;
+const p = copy[lang].pages;
+---
+
+<main class="privacy-page page-padding">
+	<section class="privacy-hero">
+		<div class="container privacy-inner">
+			<p class="kicker privacy-kicker">{p.privacyUpdated}</p>
+			<h1 class="privacy-title">{p.privacyTitle}</h1>
+			<div class="privacy-rule" aria-hidden="true"></div>
+
+			{
+				p.privacySections.map((section) => (
+					<section class="privacy-section">
+						<h2 class="privacy-heading">{section.heading}</h2>
+						{section.paragraphs.map((paragraph) => (
+							<p class="privacy-p">{paragraph}</p>
+						))}
+					</section>
+				))
+			}
+		</div>
+	</section>
+</main>
+
+<style>
+	.privacy-page {
+		overflow-x: hidden;
+	}
+
+	.privacy-hero {
+		padding: clamp(28px, 5vw, 48px) 0 clamp(56px, 9vw, 88px);
+		background:
+			radial-gradient(ellipse 70% 50% at 10% 0%, rgba(42, 118, 181, 0.14), transparent 55%),
+			linear-gradient(180deg, #eef4fb 0%, #ffffff 42%);
+	}
+
+	.privacy-inner {
+		max-width: 720px;
+	}
+
+	.privacy-kicker {
+		margin-bottom: 10px;
+	}
+
+	.privacy-title {
+		margin: 0 0 16px;
+		font-size: clamp(28px, 4vw, 40px);
+		letter-spacing: -0.02em;
+		color: var(--color-primary);
+	}
+
+	.privacy-rule {
+		width: 56px;
+		height: 3px;
+		border-radius: 999px;
+		background: linear-gradient(90deg, var(--color-accent), var(--color-primary));
+		margin-bottom: 28px;
+	}
+
+	.privacy-section {
+		margin-bottom: 28px;
+	}
+
+	.privacy-heading {
+		margin: 0 0 10px;
+		font-size: 18px;
+		color: var(--color-primary);
+	}
+
+	.privacy-p {
+		margin: 0 0 10px;
+		color: var(--color-muted);
+		line-height: 1.7;
+		font-size: 15px;
+	}
+
+	.privacy-p:last-child {
+		margin-bottom: 0;
+	}
+</style>
